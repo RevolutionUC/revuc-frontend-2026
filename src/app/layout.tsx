@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
 import { ThemeProvider } from "./components/theme-provider";
-//import Footer from "./components/Footer";
+import ScrollSmootherWrapper from "./components/ScrollSmoother";
 import "./globals.css";
 
 const instrumentSans = Instrument_Sans({
@@ -47,13 +47,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative flex min-h-screen flex-col">
-            {/* <div className="absolute top-4 right-4 z-50">
-              <ModeToggle />
-            </div> */}
-            <main className="flex-1">{children}</main>
-            {/* <Footer /> */}
-          </div>
+          <ScrollSmootherWrapper>
+            <div className="relative flex min-h-screen flex-col">
+              <main className="flex-1">{children}</main>
+            </div>
+          </ScrollSmootherWrapper>
         </ThemeProvider>
       </body>
     </html>

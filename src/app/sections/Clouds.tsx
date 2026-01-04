@@ -46,6 +46,7 @@ const GsapScrollTrigger = () => {
           height={200}
           priority
           className="absolute top-[-15%] left-[5%] w-[400px] opacity-80"
+          data-speed="0.8"
         />
         <Image
           src="/cloud_final1.webp"
@@ -54,6 +55,7 @@ const GsapScrollTrigger = () => {
           height={400}
           priority
           className="absolute top-[30%] left-[-10%] w-[600px] opacity-70"
+          data-speed="0.6"
         />
         <Image
           src="/cloud_final5.webp"
@@ -62,6 +64,7 @@ const GsapScrollTrigger = () => {
           height={450}
           priority
           className="absolute top-[10%] right-[-25%] w-[800px] opacity-75"
+          data-speed="1.2"
         />
         <Image
           src="/cloud_final4.webp"
@@ -70,6 +73,7 @@ const GsapScrollTrigger = () => {
           height={400}
           priority
           className="absolute top-[50%] right-[5%] w-[400px] opacity-80"
+          data-speed="0.9"
         />
         <Image
           src="/cloud_final3.webp"
@@ -78,6 +82,7 @@ const GsapScrollTrigger = () => {
           height={450}
           priority
           className="absolute top-[50%] left-[15%] w-[400px] opacity-65"
+          data-speed="0.7"
         />
       </div>
 
