@@ -66,7 +66,7 @@ Hi ${firstName},
 
 Thank you for registering for RevolutionUC 2026! We're thrilled to have you join us.
 
-Your registration has been confirmed. Please save this email for your records.
+You have been registered for the RevUC Hackacthon 2026. Please save this email for your records.
 
 What's Next?
 - Keep an eye on your inbox for updates about the event
@@ -89,55 +89,56 @@ The RevolutionUC Team
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to RevolutionUC 2026!</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4;">
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #050b24;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
     <tr>
       <td align="center" style="padding: 40px 0;">
-        <table role="presentation" style="width: 600px; max-width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <table role="presentation" style="width: 600px; max-width: 100%; border-collapse: collapse; background-color: #0d1538; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.3); border: 1px solid #1a2555;">
           <!-- Header -->
           <tr>
-            <td style="padding: 40px 40px 20px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px 8px 0 0;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">Welcome to RevolutionUC 2026! 🎉</h1>
+            <td style="padding: 40px 40px 20px; text-align: center; background: linear-gradient(135deg, #151477 0%, #4a67b9 100%); border-radius: 16px 16px 0 0;">
+              <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #9fb3ff;">✈️ Boarding Confirmed</p>
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">Welcome to RevolutionUC 2026!</h1>
             </td>
           </tr>
 
           <!-- Content -->
           <tr>
             <td style="padding: 40px;">
-              <p style="margin: 0 0 20px; color: #333333; font-size: 16px; line-height: 1.6;">
-                Hi <strong>${firstName}</strong>,
+              <p style="margin: 0 0 20px; color: #e8f1ff; font-size: 16px; line-height: 1.6;">
+                Hi <strong style="color: #ffffff;">${firstName}</strong>,
               </p>
-              <p style="margin: 0 0 20px; color: #333333; font-size: 16px; line-height: 1.6;">
-                Thank you for registering for RevolutionUC 2026! We're thrilled to have you join us.
+              <p style="margin: 0 0 20px; color: #e8f1ff; font-size: 16px; line-height: 1.6;">
+                Thank you for registering for RevolutionUC 2026! We're thrilled to have you join us on this journey.
               </p>
-              <p style="margin: 0 0 20px; color: #333333; font-size: 16px; line-height: 1.6;">
+              <p style="margin: 0 0 20px; color: #e8f1ff; font-size: 16px; line-height: 1.6;">
                 Your registration has been confirmed. Please save this email for your records.
               </p>
 
               <!-- What's Next -->
-              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin: 20px 0;">
-                <h2 style="margin: 0 0 15px; color: #333333; font-size: 18px;">What's Next?</h2>
-                <ul style="margin: 0; padding-left: 20px; color: #555555; font-size: 14px; line-height: 1.8;">
+              <div style="background-color: #151477; border-radius: 12px; padding: 24px; margin: 24px 0; border: 1px solid #4a67b9;">
+                <h2 style="margin: 0 0 15px; color: #ffffff; font-size: 18px;">✨ What's Next?</h2>
+                <ul style="margin: 0; padding-left: 20px; color: #9fb3ff; font-size: 14px; line-height: 2;">
                   <li>Keep an eye on your inbox for updates about the event</li>
                   <li>Join our Discord community for announcements and to connect with other hackers</li>
                   <li>Start thinking about project ideas!</li>
                 </ul>
               </div>
 
-              <p style="margin: 20px 0 0; color: #333333; font-size: 16px; line-height: 1.6;">
+              <p style="margin: 20px 0 0; color: #e8f1ff; font-size: 16px; line-height: 1.6;">
                 If you have any questions, feel free to reach out to us at
-                <a href="mailto:info@revolutionuc.com" style="color: #667eea; text-decoration: none;">info@revolutionuc.com</a>.
+                <a href="mailto:info@revolutionuc.com" style="color: #4a67b9; text-decoration: none; font-weight: 600;">info@revolutionuc.com</a>.
               </p>
             </td>
           </tr>
 
           <!-- Footer -->
           <tr>
-            <td style="padding: 20px 40px; background-color: #f8f9fa; border-radius: 0 0 8px 8px; text-align: center;">
-              <p style="margin: 0 0 10px; color: #333333; font-size: 14px; font-weight: bold;">
-                See you at RevolutionUC!
+            <td style="padding: 24px 40px; background-color: #0a0f2e; border-radius: 0 0 16px 16px; text-align: center; border-top: 1px solid #1a2555;">
+              <p style="margin: 0 0 10px; color: #ffffff; font-size: 14px; font-weight: bold;">
+                See you at RevolutionUC! ✈️
               </p>
-              <p style="margin: 0; color: #666666; font-size: 12px;">
+              <p style="margin: 0; color: #9fb3ff; font-size: 12px;">
                 The RevolutionUC Team
               </p>
             </td>
