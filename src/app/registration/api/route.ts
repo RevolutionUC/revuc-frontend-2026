@@ -3,6 +3,7 @@ import { createClient } from "@/../utils/supabase/server";
 import QRCode from "qrcode";
 import type { RegistrationData } from "@/app/registration/types";
 import { randomUUID } from "crypto";
+import { sendConfirmationEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -62,6 +63,11 @@ export async function POST(request: NextRequest) {
           updateError,
         );
       }
+
+      // Send confirmation email (don't await - fire and forget)
+      sendConfirmationEmail(data.email, data.firstName).catch((err) =>
+        console.error("Failed to send confirmation email:", err),
+      );
 
       // Always return success since registration completed
       return NextResponse.json(
@@ -317,4 +323,3 @@ async function updateRegistrationWithQRCodeAndResume(
 
   return error.message;
 }
-
