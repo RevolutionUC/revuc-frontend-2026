@@ -118,23 +118,34 @@ export default function BoardingPass() {
   return (
     <div id="boarding-pass" className="section w-full min-h-screen relative overflow-hidden">
       <div className="relative z-20 w-full h-full flex items-start justify-center pt-[10%] px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-4xl bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 sm:p-8 lg:p-10">
+        <div
+          className={`w-full max-w-4xl rounded-3xl ${
+            showForm
+              ? "bg-white/90 backdrop-blur-sm shadow-xl p-6 sm:p-8 lg:p-10"
+              : "p-0 shadow-none bg-transparent"
+          }`}
+        >
           {!showForm ? (
-            <button
-              type="button"
-              className="mb-4 w-full rounded-3xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900"
-              onClick={() => setShowForm(true)}
-            >
-              <div className="relative w-full h-64 sm:h-80 md:h-96">
-                <Image
-                  src="/fixed_boarding_pass.webp"
-                  alt="RevolutionUC 2026 Boarding Pass - Click to Register"
-                  fill
-                  priority
-                  className="object-cover"
-                />
-              </div>
-            </button>
+            <>
+              <p className="mb-2 text-center text-sm font-semibold uppercase tracking-widest text-gray-900">
+                Click the boarding pass to register
+              </p>
+              <button
+                type="button"
+                className="mb-4 w-full rounded-3xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900"
+                onClick={() => setShowForm(true)}
+              >
+                <div className="relative w-full h-64 sm:h-80 md:h-96">
+                  <Image
+                    src="/fixed_boarding_pass.webp"
+                    alt="RevolutionUC 2026 Boarding Pass - Click to Register"
+                    fill
+                    priority
+                    className="object-cover"
+                  />
+                </div>
+              </button>
+            </>
           ) : (
             <div className="mb-6">
               <SplitText
