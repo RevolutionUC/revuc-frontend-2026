@@ -82,9 +82,9 @@ export default function Sponsors() {
       tl.addLabel("zoom", 0);
       tl.addLabel("overlayIn", 0.12);
       tl.addLabel("panStart", 0.2);
-      tl.addLabel("overlayOut", 0.22); // Fade out very early, near start of pan
-      tl.addLabel("panEnd", 0.35); // Shorter pan
-      tl.addLabel("zoomOut", 0.65);
+      tl.addLabel("overlayOut", 0.55); // Later fade out for longer visibility
+      tl.addLabel("panEnd", 0.65);
+      tl.addLabel("zoomOut", 0.8);
 
       // Phase 1: 20% - Zoom in on suitcase (slower, smoother zoom)
       tl.to(
@@ -98,28 +98,28 @@ export default function Sponsors() {
         "zoom",
       );
 
-      // Phase 2: 8% - Fade in text overlay
+      // Phase 2: 12% - Fade in text overlay (longer fade in)
       tl.to(
         textOverlay,
-        { opacity: 1, y: 0, duration: 0.08, ease: "power2.out" },
+        { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" },
         "overlayIn",
       );
 
-      // Phase 3: 15% - Pan down the suitcase with text (shorter pan)
+      // Phase 3: 45% - Pan down the suitcase with text (longer pan for reading)
       tl.to(
         panLayer,
         {
-          y: () => getMetrics().endY * 0.4,
-          duration: 0.15,
+          y: () => getMetrics().endY * 0.5,
+          duration: 0.45,
           ease: "power1.inOut",
         },
         "panStart",
       );
 
-      // Phase 4: 10% - Fade out text overlay early
+      // Phase 4: 12% - Fade out text overlay (later, with longer duration)
       tl.to(
         textOverlay,
-        { opacity: 0, y: -30, duration: 0.1, ease: "power2.in" },
+        { opacity: 0, y: -30, duration: 0.12, ease: "power2.in" },
         "overlayOut",
       );
 
@@ -168,21 +168,21 @@ export default function Sponsors() {
           ref={textOverlayRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
         >
-          <div className="max-w-2xl mx-auto px-6 py-8 bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl pointer-events-auto">
-            <h2 className="text-4xl font-bold text-center mb-8 text-gray-800">
+          <div className="max-w-4xl mx-auto px-10 py-12 bg-transparent pointer-events-auto">
+            <h2 className="text-5xl font-bold text-center mb-10 text-white drop-shadow-lg">
               Our Sponsors
             </h2>
 
             {sponsors.map((tierGroup) => (
-              <div key={tierGroup.tier} className="mb-6 last:mb-0">
-                <h3 className="text-xl font-semibold text-center mb-3 text-gray-600">
+              <div key={tierGroup.tier} className="mb-8 last:mb-0">
+                <h3 className="text-2xl font-semibold text-center mb-4 text-white/90 drop-shadow-md">
                   {tierGroup.tier}
                 </h3>
-                <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex flex-wrap justify-center gap-6">
                   {tierGroup.names.map((name) => (
                     <div
                       key={name}
-                      className="px-6 py-3 bg-gray-100 rounded-lg text-gray-700 font-medium hover:bg-gray-200 transition-colors"
+                      className="px-8 py-4 bg-white/20 backdrop-blur-sm rounded-xl text-white text-lg font-medium hover:bg-white/30 transition-colors drop-shadow-md"
                     >
                       {name}
                     </div>
@@ -191,7 +191,7 @@ export default function Sponsors() {
               </div>
             ))}
 
-            <p className="text-center text-gray-500 mt-6 text-sm">
+            <p className="text-center text-white/80 mt-8 text-base drop-shadow-md">
               Interested in sponsoring? Contact us!
             </p>
           </div>
