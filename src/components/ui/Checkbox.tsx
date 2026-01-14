@@ -19,4 +19,3 @@ export function Checkbox({ name, required, children }: CheckboxProps) {
     </label>
   );
 }
-

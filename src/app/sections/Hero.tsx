@@ -62,20 +62,10 @@ export default function HeroSection() {
 
       <div className="w-full max-w-6xl mx-auto relative z-10 pointer-events-none">
         <div className="max-w-2xl">
-          <h1 className="text-8xl font-bold">RevolutionUC</h1>
-          <p className="py-6 text-3xl">Build. Learn. Grow.</p>
-          <a
-            onClick={() => {
-              gsap.to(window, {
-                scrollTo: "#boarding-pass",
-                duration: 1,
-                ease: "power2.inOut",
-              });
-            }}
-            className="btn btn-primary btn-lg pointer-events-auto"
-          >
-            Register
-          </a>
+          <h1 className="underline  text-[#151477] underline-offset-4 decoration-[#19E363] text-8xl font-semibold">
+            Revolution UC
+          </h1>
+          <p className="py-6 text-3xl text-[#228CF6]">Build. Learn. Grow.</p>
         </div>
       </div>
     </div>

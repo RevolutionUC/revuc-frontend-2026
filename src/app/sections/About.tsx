@@ -8,7 +8,7 @@ export default function About() {
     <div id="about" className="section w-full h-screen relative overflow-hidden">
       {/* Ground */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[23%] bg-linear-to-b from-base-100 to-base-200 opacity-40"
+        className="absolute bottom-0 left-0 right-0 h-[23%] bg-linear-to-b from-bg-[#EDF6FF] to-bg-[#] opacity-40"
         style={{
           clipPath: "ellipse(100% 100% at 50% 100%)",
         }}
@@ -41,7 +41,7 @@ export default function About() {
         <div className="max-w-2xl mr-[10%]">
           <SplitText
             text="About RevolutionUC"
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#151477]"
             delay={50}
             duration={0.6}
             ease="power3.out"
@@ -55,7 +55,7 @@ export default function About() {
 
           <SplitText
             text="RevolutionUC is a 24-hour in-person student hackathon at the University of Cincinnati that is organized by ACM@UC. We invite you to join 300+ motivated students for an awesome weekend of code, community, and self-improvement! You don't have to have to be a computer science major or engineering student to attend. It's a learning experience for students of all skill levels!"
-            className="text-base sm:text-lg text-foreground/80 leading-relaxed"
+            className="text-base font-sans text-[#151477] sm:text-lg leading-relaxed pt-12"
             delay={30}
             duration={0.5}
             ease="power3.out"

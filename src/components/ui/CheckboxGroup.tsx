@@ -28,4 +28,3 @@ export function CheckboxGroup({ name, label, options, required }: CheckboxGroupP
     </fieldset>
   );
 }
-

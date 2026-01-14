@@ -35,18 +35,7 @@ export default function RootLayout({
         <NavigationBar />
         {/* Fixed background element for better performance */}
         <div
-          className="fixed inset-0"
-          style={{
-            backgroundImage: "url(/website-background.webp)",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            willChange: "transform",
-            transform: "translateZ(0)",
-            backfaceVisibility: "hidden",
-            WebkitBackfaceVisibility: "hidden",
-            zIndex: -1,
-          }}
+          className="fixed inset-0 bg-gradient-to-b from-[#228CF6] via-[#DDEEFF] to-[#EDF6FF]"
           aria-hidden="true"
         />
         <ThemeProvider

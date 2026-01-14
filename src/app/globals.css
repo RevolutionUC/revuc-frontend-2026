@@ -170,9 +170,9 @@
     background-color: transparent;
   }
 
-  /* Prevent white flash during fast scrolling */
+  /* Site background color */
   html {
-    background-color: #050b24;
+    background-color: #edf6ff;
   }
 
   /* Ensure navigation menu dropdowns are above all content */

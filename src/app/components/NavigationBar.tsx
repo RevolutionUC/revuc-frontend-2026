@@ -65,7 +65,7 @@ export function NavigationBar() {
                       e.preventDefault();
                       scrollToSection("about");
                     }}
-                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
                   >
                     [ABOUT]
                   </a>
@@ -73,7 +73,7 @@ export function NavigationBar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-300 hover:after:w-full data-[state=open]:after:w-full data-[state=open]:bg-transparent">
+                <NavigationMenuTrigger className="font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full data-[state=open]:after:w-full data-[state=open]:bg-transparent">
                   [EVENT]
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-[#050b24] border border-[#1a1f3a]/50">
@@ -111,7 +111,7 @@ export function NavigationBar() {
                       e.preventDefault();
                       scrollToSection("faq");
                     }}
-                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
                   >
                     [FAQ]
                   </a>
@@ -126,24 +126,24 @@ export function NavigationBar() {
                       e.preventDefault();
                       scrollToSection("schedule");
                     }}
-                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
+                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
                   >
                     [SCHEDULE]
                   </a>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Button
+                  <a
+                    href="#register"
                     onClick={(e) => {
                       e.preventDefault();
                       scrollToSection("boarding-pass");
                     }}
-                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg hover:bg-accent-foreground text-white bg-transparent relative hover:underline hover:text-black"
+                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
                   >
                     [REGISTER]
-                  </Button>
+                  </a>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
