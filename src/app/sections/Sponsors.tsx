@@ -82,9 +82,9 @@ export default function Sponsors() {
       tl.addLabel("zoom", 0);
       tl.addLabel("overlayIn", 0.12);
       tl.addLabel("panStart", 0.2);
-      tl.addLabel("overlayOut", 0.55); // Later fade out for longer visibility
-      tl.addLabel("panEnd", 0.65);
-      tl.addLabel("zoomOut", 0.8);
+      tl.addLabel("overlayOut", 0.68); // Later fade out for longer visibility
+      tl.addLabel("panEnd", 0.75);
+      tl.addLabel("zoomOut", 0.85);
 
       // Phase 1: 20% - Zoom in on suitcase (slower, smoother zoom)
       tl.to(
@@ -105,18 +105,18 @@ export default function Sponsors() {
         "overlayIn",
       );
 
-      // Phase 3: 45% - Pan down the suitcase with text (longer pan for reading)
+      // Phase 3: 45% - Pan down the suitcase with text
       tl.to(
         panLayer,
         {
-          y: () => getMetrics().endY * 0.5,
+          y: () => getMetrics().endY * 0.75,
           duration: 0.45,
           ease: "power1.inOut",
         },
         "panStart",
       );
 
-      // Phase 4: 12% - Fade out text overlay (later, with longer duration)
+      // Phase 4: 12% - Fade out text overlay 
       tl.to(
         textOverlay,
         { opacity: 0, y: -30, duration: 0.12, ease: "power2.in" },
