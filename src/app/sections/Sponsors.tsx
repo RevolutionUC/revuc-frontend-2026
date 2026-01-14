@@ -54,7 +54,7 @@ export default function Sponsors() {
         // Limit pan distance to fit within the animation
         const panDistance = Math.min(scaledH * 0.4, vh * 0.5);
 
-        const startY = vh * 0.05;
+        const startY = 0;
         const endY = -panDistance;
 
         return { vh, panDistance, startY, endY };
