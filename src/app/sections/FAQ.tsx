@@ -36,7 +36,7 @@ export default function Faq() {
               >
                 <AccordionTrigger className="px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg">
                   <span className="flex-1 text-left">
-                    Can I attend if I'm under 18
+                    Can I attend if I'm under 18 year old?
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className="bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base">
