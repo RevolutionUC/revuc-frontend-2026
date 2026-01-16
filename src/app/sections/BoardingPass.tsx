@@ -150,7 +150,7 @@ export default function BoardingPass() {
             <div className="mb-6">
               <SplitText
                 text="Register"
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 overflow-visible"
                 delay={50}
                 duration={0.6}
                 ease="power3.out"

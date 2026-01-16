@@ -83,10 +83,10 @@ export default function Prizes() {
 
       {/* Content */}
       <div className="relative z-20 w-full max-w-7xl mx-auto">
-        <div className="mt-16 mb-16">
+        <div className="mt-16 mb-16 overflow-visible">
           <SplitText
             text="Prizes"
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight overflow-visible"
             delay={50}
             duration={0.6}
             ease="power3.out"
@@ -95,7 +95,7 @@ export default function Prizes() {
             to={{ opacity: 1, y: 0 }}
             threshold={0.1}
             rootMargin="-100px"
-            textAlign="left"
+            textAlign="center"
           />
         </div>
 
