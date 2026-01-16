@@ -13,6 +13,7 @@ export default function Sponsors() {
           height={512}
           alt=""
           loading="lazy"
+          style={{ width: "auto", height: "auto" }}
           data-speed="0.8"
         />
       </div>

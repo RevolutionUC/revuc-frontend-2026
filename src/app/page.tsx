@@ -15,7 +15,6 @@ const Home = () => {
       <Hero />
       <Clouds />
       <About />
-      {/* <Clouds /> */}
       <BoardingPass />
       <Stats />
       <Sponsors />

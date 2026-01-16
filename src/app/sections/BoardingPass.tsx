@@ -37,6 +37,8 @@ export default function BoardingPass() {
   const [email, setEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [age, setAge] = useState("");
+  const [ageError, setAgeError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -66,9 +68,48 @@ export default function BoardingPass() {
     validateEmails(email, value);
   }
 
+  function handleAgeChange(e: ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+
+    // Allow empty value for user to clear the field
+    if (value === "") {
+      setAge("");
+      setAgeError("");
+      return;
+    }
+
+    // Parse the number
+    const numValue = Number(value);
+
+    // Check if it's a valid number
+    if (isNaN(numValue)) {
+      setAgeError("Age must be a valid number");
+      setAge(value); // Keep the invalid input so user can see what they typed
+      return;
+    }
+
+    // Prevent negative values
+    if (numValue < 0) {
+      setAgeError("Age cannot be negative");
+      setAge("18"); // Set to minimum valid value
+      return;
+    }
+
+    // Enforce minimum age of 18
+    if (numValue < 18) {
+      setAgeError("Age must be at least 18");
+      setAge("18"); // Set to minimum valid value
+      return;
+    }
+
+    // Valid age
+    setAge(value);
+    setAgeError("");
+  }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (emailError || isSubmitting) return;
+    if (emailError || ageError || isSubmitting) return;
 
     setIsSubmitting(true);
     const form = e.currentTarget;
@@ -88,6 +129,8 @@ export default function BoardingPass() {
         form.reset();
         setEmail("");
         setConfirmEmail("");
+        setAge("");
+        setAgeError("");
         setCurrentStep(0);
         setShowForm(false);
       } else {
@@ -204,8 +247,8 @@ export default function BoardingPass() {
               <div className={currentStep === 0 ? "space-y-6" : "hidden"}>
                 {/* Name */}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <InputField name="firstName" label="First Name" placeholder="Bob" required />
-                  <InputField name="lastName" label="Last Name" placeholder="Evans" required />
+                  <InputField name="firstName" label="First Name" placeholder="Mark" required />
+                  <InputField name="lastName" label="Last Name" placeholder="Zuckerberg" required />
                 </div>
 
                 {/* Email */}
@@ -266,7 +309,17 @@ export default function BoardingPass() {
 
                 {/* Age & Gender */}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <InputField name="age" label="Age" type="number" placeholder="18" required />
+                  <InputField
+                    name="age"
+                    label="Age"
+                    type="number"
+                    placeholder="18"
+                    min={18}
+                    value={age}
+                    onChange={handleAgeChange}
+                    error={ageError}
+                    required
+                  />
                   <SelectField name="gender" label="Gender" options={GENDERS} required />
                 </div>
 
@@ -389,13 +442,13 @@ export default function BoardingPass() {
                           goToNextStep();
                         }}
                         className={`bg-gray-900 text-white hover:bg-gray-800 ${
-                          emailError ? "pointer-events-none opacity-40" : ""
+                          emailError || ageError ? "pointer-events-none opacity-40" : ""
                         }`}
                       />
                     ) : (
                       <button
                         type="submit"
-                        disabled={isSubmitting || !!emailError}
+                        disabled={isSubmitting || !!emailError || !!ageError}
                         className="inline-flex items-center justify-center rounded-full bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {isSubmitting ? "Submitting..." : "Register"}

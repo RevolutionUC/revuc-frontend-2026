@@ -28,9 +28,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preload" href="/website-background.webp" as="image" />
-      </head>
       <body className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}>
         <NavigationBar />
         {/* Fixed background element for better performance */}

@@ -1,21 +1,16 @@
 "use client";
-
-import * as React from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import gsap from "gsap";
-import { TrophyIcon, UsersIcon, Building2Icon } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { Button } from "@/components/ui/button";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -29,7 +24,6 @@ const scrollToSection = (sectionId: string) => {
 
 export function NavigationBar() {
   const isMobile = useIsMobile();
-
   return (
     <nav className="fixed top-0 left-0 right-0 z-100 bg-transparent pointer-events-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
@@ -72,10 +66,52 @@ export function NavigationBar() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full data-[state=open]:after:w-full data-[state=open]:bg-transparent">
+                <NavigationMenuLink asChild>
+                  <a
+                    href="#sponsors"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection("sponsors");
+                    }}
+                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
+                  >
+                    [SPONSORS]
+                  </a>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <a
+                    href="#tracks"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection("tracks");
+                    }}
+                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
+                  >
+                    [TRACKS]
+                  </a>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              {/* <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <a
+                    href="#stats"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection("stats");
+                    }}
+                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
+                  >
+                    [STATS]
+                  </a>
+                </NavigationMenuLink>
+              </NavigationMenuItem> */}
+              {/* <NavigationMenuItem>
+                <NavigationMenuTrigger className=" font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-[#228cf6] focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full data-[state=open]:after:w-full data-[state=open]:bg-transparent">
                   [EVENT]
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-[#050b24] border border-[#1a1f3a]/50">
+                <NavigationMenuContent className="bg-[#228cf6]! border border-[#1a1f3a]/50">
                   <ul className="grid gap-3 p-4 md:w-[500px] md:grid-cols-2">
                     <ListItem
                       title="Tracks"
@@ -100,7 +136,7 @@ export function NavigationBar() {
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
-              </NavigationMenuItem>
+              </NavigationMenuItem> */}
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
@@ -119,30 +155,22 @@ export function NavigationBar() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <a
-                    href="#schedule"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection("schedule");
-                    }}
-                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
+                  <Button
+                    className="hover:bg-white text-white font-mono text-sm sm:text-base md:text-lg hover:text-black bg-[#151477] rounded-none"
+                    onClick={() => scrollToSection("schedule")}
                   >
                     [SCHEDULE]
-                  </a>
+                  </Button>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <a
-                    href="#register"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection("boarding-pass");
-                    }}
-                    className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
+                  <Button
+                    className="hover:bg-white font-mono text-sm sm:text-base md:text-lg hover:text-black bg-[#19e363] rounded-none"
+                    onClick={() => scrollToSection("boarding-pass")}
                   >
                     [REGISTER]
-                  </a>
+                  </Button>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
@@ -150,56 +178,5 @@ export function NavigationBar() {
         </div>
       </div>
     </nav>
-  );
-}
-
-function ListItem({
-  title,
-  children,
-  href,
-  onClick,
-  icon,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & {
-  title: string;
-  children: React.ReactNode;
-  href?: string;
-  onClick?: () => void;
-  icon?: React.ReactNode;
-}) {
-  const content = (
-    <div className="group grid gap-1 rounded-md p-3 text-sm leading-none no-underline outline-none transition-colors hover:bg-transparent hover:text-white focus:bg-transparent focus:text-white">
-      <div className="flex items-center gap-2 text-sm font-medium leading-none text-white/90 group-hover:text-white">
-        {icon}
-        {title}
-      </div>
-      <p className="text-white/70 line-clamp-2 text-sm leading-snug group-hover:text-white/90">
-        {children}
-      </p>
-    </div>
-  );
-
-  if (onClick) {
-    return (
-      <li {...props}>
-        <button
-          type="button"
-          onClick={onClick}
-          className="w-full text-left cursor-pointer outline-none"
-        >
-          {content}
-        </button>
-      </li>
-    );
-  }
-
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link href={href || "#"} className="outline-none">
-          {content}
-        </Link>
-      </NavigationMenuLink>
-    </li>
   );
 }

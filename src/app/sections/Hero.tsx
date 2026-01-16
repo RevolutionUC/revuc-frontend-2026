@@ -13,51 +13,56 @@ export default function HeroSection() {
       className="section w-full h-screen flex items-center px-4 sm:px-6 lg:px-8 relative z-10"
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <Image
-          className="absolute top-[10%] right-[-10%] h-64 opacity-70"
-          src="/cloud_final1.webp"
-          width={500}
-          height={256}
-          alt=""
-          loading="lazy"
-          data-speed="0.8"
-        />
-        <Image
-          className="absolute top-[0%] left-[-2%] h-72 opacity-60"
-          src="/cloud_final3.webp"
-          width={500}
-          height={288}
-          alt=""
-          loading="lazy"
-          data-speed="0.5"
-        />
-        <Image
-          className="absolute top-[60%] right-[-8%] h-56 opacity-75"
-          src="/cloud_final2.webp"
-          width={500}
-          height={224}
-          alt=""
-          loading="lazy"
-          data-speed="1.2"
-        />
-        <Image
-          className="absolute top-[20%] left-[-5%] h-60 opacity-65"
-          src="/cloud_final4.webp"
-          width={500}
-          height={500}
-          alt=""
-          loading="lazy"
-          data-speed="0.6"
-        />
-        <Image
-          className="absolute top-[75%] left-[-3%] h-52 opacity-70"
-          src="/cloud_final5.webp"
-          width={500}
-          height={500}
-          alt=""
-          loading="lazy"
-          data-speed="0.9"
-        />
+        <div className="absolute top-[10%] right-[-10%] w-auto h-64 opacity-70" data-speed="0.8">
+          <Image
+            src="/cloud_final1.webp"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 500px"
+            loading="lazy"
+          />
+        </div>
+        <div className="absolute top-[0%] left-[-2%] w-auto h-72 opacity-60" data-speed="0.5">
+          <Image
+            src="/cloud_final3.webp"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 500px"
+            loading="lazy"
+          />
+        </div>
+        <div className="absolute top-[60%] right-[-8%] w-auto h-56 opacity-75" data-speed="1.2">
+          <Image
+            src="/cloud_final2.webp"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 500px"
+            loading="lazy"
+          />
+        </div>
+        <div className="absolute top-[20%] left-[-5%] w-auto h-60 opacity-65" data-speed="0.6">
+          <Image
+            src="/cloud_final4.webp"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 500px"
+            loading="lazy"
+          />
+        </div>
+        <div className="absolute top-[75%] left-[-3%] w-auto h-52 opacity-70" data-speed="0.9">
+          <Image
+            src="/cloud_final5.webp"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 500px"
+            loading="lazy"
+          />
+        </div>
       </div>
 
       <div className="w-full max-w-6xl mx-auto relative z-10 pointer-events-none">

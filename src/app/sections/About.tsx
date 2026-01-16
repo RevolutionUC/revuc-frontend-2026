@@ -5,10 +5,7 @@ import Image from "next/image";
 
 export default function About() {
   return (
-    <div
-      id="about"
-      className="section w-full h-screen relative overflow-hidden"
-    >
+    <div id="about" className="section w-full h-screen relative overflow-hidden">
       {/* Ground */}
       <div
         className="absolute bottom-0 left-0 right-0 h-[23%] bg-linear-to-b from-bg-blue-500 to-bg-red-500 opacity-40"
@@ -25,6 +22,7 @@ export default function About() {
           width={700}
           height={300}
           className="w-full h-auto"
+          style={{ height: "auto" }}
         />
       </div>
 
@@ -33,9 +31,9 @@ export default function About() {
         <Image
           src="/waving-panda.webp"
           alt="Waving Panda"
-          width={600}
-          height={800}
-          className="w-full h-auto"
+          fill
+          className="object-contain"
+          sizes="(max-width: 768px) 400px, (max-width: 1024px) 450px, 600px"
         />
       </div>
 

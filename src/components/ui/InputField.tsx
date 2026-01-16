@@ -1,13 +1,8 @@
-import type { ChangeEvent } from "react";
+import type { InputHTMLAttributes } from "react";
 
-interface InputFieldProps {
+interface InputFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "name" | "id"> {
   name: string;
   label: string;
-  type?: string;
-  placeholder?: string;
-  required?: boolean;
-  value?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
 }
 
@@ -20,6 +15,7 @@ export function InputField({
   value,
   onChange,
   error,
+  ...inputProps
 }: InputFieldProps) {
   return (
     <div>
@@ -36,6 +32,7 @@ export function InputField({
         value={value}
         onChange={onChange}
         className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+        {...inputProps}
       />
       {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
