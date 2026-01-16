@@ -10,9 +10,9 @@ export default function HeroSection() {
   return (
     <div
       id="hero"
-      className="section w-full h-screen flex items-center px-4 sm:px-6 lg:px-8 relative z-10"
+      className="section w-full h-screen flex items-center px-4 sm:px-6 lg:px-8 relative z-10 overflow-y-visible"
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-y-visible pointer-events-none">
         <Image
           className="absolute top-[10%] right-[-10%] h-64 opacity-70"
           src="/cloud_final1.webp"

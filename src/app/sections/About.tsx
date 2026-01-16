@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function About() {
   return (
-    <div id="about" className="section w-full h-screen relative overflow-hidden">
+    <div id="about" className="section w-full h-screen relative overflow-visible">
       {/* Ground */}
       <div
         className="absolute bottom-0 left-0 right-0 h-[23%] bg-linear-to-b from-bg-[#EDF6FF] to-bg-[#] opacity-40"
@@ -13,6 +13,54 @@ export default function About() {
           clipPath: "ellipse(100% 100% at 50% 100%)",
         }}
       />
+
+    <div className="absolute inset-0 overflow-y-visible pointer-events-none">
+            <Image
+              className="absolute top-[10%] right-[-10%] h-64 opacity-70"
+              src="/cloud_final1.webp"
+              width={500}
+              height={256}
+              alt=""
+              loading="lazy"
+              data-speed="0.8"
+            />
+            <Image
+              className="absolute top-[0%] left-[-2%] h-72 opacity-60"
+              src="/cloud_final3.webp"
+              width={500}
+              height={288}
+              alt=""
+              loading="lazy"
+              data-speed="0.5"
+            />
+            <Image
+              className="absolute top-[60%] right-[-8%] h-56 opacity-75"
+              src="/cloud_final2.webp"
+              width={500}
+              height={224}
+              alt=""
+              loading="lazy"
+              data-speed="1.2"
+            />
+            <Image
+              className="absolute top-[20%] left-[-5%] h-60 opacity-65"
+              src="/cloud_final4.webp"
+              width={500}
+              height={500}
+              alt=""
+              loading="lazy"
+              data-speed="0.6"
+            />
+            <Image
+              className="absolute top-[75%] left-[-3%] h-52 opacity-70"
+              src="/cloud_final5.webp"
+              width={500}
+              height={500}
+              alt=""
+              loading="lazy"
+              data-speed="0.9"
+            />
+          </div>
 
       {/* Plane */}
       <div className="absolute left-[5%] top-[40%] w-[500px] md:w-[600px] lg:w-[750px] z-10">
