@@ -33,6 +33,8 @@ import {
   SHIRT_SIZES,
 } from "@/lib/registration-data";
 
+gsap.registerPlugin(ScrollTrigger);
+
 type NotificationType = "success" | "error" | null;
 
 interface Notification {
@@ -58,6 +60,17 @@ export default function BoardingPass() {
   const [ageError, setAgeError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+
+  // Refresh ScrollTrigger when form visibility or step changes to recalculate positions
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally triggering refresh on state changes
+  useEffect(() => {
+    // Small delay to allow DOM to update before recalculating
+    const timeoutId = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [showForm, currentStep]);
 
   const steps = [
     { id: 0, label: "Basic Info" },
