@@ -132,10 +132,10 @@ export default function BoardingPass() {
               </p>
               <button
                 type="button"
-                className="mb-4 w-full rounded-3xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900"
+                className="group mb-4 w-full overflow-visible focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900"
                 onClick={() => setShowForm(true)}
               >
-                <div className="relative w-full h-64 sm:h-80 md:h-96">
+                <div className="relative w-full h-64 sm:h-80 md:h-96 transition-all duration-300 ease-out group-hover:scale-105 group-hover:cursor-pointer">
                   <Image
                     src="/fixed_boarding_pass.webp"
                     alt="RevolutionUC 2026 Boarding Pass - Click to Register"

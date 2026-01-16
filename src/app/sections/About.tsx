@@ -5,10 +5,13 @@ import Image from "next/image";
 
 export default function About() {
   return (
-    <div id="about" className="section w-full h-screen relative overflow-hidden">
+    <div
+      id="about"
+      className="section w-full h-screen relative overflow-hidden"
+    >
       {/* Ground */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[23%] bg-linear-to-b from-bg-[#EDF6FF] to-bg-[#] opacity-40"
+        className="absolute bottom-0 left-0 right-0 h-[23%] bg-linear-to-b from-bg-blue-500 to-bg-red-500 opacity-40"
         style={{
           clipPath: "ellipse(100% 100% at 50% 100%)",
         }}

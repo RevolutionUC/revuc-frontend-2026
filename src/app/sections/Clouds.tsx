@@ -16,7 +16,8 @@ const GsapScrollTrigger = () => {
       const boxes = gsap.utils.toArray(scrollRef.current.children);
 
       boxes.forEach((box: any, index: number) => {
-        const direction = index === 0 || index === 1 || index === 2 || index === 3 ? 1 : -1;
+        const direction =
+          index === 0 || index === 1 || index === 2 || index === 3 ? 1 : -1;
 
         gsap.to(box, {
           x: direction * 100 * (index + 3),
@@ -86,7 +87,10 @@ const GsapScrollTrigger = () => {
         />
       </div>
 
-      <div className="h-[70vh] w-full relative flex justify-center overflow-hidden" ref={scrollRef}>
+      <div
+        className="h-[70vh] w-full relative flex justify-center overflow-hidden"
+        ref={scrollRef}
+      >
         <Image
           src="/cloud_final1.webp"
           alt="Cloud"

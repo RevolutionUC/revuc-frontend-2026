@@ -35,7 +35,7 @@ export default function RootLayout({
         <NavigationBar />
         {/* Fixed background element for better performance */}
         <div
-          className="fixed inset-0 bg-gradient-to-b from-[#228CF6] via-[#DDEEFF] to-[#EDF6FF]"
+          className="fixed inset-0 bg-linear-to-b from-[#228CF6] via-[#DDEEFF] to-[#EDF6FF]"
           aria-hidden="true"
         />
         <ThemeProvider
@@ -45,8 +45,20 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ScrollSmootherWrapper>
-            <div className="relative flex min-h-screen flex-col">
-              <main className="flex-1">{children}</main>
+            <div
+              className="relative flex min-h-screen flex-col 
+            "
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                // style={{
+                //   backgroundImage: "url(/adobe_compressed.webp)",
+                //   backgroundSize: "cover",
+                //   willChange: "transform",
+                // }}
+                aria-hidden="true"
+              />
+              <main className="flex-1 relative z-10">{children}</main>
             </div>
           </ScrollSmootherWrapper>
         </ThemeProvider>
