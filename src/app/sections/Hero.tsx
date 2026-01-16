@@ -16,7 +16,7 @@ export default function HeroSection() {
         <Image
           className="absolute top-[10%] right-[-10%] h-64 opacity-70"
           src="/cloud_final1.webp"
-          width={256}
+          width={500}
           height={256}
           alt=""
           loading="lazy"
@@ -25,7 +25,7 @@ export default function HeroSection() {
         <Image
           className="absolute top-[0%] left-[-2%] h-72 opacity-60"
           src="/cloud_final3.webp"
-          width={288}
+          width={500}
           height={288}
           alt=""
           loading="lazy"
@@ -34,7 +34,7 @@ export default function HeroSection() {
         <Image
           className="absolute top-[60%] right-[-8%] h-56 opacity-75"
           src="/cloud_final2.webp"
-          width={224}
+          width={500}
           height={224}
           alt=""
           loading="lazy"
@@ -43,8 +43,8 @@ export default function HeroSection() {
         <Image
           className="absolute top-[20%] left-[-5%] h-60 opacity-65"
           src="/cloud_final4.webp"
-          width={240}
-          height={240}
+          width={500}
+          height={500}
           alt=""
           loading="lazy"
           data-speed="0.6"
@@ -52,8 +52,8 @@ export default function HeroSection() {
         <Image
           className="absolute top-[75%] left-[-3%] h-52 opacity-70"
           src="/cloud_final5.webp"
-          width={208}
-          height={208}
+          width={500}
+          height={500}
           alt=""
           loading="lazy"
           data-speed="0.9"

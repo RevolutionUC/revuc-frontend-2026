@@ -78,11 +78,11 @@ export function NavigationBar() {
                 <NavigationMenuContent className="bg-[#050b24] border border-[#1a1f3a]/50">
                   <ul className="grid gap-3 p-4 md:w-[500px] md:grid-cols-2">
                     <ListItem
-                      title="Prizes"
-                      onClick={() => scrollToSection("prizes")}
+                      title="Tracks"
+                      onClick={() => scrollToSection("tracks")}
                       icon={<TrophyIcon className="size-4" />}
                     >
-                      Check out the amazing prizes and awards.
+                      Check out the amazing tracks this year.
                     </ListItem>
                     <ListItem
                       title="Sponsors"
