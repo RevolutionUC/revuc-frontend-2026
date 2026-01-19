@@ -49,7 +49,7 @@ const GsapScrollTrigger = () => {
           height={200}
           priority
           className="absolute top-[-15%] left-[5%] opacity-80"
-          style={{ width: "400px", height: "auto" }}
+          // style={{ width: "400px", height: "auto" }}
           sizes="400px"
           data-speed="0.8"
         />
@@ -60,7 +60,7 @@ const GsapScrollTrigger = () => {
           height={400}
           priority
           className="absolute top-[30%] left-[-10%] opacity-70"
-          style={{ width: "600px", height: "auto" }}
+          // style={{ width: "600px", height: "auto" }}
           sizes="600px"
           data-speed="0.6"
         />
@@ -71,7 +71,7 @@ const GsapScrollTrigger = () => {
           height={450}
           priority
           className="absolute top-[10%] right-[-25%] opacity-75"
-          style={{ width: "800px", height: "auto" }}
+          // style={{ width: "800px", height: "auto" }}
           sizes="800px"
           data-speed="1.2"
         />
@@ -82,7 +82,7 @@ const GsapScrollTrigger = () => {
           height={400}
           priority
           className="absolute top-[50%] right-[5%] opacity-80"
-          style={{ width: "400px", height: "auto" }}
+          // style={{ width: "400px", height: "auto" }}
           sizes="400px"
           data-speed="0.9"
         />
@@ -93,7 +93,7 @@ const GsapScrollTrigger = () => {
           height={450}
           priority
           className="absolute top-[50%] left-[15%] opacity-65"
-          style={{ width: "400px", height: "auto" }}
+          // style={{ width: "400px", height: "auto" }}
           sizes="400px"
           data-speed="0.7"
         />
@@ -107,7 +107,7 @@ const GsapScrollTrigger = () => {
           height={450}
           loading="lazy"
           className="scroll-box absolute top-0 left-[60%]"
-          style={{ width: "auto", height: "27.5rem" }}
+          // style={{ width: "auto", height: "27.5rem" }}
           sizes="(max-width: 768px) 100vw, 800px"
         />
         <Image
@@ -117,7 +117,7 @@ const GsapScrollTrigger = () => {
           height={450}
           loading="lazy"
           className="scroll-box absolute top-30 left-[50%]"
-          style={{ width: "auto", height: "25rem" }}
+          // style={{ width: "auto", height: "25rem" }}
           sizes="(max-width: 768px) 100vw, 800px"
         />
         <Image
@@ -127,7 +127,7 @@ const GsapScrollTrigger = () => {
           height={450}
           loading="lazy"
           className="scroll-box absolute top-0 left-[40%]"
-          style={{ width: "auto", height: "25rem" }}
+          // style={{ width: "auto", height: "25rem" }}
           sizes="(max-width: 768px) 100vw, 800px"
         />
         <Image
@@ -137,7 +137,7 @@ const GsapScrollTrigger = () => {
           height={450}
           loading="lazy"
           className="scroll-box absolute top-0 left-[70%]"
-          style={{ width: "auto", height: "25rem" }}
+          // style={{ width: "auto", height: "25rem" }}
           sizes="(max-width: 768px) 100vw, 800px"
         />
         <Image
@@ -147,7 +147,7 @@ const GsapScrollTrigger = () => {
           height={450}
           loading="lazy"
           className="scroll-box absolute top-0 right-[50%]"
-          style={{ width: "auto", height: "37.5rem" }}
+          // style={{ width: "auto", height: "37.5rem" }}
           sizes="(max-width: 768px) 100vw, 800px"
         />
         <Image
@@ -157,7 +157,7 @@ const GsapScrollTrigger = () => {
           height={450}
           loading="lazy"
           className="scroll-box absolute top-20 right-[20%]"
-          style={{ width: "auto", height: "30rem" }}
+          // style={{ width: "auto", height: "30rem" }}
           sizes="(max-width: 768px) 100vw, 800px"
         />
         <Image
@@ -167,7 +167,7 @@ const GsapScrollTrigger = () => {
           height={450}
           loading="lazy"
           className="scroll-box absolute top-10 right-[30%]"
-          style={{ width: "auto", height: "25rem" }}
+          // style={{ width: "auto", height: "25rem" }}
           sizes="(max-width: 768px) 100vw, 800px"
         />
         <Image
@@ -177,7 +177,7 @@ const GsapScrollTrigger = () => {
           height={450}
           loading="lazy"
           className="scroll-box absolute top-0 right-[60%]"
-          style={{ width: "auto", height: "25rem" }}
+          // style={{ width: "auto", height: "25rem" }}
           sizes="(max-width: 768px) 100vw, 800px"
         />
       </div>

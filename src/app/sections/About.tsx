@@ -22,7 +22,7 @@ export default function About() {
           width={700}
           height={300}
           className="w-full h-auto"
-          style={{ height: "auto" }}
+          // style={{ height: "auto" }}
         />
       </div>
 

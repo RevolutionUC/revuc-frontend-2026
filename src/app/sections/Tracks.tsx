@@ -4,13 +4,11 @@ import Image from "next/image";
 const trackData = [
   {
     title: "Most Technically Impressive",
-    description:
-      "Celebrates exceptional technical innovation, complexity, and engineering skill.",
+    description: "Celebrates exceptional technical innovation, complexity, and engineering skill.",
   },
   {
     title: "Best Business Plan",
-    description:
-      "Honors the most feasible, scalable, and market-ready business strategy.",
+    description: "Honors the most feasible, scalable, and market-ready business strategy.",
   },
   {
     title: "Best Social Impact",
@@ -34,10 +32,7 @@ const trackData = [
 ];
 export default function Tracks() {
   return (
-    <div
-      id="tracks"
-      className="section w-full min-h-screen relative py-20 px-4 sm:px-6 lg:px-8"
-    >
+    <div id="tracks" className="section w-full min-h-screen relative py-20 px-4 sm:px-6 lg:px-8">
       {/* Background decorative elements */}
       <Image
         src="/white-shirt.webp"
@@ -45,7 +40,7 @@ export default function Tracks() {
         width={800}
         height={800}
         className="absolute top-[15%] right-[-5%] rotate-20"
-        style={{ width: "auto", height: "auto" }}
+        // style={{ width: "auto", height: "auto" }}
         aria-hidden="true"
         data-speed="0.9"
       />
@@ -55,7 +50,7 @@ export default function Tracks() {
         width={700}
         height={700}
         className="absolute top-[15%] right-[-10%] scale-x-[-1]"
-        style={{ width: "auto", height: "auto" }}
+        // style={{ width: "auto", height: "auto" }}
         aria-hidden="true"
         data-speed="1.1"
       />
@@ -65,7 +60,7 @@ export default function Tracks() {
         width={700}
         height={700}
         className="absolute top-[30%] right-[-15%] scale-x-[-1]"
-        style={{ width: "auto", height: "auto" }}
+        // style={{ width: "auto", height: "auto" }}
         aria-hidden="true"
         data-speed="1.1"
       />
@@ -75,7 +70,7 @@ export default function Tracks() {
         width={900}
         height={900}
         className="absolute bottom-[-30%] left-[-26%] rotate-[-20deg]"
-        style={{ width: "auto", height: "auto" }}
+        // style={{ width: "auto", height: "auto" }}
         aria-hidden="true"
         data-speed="0.8"
       />
@@ -86,7 +81,7 @@ export default function Tracks() {
         width={700}
         height={700}
         className="absolute bottom-[-5%] left-[-10%] rotate-12"
-        style={{ width: "auto", height: "auto" }}
+        // style={{ width: "auto", height: "auto" }}
         aria-hidden="true"
         data-speed="0.75"
       />
@@ -97,7 +92,7 @@ export default function Tracks() {
         width={280}
         height={280}
         className="absolute bottom-[-7%] left-[16%] rotate-15"
-        style={{ width: "auto", height: "auto" }}
+        // style={{ width: "auto", height: "auto" }}
         aria-hidden="true"
         data-speed="0.9"
       />
@@ -133,9 +128,7 @@ export default function Tracks() {
                   {track.title}
                   <span className="absolute bottom-0 left-0 w-0 h-1 bg-[#19E363] transition-all duration-300 group-hover:w-full" />
                 </h3>
-                <p className="text-[#151477] text-base leading-relaxed">
-                  {track.description}
-                </p>
+                <p className="text-[#151477] text-base leading-relaxed">{track.description}</p>
               </div>
             ))}
           </div>
@@ -151,9 +144,7 @@ export default function Tracks() {
                   {track.title}
                   <span className="absolute bottom-0 left-0 w-0 h-1 bg-[#19E363] transition-all duration-300 group-hover:w-full" />
                 </h3>
-                <p className="text-[#151477] text-base leading-relaxed">
-                  {track.description}
-                </p>
+                <p className="text-[#151477] text-base leading-relaxed">{track.description}</p>
               </div>
             ))}
           </div>
@@ -169,9 +160,7 @@ export default function Tracks() {
                   {track.title}
                   <span className="absolute bottom-0 left-0 w-0 h-1 bg-[#19E363] transition-all duration-300 group-hover:w-full" />
                 </h3>
-                <p className="text-[#151477] text-base leading-relaxed">
-                  {track.description}
-                </p>
+                <p className="text-[#151477] text-base leading-relaxed">{track.description}</p>
               </div>
             ))}
           </div>
