@@ -32,9 +32,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}
-      >
+      <body className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}>
         <NavigationBar />
         {/* Fixed background element for better performance */}
         {/* <div
