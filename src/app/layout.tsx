@@ -51,7 +51,7 @@ export default function RootLayout({
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                  backgroundImage: "url(/adobe_compressed_2.webp)",
+                  backgroundImage: "url(/adobe_compressed.webp)",
                   backgroundSize: "cover",
                 }}
                 aria-hidden="true"
