@@ -26,17 +26,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Create an array of 8 items to map over
+  const bgParts = Array.from({ length: 8 }, (_, i) => i + 1);
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}
-      >
+      <body className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}>
         <NavigationBar />
-        {/* Fixed background element for better performance */}
-        {/*<div
-          className="fixed inset-0 bg-linear-to-b from-[#228CF6] via-[#DDEEFF] to-[#EDF6FF]"
-          aria-hidden="true"
-        />*/}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -44,18 +40,24 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ScrollSmootherWrapper>
-            <div
-              className="relative flex min-h-screen flex-col
-            "
-            >
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{
-                  backgroundImage: "url(/adobe_compressed.webp)",
-                  backgroundSize: "cover",
-                }}
-                aria-hidden="true"
-              />
+            <div className="relative flex min-h-screen flex-col">
+              
+              {/* --- BACKGROUND CONTAINER START --- */}
+              <div className="absolute top-0 left-0 w-full z-0 pointer-events-none select-none">
+                {bgParts.map((num) => (
+                  <img
+                    key={num}
+                    src={`/bg-part-${num}.webp`} // Assumes files are named bg-part-1.webp, etc.
+                    alt=""
+                    // The first image loads eagerly (fast), the rest lazy load as you scroll
+                    loading={num === 1 ? "eager" : "lazy"}
+                    // 'block' removes the tiny white gap that appears between stacked images
+                    className="w-full h-auto block" 
+                  />
+                ))}
+              </div>
+              {/* --- BACKGROUND CONTAINER END --- */}
+
               <main className="flex-1 relative z-10">{children}</main>
             </div>
           </ScrollSmootherWrapper>

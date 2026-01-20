@@ -12,22 +12,10 @@ export default function HeroSection() {
       id="hero"
       className="section w-full h-screen flex items-center px-4 sm:px-6 lg:px-8 relative z-10"
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none ">
+      {/* <div className="absolute inset-0 overflow-hidden pointer-events-none ">
+        
         <div
-          className="absolute top-[-10%] right-[-10%] w-auto h-64 opacity-70"
-          data-speed="0.8"
-        > 
-          <Image
-            src="/cloud_final1.webp"
-            alt=""
-            fill
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 500px"
-            loading="lazy"
-          />
-        </div>
-        <div
-          className="absolute top-[-20%] left-[-2%] w-auto h-72 opacity-60"
+          className="absolute top-[-20%] left-[2%] w-[40vh] h-72 opacity-60"
           data-speed="0.5"
         >
           <Image
@@ -40,7 +28,7 @@ export default function HeroSection() {
           />
         </div>
         <div
-          className="absolute top-[40%] right-[-8%] w-auto h-56 opacity-75"
+          className="absolute top-[7%] right-[10%] w-[30vh] h-56 opacity-40"
           data-speed="1.2"
         >
           <Image
@@ -53,7 +41,7 @@ export default function HeroSection() {
           />
         </div>
         <div
-          className="absolute top-[0%] left-[-5%] w-auto h-60 opacity-65"
+          className="absolute top-[0%] left-[5%] w-[40vh] h-60 opacity-65"
           data-speed="0.6"
         >
           <Image
@@ -78,7 +66,20 @@ export default function HeroSection() {
             loading="lazy"
           />
         </div>
-      </div>
+        <div
+          className="absolute top-[70%] right-[60%] w-[40vh] h-64 opacity-70"
+          data-speed="0.8"
+        > 
+          <Image
+            src="/cloud_final1.webp"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 500px"
+            loading="lazy"
+          />
+        </div>
+      </div> */}
 
       <div className="relative z-10 mx-auto flex h-full items-center px-4 sm:px-6 lg:px-8">
         <div className="grid w-full items-center gap-10 md:grid-cols-2">

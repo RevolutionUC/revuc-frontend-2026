@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@plugin "daisyui";
 @import "tw-animate-css";
+@plugin "daisyui";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -172,7 +172,7 @@
 
   /* Site background color */
   html {
-    background-color: #edf6ff;
+    /* background-color: #edf6ff; */
   }
 
   /* Ensure navigation menu dropdowns are above all content */
