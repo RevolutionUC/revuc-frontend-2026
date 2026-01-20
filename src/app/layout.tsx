@@ -27,11 +27,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Create an array of 8 items to map over
+  const bgParts = Array.from({ length: 8 }, (_, i) => i + 1);
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}
-      >
+      <body className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}>
         <NavigationBar />
         {/* Fixed background element for better performance */}
         {/* <div
