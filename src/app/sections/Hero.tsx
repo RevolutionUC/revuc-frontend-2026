@@ -13,7 +13,10 @@ export default function HeroSection() {
       className="section w-full h-screen flex items-center px-4 sm:px-6 lg:px-8 relative z-10"
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] right-[-10%] w-auto h-64 opacity-70" data-speed="0.8">
+        <div
+          className="absolute top-[10%] right-[-10%] w-auto h-64 opacity-70"
+          data-speed="0.8"
+        > 
           <Image
             src="/cloud_final1.webp"
             alt=""
@@ -23,7 +26,10 @@ export default function HeroSection() {
             loading="lazy"
           />
         </div>
-        <div className="absolute top-[0%] left-[-2%] w-auto h-72 opacity-60" data-speed="0.5">
+        <div
+          className="absolute top-[0%] left-[-2%] w-auto h-72 opacity-60"
+          data-speed="0.5"
+        >
           <Image
             src="/cloud_final3.webp"
             alt=""
@@ -33,7 +39,10 @@ export default function HeroSection() {
             loading="lazy"
           />
         </div>
-        <div className="absolute top-[60%] right-[-8%] w-auto h-56 opacity-75" data-speed="1.2">
+        <div
+          className="absolute top-[60%] right-[-8%] w-auto h-56 opacity-75"
+          data-speed="1.2"
+        >
           <Image
             src="/cloud_final2.webp"
             alt=""
@@ -43,7 +52,10 @@ export default function HeroSection() {
             loading="lazy"
           />
         </div>
-        <div className="absolute top-[20%] left-[-5%] w-auto h-60 opacity-65" data-speed="0.6">
+        <div
+          className="absolute top-[20%] left-[-5%] w-auto h-60 opacity-65"
+          data-speed="0.6"
+        >
           <Image
             src="/cloud_final4.webp"
             alt=""
@@ -53,7 +65,10 @@ export default function HeroSection() {
             loading="lazy"
           />
         </div>
-        <div className="absolute top-[75%] left-[-3%] w-auto h-52 opacity-70" data-speed="0.9">
+        <div
+          className="absolute top-[75%] left-[-3%] w-auto h-52 opacity-70"
+          data-speed="0.9"
+        >
           <Image
             src="/cloud_final5.webp"
             alt=""
@@ -70,7 +85,7 @@ export default function HeroSection() {
           <h1 className="underline  text-[#151477] underline-offset-4 decoration-[#19E363] text-8xl font-semibold">
             Revolution UC
           </h1>
-          <p className="py-6 text-3xl text-[#228CF6]">Build. Learn. Grow.</p>
+          <p className="py-6 text-[2.5rem] text-[#228CF6]">Build. Learn. Grow.</p>
         </div>
       </div>
     </div>
