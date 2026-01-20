@@ -43,7 +43,7 @@ const GsapScrollTrigger = () => {
     <main>
       <div
         id="clouds"
-        className="section absolute top-[45%] left-0 right-0 h-screen z-0 overflow-visible"
+        className="section absolute top-[45%] left-0 right-0 h-screen z-0 overflow-visible "
       >
         <Image
           src="/cloud_final1.webp"
