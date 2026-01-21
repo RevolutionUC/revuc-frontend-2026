@@ -1,9 +1,14 @@
 "use client";
 import { useState, useEffect, type FormEvent, type ChangeEvent } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import SplitText from "@/app/effects/SplitText";
 import { authClient } from "@/lib/auth-client";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 import { InputField, SelectField, Checkbox, CheckboxGroup } from "@/components/ui";
 import {
   Pagination,
@@ -33,6 +38,7 @@ interface Notification {
 export default function BoardingPass() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = authClient.useSession();
   const [notification, setNotification] = useState<Notification>({
     message: "",
@@ -53,20 +59,66 @@ export default function BoardingPass() {
     { id: 2, label: "Logistics & Links" },
   ] as const;
 
+  // Helper function to scroll to boarding pass section
+  const scrollToBoardingPass = () => {
+    // If we're not on the home page, navigate there first
+    if (pathname !== "/") {
+      router.push("/#boarding-pass");
+      // The hash in the URL will be handled by the page when it loads
+    } else {
+      // We're on the home page, use GSAP scroll
+      setTimeout(() => {
+        gsap.to(window, {
+          scrollTo: "#boarding-pass",
+          duration: 1,
+          ease: "power2.inOut",
+        });
+      }, 100);
+    }
+  };
+
   // Check for openForm query parameter and auto-open form
   useEffect(() => {
     const openForm = searchParams.get("openForm");
     if (openForm === "true") {
       setShowForm(true);
       // Scroll to the section smoothly after a short delay to ensure component is mounted
-      setTimeout(() => {
-        const element = document.getElementById("boarding-pass");
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 300);
+      scrollToBoardingPass();
     }
-  }, [searchParams]);
+  }, [searchParams, pathname, router]);
+
+  // Automatically show form when user signs in, hide and reset when they sign out
+  useEffect(() => {
+    if (session?.user) {
+      // User is signed in - show the form with a small delay to ensure proper mounting
+      // This helps the SplitText animation trigger correctly
+      const timer = setTimeout(() => {
+        setShowForm((prevShowForm) => {
+          // Only scroll if form was previously hidden (i.e., user just signed in)
+          // This prevents scrolling if form was already visible
+          if (!prevShowForm) {
+            scrollToBoardingPass();
+          }
+          return true;
+        });
+        // Refresh ScrollTrigger after form is shown to ensure animations trigger
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 150);
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      // User is signed out - hide form and reset everything
+      setShowForm(false);
+      setEmail("");
+      setConfirmEmail("");
+      setAge("");
+      setEmailError("");
+      setAgeError("");
+      setCurrentStep(0);
+      setNotification({ message: "", type: null });
+    }
+  }, [session?.user, pathname, router]);
 
   function validateEmails(primary: string, confirm: string) {
     if (primary && confirm && primary !== confirm) {
@@ -223,6 +275,7 @@ export default function BoardingPass() {
           ) : (
             <div className="mb-6">
               <SplitText
+                key={`register-${showForm}-${session?.user?.id || "no-user"}`}
                 text="Register"
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 overflow-visible"
                 delay={50}

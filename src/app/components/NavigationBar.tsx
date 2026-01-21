@@ -182,7 +182,7 @@ export function NavigationBar() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
+              {/* <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Button
                     className="hover:bg-white hover:cursor-pointer text-white font-mono text-sm sm:text-base md:text-lg hover:text-black bg-[#151477] rounded-none"
@@ -191,7 +191,7 @@ export function NavigationBar() {
                     [SCHEDULE]
                   </Button>
                 </NavigationMenuLink>
-              </NavigationMenuItem>
+              </NavigationMenuItem> */}
               {isPending ? (
                 <NavigationMenuItem>
                   <div className="h-10 w-24 bg-gray-200 animate-pulse rounded" />

@@ -16,91 +16,62 @@ export default function Faq() {
 
           <div className="mt-6 overflow-hidden border border-white/15 bg-white/5">
             <Accordion type="single" collapsible>
-              <AccordionItem
-                value="who-can-attend"
-                className="border-white/10 bg-[#151477]"
-              >
+              <AccordionItem value="who-can-attend" className="border-white/10 bg-[#151477]">
                 <AccordionTrigger className="px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg">
-                  <span className="flex-1 text-left">
-                    Who can attend the hackathon?
-                  </span>
+                  <span className="flex-1 text-left">Who can attend the hackathon?</span>
                 </AccordionTrigger>
                 <AccordionContent className="bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base">
-                  The event is open to all students that are 18+, regardless of
-                  major or experience level. Beginners are welcome!
+                  The event is open to all students that are 18+, regardless of major or experience
+                  level. Beginners are welcome!
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem
-                value="what-age-group"
-                className="border-white/10 bg-[#151477]"
-              >
+              <AccordionItem value="what-age-group" className="border-white/10 bg-[#151477]">
                 <AccordionTrigger className="px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg">
-                  <span className="flex-1 text-left">
-                    Can I attend if I'm under 18 year old?
-                  </span>
+                  <span className="flex-1 text-left">Can I attend if I'm under 18 year old?</span>
                 </AccordionTrigger>
                 <AccordionContent className="bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base">
-                  Unfortunately, the hackathon is only open to participants who
-                  are 18 or older. If you’re under 18, you won’t be able to
-                  attend this year, but we hope to welcome you in future events
-                  once you meet the age requirement.
+                  Unfortunately, the hackathon is only open to participants who are 18 or older. If
+                  you’re under 18, you won’t be able to attend this year, but we hope to welcome you
+                  in future events once you meet the age requirement.
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem
-                value="do-i-need-experience"
-                className="border-white/10 bg-[#151477]"
-              >
+              <AccordionItem value="do-i-need-experience" className="border-white/10 bg-[#151477]">
                 <AccordionTrigger className="px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg">
-                  <span className="flex-1 text-left">
-                    Do I need prior hacking experience?
-                  </span>
+                  <span className="flex-1 text-left">Do I need prior hacking experience?</span>
                 </AccordionTrigger>
                 <AccordionContent className="bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base">
-                  No experience is required. We&apos;ll have mentors, workshops,
-                  and resources to help you get started.
+                  No experience is required. We&apos;ll have mentors, workshops, and resources to
+                  help you get started.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem
-                value="team-size"
-                className="border-white/10 bg-[#151477]"
-              >
+              <AccordionItem value="team-size" className="border-white/10 bg-[#151477]">
                 <AccordionTrigger className="px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg">
-                  <span className="flex-1 text-left">
-                    How big can teams be?
-                  </span>
+                  <span className="flex-1 text-left">How big can teams be?</span>
                 </AccordionTrigger>
                 <AccordionContent className="bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base">
-                  Teams are typically 2–4 people. You can come with a team or
-                  form one during the event.
+                  Teams are typically 2–4 people. You can come with a team or form one during the
+                  event.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem
-                value="what-should-i-bring"
-                className="border-white/10 bg-[#151477]"
-              >
+              <AccordionItem value="what-should-i-bring" className="border-white/10 bg-[#151477]">
                 <AccordionTrigger className="px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg">
                   <span className="flex-1 text-left">What should I bring?</span>
                 </AccordionTrigger>
                 <AccordionContent className="bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base">
-                  Bring your laptop, charger, and anything else you need to be
-                  comfortable (snacks, water bottle, etc.).
+                  Bring your laptop, charger, and anything else you need to be comfortable (snacks,
+                  water bottle, etc.).
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem
-                value="cost-to-attend"
-                className="border-white/10 bg-[#151477]"
-              >
+              <AccordionItem value="cost-to-attend" className="border-white/10 bg-[#151477]">
                 <AccordionTrigger className="px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg">
-                  <span className="flex-1 text-left">
-                    How much does it cost to attend?
-                  </span>
+                  <span className="flex-1 text-left">How much does it cost to attend?</span>
                 </AccordionTrigger>
                 <AccordionContent className="bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base">
-                  The hackathon is completely free for participants. Food, swag,
-                  and workshops are all provided.
+                  The hackathon is completely free for participants. Food, swag, and workshops are
+                  all provided.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -109,7 +80,7 @@ export default function Faq() {
       </div>
       {/* Bottom color bar */}
       <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-full bg-[#151477] sm:h-6 lg:h-32">
-        <p className="text-center">panda sits here</p>
+        <p className="text-right">panda sits here</p>
       </div>
     </div>
   );
