@@ -13,37 +13,10 @@ const FAQS: {
   answer: React.ReactNode;
 }[] = [
   {
-    id: "what-is-hackathon",
-    question: "What is a hackathon?",
-    answer: (
-      <>
-        Great question! A hackathon is an event where student hackers bring
-        their passion for technology to create a new project coded from
-        scratch. It's a chance to collaborate and create something unique —
-        an app, a robot, or a website. You'll learn something new in a
-        high-energy, engaging environment! At RevolutionUC, participants are
-        provided with opportunities to grow while building something they're
-        proud of.
-      </>
-    ),
-  },
-  {
-    id: "how-long",
-    question: "How long does RevolutionUC last?",
-    answer:
-      "Hacking at RevolutionUC lasts for 24 hours, with additional time before and after for introductions and presentations.",
-  },
-  {
     id: "in-person",
     question: "Is RevolutionUC 2026 in-person or virtual?",
     answer:
-      "RevolutionUC 2026 is an in-person only event. Unfortunately, we won’t be providing a virtual option this year.",
-  },
-  {
-    id: "cost",
-    question: "How much does RevolutionUC cost?",
-    answer:
-      "The hackathon is completely free for participants. Food, swag, and workshops are all provided.",
+      "RevolutionUC 2026 is an in-person only event. Unfortunately, we won't be providing a virtual option this year.",
   },
   {
     id: "location",
@@ -59,10 +32,21 @@ const FAQS: {
         >
           1819 Innovation Hub
         </a>{" "}
-        of the University of Cincinnati, located at 2900 Reading Rd,
-        Cincinnati, OH 45206.
+        of the University of Cincinnati, located at 2900 Reading Rd, Cincinnati, OH 45206.
       </>
     ),
+  },
+  {
+    id: "how-long",
+    question: "How long does RevolutionUC last?",
+    answer:
+      "Hacking at RevolutionUC lasts for 24 hours, with additional time before and after for introductions and presentations.",
+  },
+  {
+    id: "cost",
+    question: "How much does RevolutionUC cost?",
+    answer:
+      "The hackathon is completely free for participants. Food, swag, and workshops are all provided.",
   },
   {
     id: "who-can-attend",
@@ -72,9 +56,15 @@ const FAQS: {
   },
   {
     id: "under-18",
-    question: "Can I attend if I'm under 18 year old?",
+    question: "Can I attend if I'm under 18 years old?",
     answer:
-      "Unfortunately, the hackathon is only open to participants who are 18 or older. If you’re under 18, you won’t be able to attend this year, but we hope to welcome you in future events once you meet the age requirement.",
+      "Unfortunately, the hackathon is only open to participants who are 18 or older. If you're under 18, you won't be able to attend this year, but we hope to welcome you in future events once you meet the age requirement.",
+  },
+  {
+    id: "experience-level",
+    question: "What if I don't have much experience?",
+    answer:
+      "No experience is required. We'll have mentors, workshops, and resources to help you get started.",
   },
   {
     id: "teams-register",
@@ -85,8 +75,7 @@ const FAQS: {
   {
     id: "no-team",
     question: "What if I don't have a team?",
-    answer:
-      "That's okay! We will host a team formation event after the opening ceremony.",
+    answer: "That's okay! We will host a team formation event after the opening ceremony.",
   },
   {
     id: "what-to-bring",
@@ -95,16 +84,9 @@ const FAQS: {
       "Bring your laptop, charger, and anything else you need to be comfortable (snacks, water bottle, etc.).",
   },
   {
-    id: "experience-level",
-    question: "What if I don't have much experience?",
-    answer:
-      "No experience is required. We'll have mentors, workshops, and resources to help you get started.",
-  },
-  {
     id: "travel",
     question: "Will there be travel reimbursements?",
-    answer:
-      "Unfortunately, we are unable to offer travel reimbursements at this time.",
+    answer: "Unfortunately, we are unable to offer travel reimbursements at this time.",
   },
   {
     id: "code-of-conduct",
@@ -125,29 +107,28 @@ const FAQS: {
     ),
   },
   {
+    id: "schedule-when",
+    question: "When will the schedule and sponsors be released?",
+    answer: "They will released when we're nearing the event itself. You know. To build suspense?",
+  },
+  {
     id: "more-questions",
     question: "What if I have more questions?",
     answer: (
       <>
         Send us an email at{" "}
-        <a
-          href="mailto:info@revolutionuc.com"
-          className="text-[#19E363] underline"
-        >
+        <a href="mailto:info@revolutionuc.com" className="text-[#19E363] underline">
           info@revolutionuc.com
         </a>
-        . We’re always happy to help!
+        . We're always happy to help!
       </>
     ),
   },
 ];
 
-
 const itemClass = "border-white/10 bg-[#151477]";
-const triggerClass =
-  "px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg";
-const contentClass =
-  "bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base";
+const triggerClass = "px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg";
+const contentClass = "bg-[#228CF6] px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base";
 
 function FaqItem({
   id,
@@ -163,9 +144,7 @@ function FaqItem({
       <AccordionTrigger className={triggerClass}>
         <span className="flex-1 text-left">{question}</span>
       </AccordionTrigger>
-      <AccordionContent className={contentClass}>
-        {answer}
-      </AccordionContent>
+      <AccordionContent className={contentClass}>{answer}</AccordionContent>
     </AccordionItem>
   );
 }
