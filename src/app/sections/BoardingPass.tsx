@@ -1,7 +1,9 @@
 "use client";
-import { useState, type FormEvent, type ChangeEvent } from "react";
+import { useState, useEffect, type FormEvent, type ChangeEvent } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import SplitText from "@/app/effects/SplitText";
+import { authClient } from "@/lib/auth-client";
 import { InputField, SelectField, Checkbox, CheckboxGroup } from "@/components/ui";
 import {
   Pagination,
@@ -29,6 +31,9 @@ interface Notification {
 }
 
 export default function BoardingPass() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
   const [notification, setNotification] = useState<Notification>({
     message: "",
     type: null,
@@ -47,6 +52,43 @@ export default function BoardingPass() {
     { id: 1, label: "School & Demographics" },
     { id: 2, label: "Logistics & Links" },
   ] as const;
+
+  // Check for openForm query parameter and auto-open form (only once after sign-in)
+  useEffect(() => {
+    const openForm = searchParams.get("openForm");
+    if (openForm === "true") {
+      // Only auto-open if form hasn't been shown yet
+      if (!showForm) {
+        setShowForm(true);
+      }
+      // Scroll to the section smoothly after a short delay to ensure component is mounted
+      setTimeout(() => {
+        const element = document.getElementById("boarding-pass");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
+      // Remove the query parameter from URL after handling it
+      const url = new URL(window.location.href);
+      url.searchParams.delete("openForm");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [searchParams, showForm]);
+
+  // Close form when user signs out
+  useEffect(() => {
+    if (!session?.user && showForm) {
+      setShowForm(false);
+      // Reset form state
+      setEmail("");
+      setConfirmEmail("");
+      setAge("");
+      setEmailError("");
+      setAgeError("");
+      setCurrentStep(0);
+      setNotification({ message: "", type: null });
+    }
+  }, [session, showForm]);
 
   function validateEmails(primary: string, confirm: string) {
     if (primary && confirm && primary !== confirm) {
@@ -158,6 +200,17 @@ export default function BoardingPass() {
     }
   }
 
+  async function handleBoardingPassClick() {
+    // Check if user is authenticated
+    if (!session?.user) {
+      // Redirect to sign-in page with callback to open form
+      router.push("/sign-in?callbackUrl=/?openForm=true");
+      return;
+    }
+    // User is authenticated, show the form
+    setShowForm(true);
+  }
+
   return (
     <div id="boarding-pass" className="section w-full min-h-screen relative overflow-hidden">
       <div className="relative z-20 w-full h-full flex items-start justify-center pt-[10%] px-4 sm:px-6 lg:px-8">
@@ -176,7 +229,7 @@ export default function BoardingPass() {
               <button
                 type="button"
                 className="group mb-4 w-full overflow-visible focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900"
-                onClick={() => setShowForm(true)}
+                onClick={handleBoardingPassClick}
               >
                 <div className="relative w-full h-64 sm:h-80 md:h-96 transition-all duration-300 ease-out group-hover:scale-105 group-hover:cursor-pointer">
                   <Image
@@ -191,19 +244,9 @@ export default function BoardingPass() {
             </>
           ) : (
             <div className="mb-6">
-              <SplitText
-                text="Register"
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 overflow-visible"
-                delay={50}
-                duration={0.6}
-                ease="power3.out"
-                splitType="chars"
-                from={{ opacity: 0, y: 40 }}
-                to={{ opacity: 1, y: 0 }}
-                threshold={0.1}
-                rootMargin="-100px"
-                textAlign="left"
-              />
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">
+                Register
+              </h2>
               <p className="mt-3 text-sm sm:text-base text-gray-700 max-w-2xl">
                 Secure your spot at RevolutionUC 2026. Fill out the form and we&apos;ll send you a
                 confirmation email and QR code.
