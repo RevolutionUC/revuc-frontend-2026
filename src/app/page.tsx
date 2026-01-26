@@ -7,11 +7,13 @@ import BoardingPass from "@/app/sections/BoardingPass";
 import Prizes from "@/app/sections/Tracks";
 import Stats from "@/app/sections/Stats";
 import Faq from "@/app/sections/FAQ";
+import FlairCursor from "./components/FlairCursor";
 // import Schedule from "@/app/sections/Schedule";
 
 const Home = () => {
   return (
     <>
+      <FlairCursor />
       <Hero />
       <Clouds />
       <About />
