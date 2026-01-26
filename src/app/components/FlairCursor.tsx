@@ -4,11 +4,15 @@ import { useEffect } from "react";
 import gsap from "gsap";
 
 const IMAGE_URLS: string[] = [
-  "./shirt.webp",
-  "./sock.webp",
-  "./white-shirt.webp",
-  "./pants.webp",
-//   "./boarding_pass.webp",
+  // "./mascot/panda faces-01.png",
+  // "./mascot/panda faces-02.png",
+  // "./mascot/panda faces-03.png",
+  // "./mascot/panda faces-04.png",
+  "./mascot/panda_jump.png",
+  "./mascot/panda_learn.png",
+  "./mascot/panda_pleading.png",
+  "./mascot/panda_shock.png",
+  "./mascot/panda-01.png",
 ];
 
 export default function FlairCursor() {
@@ -17,8 +21,8 @@ export default function FlairCursor() {
     let index = 0;
     let mousePos = { x: 0, y: 0 };
     let lastMousePos = { x: 0, y: 0 };
-    const gap = 100;
-    const maxImages = 7;
+    const gap = 150;
+    const maxImages = 5;
 
     function createImage() {
       if (flairEls.length >= maxImages) {
