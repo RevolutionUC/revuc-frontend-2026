@@ -57,7 +57,7 @@ export default function About() {
       </div>
 
       {/* Panda - scale with viewport */}
-      <div className="absolute right-[2vw] sm:right-[5vw] bottom-[10vh] sm:bottom-[15vh] w-[50vw] sm:w-[40vw] md:w-[35vw] lg:w-[30vw] max-w-[600px] min-w-[250px] z-10">
+      <div className="absolute right-[2vw] sm:right-[5vw] bottom-[10vh] sm:bottom-[12vh] w-[50vw] sm:w-[40vw] md:w-[35vw] lg:w-[30vw] max-w-[600px] min-w-[250px] z-10">
         <Image
           src="/waving-panda.webp"
           alt="Waving Panda"
@@ -67,6 +67,13 @@ export default function About() {
           sizes="(max-width: 640px) 50vw, (max-width: 768px) 40vw, (max-width: 1024px) 35vw, 30vw"
         />
       </div>
+      {/* Ground */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[23%] bg-linear-to-b from-[#228cf6]/80 to-[#edf6ff] opacity-40"
+        style={{
+          clipPath: "ellipse(100% 100% at 50% 100%)",
+        }}
+      /> 
 
       {/* Content */}
       <div className="relative z-20 w-full h-full flex items-start justify-end pt-[10vh] px-4 sm:px-6 lg:px-8">
