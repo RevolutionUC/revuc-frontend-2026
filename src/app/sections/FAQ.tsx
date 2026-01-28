@@ -148,10 +148,7 @@ function FaqItem({
 }) {
   return (
     <AccordionItem value={id} className={itemClass}>
-      <div
-        className="relative overflow-hidden"
-        style={{ background: 'linear-gradient(to right, #151477 10%, #228CF6 50%, #151477 100%)' }}
-      >
+      <div className="relative overflow-hidden bg-[#151477]">
         {/* Pixelated texture for question */}
         <div className="absolute inset-0 pointer-events-none" style={pixelTextureStyle} />
         <AccordionTrigger className={`relative z-10 ${triggerClass}`}>
