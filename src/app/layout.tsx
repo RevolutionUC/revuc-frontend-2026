@@ -31,10 +31,10 @@ export default function RootLayout({
       <body className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}>
         <NavigationBar />
         {/* Fixed background element for better performance */}
-        <div
+        {/*<div
           className="fixed inset-0 bg-linear-to-b from-[#228CF6] via-[#DDEEFF] to-[#EDF6FF]"
           aria-hidden="true"
-        />
+        />*/}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -48,11 +48,11 @@ export default function RootLayout({
             >
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                // style={{
-                //   backgroundImage: "url(/adobe_compressed.webp)",
-                //   backgroundSize: "cover",
-                //   willChange: "transform",
-                // }}
+                style={{
+                  backgroundImage: "url(/artboard_1.webp)",
+                  backgroundSize: "cover",
+                  willChange: "transform",
+                }}
                 aria-hidden="true"
               />
               <main className="flex-1 relative z-10">{children}</main>
