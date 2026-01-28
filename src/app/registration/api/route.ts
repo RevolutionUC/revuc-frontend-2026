@@ -28,10 +28,7 @@ export async function POST(request: NextRequest) {
 
     if (response.error) {
       if (response.error.code === "23505") {
-        return NextResponse.json(
-          { message: "This email is already registered." },
-          { status: 400 },
-        );
+        return NextResponse.json({ message: "This email is already registered." }, { status: 400 });
       }
       throw response.error;
     }
@@ -39,11 +36,7 @@ export async function POST(request: NextRequest) {
 
     // Checks and uploads resume if any
     const resume = formData.get("resume") as File | null;
-    const resumeUrl: string | null = await uploadResumeIfAny(
-      supabaseClient,
-      resume,
-      data.email,
-    );
+    const resumeUrl: string | null = await uploadResumeIfAny(supabaseClient, resume, data.email);
 
     // Generate QR code
     console.log("THIS MEANS GENERATE QR CODE IS BEING CALLED");
@@ -59,10 +52,7 @@ export async function POST(request: NextRequest) {
       );
 
       if (updateError) {
-        console.error(
-          "Failed to update QR/resume, but registration succeeded:",
-          updateError,
-        );
+        console.error("Failed to update QR/resume, but registration succeeded:", updateError);
       }
 
       // Send confirmation email (don't await - fire and forget)
@@ -73,8 +63,7 @@ export async function POST(request: NextRequest) {
       // Always return success since registration completed
       return NextResponse.json(
         {
-          message:
-            "Registration successful! Check your email for confirmation.",
+          message: "Registration successful! Check your email for confirmation.",
           data: {
             email: data.email,
             uuid: response.uuid,
@@ -89,10 +78,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Registration error:", error);
 
-    return NextResponse.json(
-      { message: "An error occurred during registration" },
-      { status: 500 },
-    );
+    return NextResponse.json({ message: "An error occurred during registration" }, { status: 500 });
   }
 }
 
@@ -121,10 +107,7 @@ function extractRegistrationData(formData: FormData): RegistrationData {
   };
 }
 
-function validateRegistrationData(
-  data: RegistrationData,
-  formData: FormData,
-): string[] {
+function validateRegistrationData(data: RegistrationData, formData: FormData): string[] {
   const errors: string[] = [];
   const requiredFields: (keyof RegistrationData)[] = [
     "firstName",
@@ -223,9 +206,7 @@ async function uploadResumeIfAny(
   let resumeUrl: string | null = null;
 
   // Get the public URL of the uploaded file
-  const { data: urlData } = supabaseClient.storage
-    .from("resumes")
-    .getPublicUrl(resume_file_name);
+  const { data: urlData } = supabaseClient.storage.from("resumes").getPublicUrl(resume_file_name);
 
   resumeUrl = urlData.publicUrl;
 
@@ -237,9 +218,7 @@ async function saveRegistrationToDatabase(
   data: RegistrationData,
 ): Promise<{ uuid: string | null; error: any }> {
   // Convert github username to full URL if provided
-  const githubUrl = data.githubUsername
-    ? `https://github.com/${data.githubUsername}`
-    : null;
+  const githubUrl = data.githubUsername ? `https://github.com/${data.githubUsername}` : null;
 
   // Generate UUID ONCE, outside the retry loop
   const uuid = randomUUID();

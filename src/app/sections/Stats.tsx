@@ -2,53 +2,53 @@ import Image from "next/image";
 
 export default function Stats() {
   return (
-    <div id="stats" className="section w-full h-screen relative overflow-hidden">
-      {/* Content */}
-      <div className="relative z-20 w-full h-full">
-        {/* Left Side - 870 registrants (bottom, much larger) */}
-        <div className="absolute left-0 bottom-[5%] z-20 w-fit h-fit transition-transform duration-300 hover:scale-110">
+    <section id="stats" className="section relative w-full overflow-hidden">
+      <div className="relative w-full h-[1250px] sm:h-[1320px] md:h-[1400px]">
+        {/* LEFT – 24 hours */}
+        <div className="absolute left-[-20%] sm:left-[-18%] top-[4%] z-20">
           <Image
-            src="/870_registrants_stat.webp"
-            width={1400}
-            height={1400}
-            alt="870 registrants"
-            className="w-auto h-auto"
-            style={{ maxWidth: "65vw", maxHeight: "65vh" }}
+            src="/24_hours_grain.webp"
+            alt="24 hours"
+            width={2200}
+            height={1300}
+            className="h-auto w-[clamp(720px,68vw,1120px)]"
+            priority={false}
           />
         </div>
 
-        {/* Right Side - 24 hours (top), 60 projects (top, slightly lower, medium) and 300 participants (bottom, slightly above, medium) */}
-        <div className="absolute right-[45%] top-[0%] z-30 w-fit h-fit transition-transform duration-300 hover:scale-110">
+        {/* RIGHT – 60+ */}
+        <div className="absolute right-[-12%] sm:right-[-10%] top-[26%] z-30">
           <Image
-            src="/24_hours_stat.webp"
-            width={600}
-            height={600}
-            alt="24 hours duration"
-            className="w-auto h-auto"
-            style={{ maxWidth: "90vw", maxHeight: "70vh" }}
+            src="/60+_grain.webp"
+            alt="60+ projects"
+            width={2100}
+            height={1200}
+            className="h-auto w-[clamp(600px,58vw,1040px)]"
           />
         </div>
-        <div className="absolute right-[-5%] top-[10%] z-30 w-fit h-fit transition-transform duration-300 hover:scale-110">
+
+        {/* LEFT – 870+ */}
+        <div className="absolute left-[-18%] sm:left-[-16%] top-[30%] z-20">
           <Image
-            src="/60_projects_stat.webp"
-            width={600}
-            height={600}
-            alt="60 projects completed"
-            className="w-auto h-auto"
-            style={{ maxWidth: "75vw", maxHeight: "60vh" }}
+            src="/870+_grain.webp"
+            alt="870+ registrants"
+            width={2800}
+            height={1800}
+            className="h-auto w-[clamp(920px,82vw,1500px)]"
           />
         </div>
-        <div className="absolute right-[25%] bottom-[8%] z-30 w-fit h-fit transition-transform duration-300 hover:scale-110">
+
+        {/* RIGHT – 300+ */}
+        <div className="absolute right-[-10%] sm:right-[-8%] top-[56%] z-20">
           <Image
-            src="/300_participants_stat.webp"
-            width={900}
-            height={900}
-            alt="300 participants"
-            className="w-auto h-auto"
-            style={{ maxWidth: "85vw", maxHeight: "70vh" }}
+            src="/300+_grain.webp"
+            alt="300+ participants"
+            width={2100}
+            height={1200}
+            className="h-auto w-[clamp(600px,56vw,1020px)]"
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
