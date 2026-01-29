@@ -38,7 +38,7 @@ export default function AnimatedPlane() {
     <div className="absolute inset-0 overflow-y-visible pointer-events-none z-30">
       <div
         ref={planeRef}
-        className="absolute top-[40%] right-[-10%] w-50 h-32 sm:w-40 sm:h-32 md:w-48 md:h-36 lg:w-200 lg:h-72"
+        className="absolute top-[40%] right-[-10%] w-50 h-32 sm:w-40 sm:h-32 md:w-70 md:h-50 lg:w-200 lg:h-72"
       >
         <Image
           src="/plane.webp"
