@@ -1,14 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { useGsapRouteCleanup } from "./gsap-route-cleanup";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-export default function ScrollSmootherWrapper({ children }: { children: React.ReactNode }) {
-  const smootherRef = useRef<any>(null);
+export default function ScrollSmootherWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const smootherRef = useRef<ReturnType<typeof ScrollSmoother.create> | null>(
+    null
+  );
+  const [recreateKey, setRecreateKey] = useState(0);
+  const ctx = useGsapRouteCleanup();
 
   useEffect(() => {
     smootherRef.current = ScrollSmoother.create({
@@ -17,12 +26,18 @@ export default function ScrollSmootherWrapper({ children }: { children: React.Re
       smoothTouch: 0.1,
     });
 
+    ctx?.registerKill(() => {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+      smootherRef.current?.kill();
+      smootherRef.current = null;
+      setRecreateKey((k) => k + 1);
+    });
+
     return () => {
-      if (smootherRef.current) {
-        smootherRef.current.kill();
-      }
+      smootherRef.current?.kill();
+      smootherRef.current = null;
     };
-  }, []);
+  }, [recreateKey]); // eslint-disable-line react-hooks/exhaustive-deps -- ctx.registerKill is stable
 
   return (
     <div id="smooth-wrapper">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
 import { ThemeProvider } from "@/app/components/theme-provider";
+import { GsapRouteCleanupProvider } from "@/app/components/gsap-route-cleanup";
 import ScrollSmootherWrapper from "@/app/components/ScrollSmoother";
 import "./globals.css";
 import { NavigationBar } from "@/app/components/NavigationBar";
@@ -41,7 +42,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ScrollSmootherWrapper>
+          <GsapRouteCleanupProvider>
+            <ScrollSmootherWrapper>
             <div
               className="relative flex min-h-screen flex-col 
             "
@@ -58,6 +60,7 @@ export default function RootLayout({
               <main className="flex-1 relative z-10">{children}</main>
             </div>
           </ScrollSmootherWrapper>
+          </GsapRouteCleanupProvider>
         </ThemeProvider>
       </body>
     </html>
