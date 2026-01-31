@@ -11,26 +11,28 @@ export default function AnimatedPlane() {
   const planeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (planeRef.current) {
-      const isMobile = window.innerWidth < 640;
-      const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
-      
-      gsap.to(planeRef.current, {
-        x: isMobile ? -100 : isTablet ? -200 : -300,
-        y: isMobile ? -80 : isTablet ? -140 : -200,
-        scale: isMobile ? 1.6 : isTablet ? 1.5 : 1.3,
-        scrollTrigger: {
-          trigger: "#hero",
-          start: "top top",
-          end: "+=500",
-          scrub: 1,
-          pin: "#hero",
-        },
-      });
-    }
+    if (!planeRef.current) return;
+
+    // No pin: pin moves DOM nodes and causes "removeChild" errors when
+    // navigating away (e.g. to /schedule) because React unmounts the node
+    // ScrollTrigger still references.
+    const tween = gsap.to(planeRef.current, {
+      x: -300,
+      y: -200,
+      scale: 1.3,
+      scrollTrigger: {
+        trigger: "#hero",
+        start: "top top",
+        end: "+=500",
+        scrub: 1,
+      },
+    });
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      // Kill only this component's ScrollTrigger before unmount to avoid
+      // "removeChild" errors when the pinned node is no longer in the DOM
+      tween.scrollTrigger?.kill();
+      tween.kill();
     };
   }, []);
 

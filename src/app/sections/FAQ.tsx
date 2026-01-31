@@ -135,10 +135,8 @@ const FAQS: {
 ];
 
 const itemClass = "border-white/10";
-const triggerClass =
-  "px-4 py-3 text-base font-medium text-white sm:px-6 sm:text-lg";
-const contentClass =
-  "px-4 py-3 text-left text-sm text-blue-50 sm:px-6 sm:text-base";
+const triggerClass = "px-4 py-4 text-base font-medium text-white sm:px-6 sm:text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#19E363]";
+const contentClass = "px-4 py-4 text-left text-sm text-blue-50 sm:px-6 sm:text-base";
 
 // Pixelated dot texture style
 const pixelTextureStyle = {
@@ -183,10 +181,7 @@ function FaqItem({
 
 export default function Faq() {
   return (
-    <div
-      id="faq"
-      className="section w-full h-auto relative overflow-visible pb-[250px]"
-    >
+    <div id="faq" className="section w-full h-auto relative overflow-visible pb-40 sm:pb-[250px]">
       <div className="relative z-20 flex h-full w-full items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="relative w-full max-w-5xl overflow-hidden px-4 py-8 shadow-[0_24px_80px_rgba(0,0,0,0.4)] sm:px-8 sm:py-10 lg:px-12 lg:py-12">
           {/* Base gradient background */}
@@ -205,7 +200,7 @@ export default function Faq() {
             </p>
 
             <div className="mt-6 overflow-hidden border border-white/15 bg-white/5">
-              <Accordion type="single" collapsible>
+              <Accordion type="single" collapsible className="w-full">
                 {FAQS.map((faq) => (
                   <FaqItem key={faq.id} {...faq} />
                 ))}
@@ -216,8 +211,8 @@ export default function Faq() {
       </div>
 
       {/* Bottom bar with panda */}
-      <div className="absolute bottom-0 left-0 right-0 h-[100px] z-10 bg-linear-to-r from-[#228CF6] from-1% to-[#151477] to-40%">
-        <div className="absolute bottom-[-45px] right-[2%] sm:right-[5%] md:right-[10%] h-[200px] sm:h-[260px] md:h-[330px] w-auto">
+      <div className="absolute bottom-0 left-0 right-0 h-[80px] sm:h-[100px] z-10 bg-gradient-to-r from-[#228CF6] from-1% to-[#151477] to-40%">
+        <div className="absolute bottom-6 sm:bottom-[-20px] right-2 sm:right-[5%] md:right-[10%] h-[120px] sm:h-[200px] md:h-[330px] w-auto pointer-events-none select-none">
           <Image
             src="/panda-bench.webp"
             alt="Panda on bench"

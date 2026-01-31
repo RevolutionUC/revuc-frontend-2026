@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import gsap from "gsap";
 import { useRouter, usePathname } from "next/navigation";
+import { useGsapRouteCleanup } from "@/app/components/gsap-route-cleanup";
 import { authClient } from "@/lib/auth-client";
 
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -28,6 +29,7 @@ export function NavigationBar() {
   const isMobile = useIsMobile();
   const router = useRouter();
   const pathname = usePathname();
+  const gsapCleanup = useGsapRouteCleanup();
   const { data: session, isPending } = authClient.useSession();
 
   const handleSignOut = async () => {
@@ -61,6 +63,7 @@ export function NavigationBar() {
     if (pathname !== "/") {
       // Store the target section and navigate to home page
       sessionStorage.setItem("scrollToSection", sectionId);
+      gsapCleanup?.killBeforeNavigate();
       router.push("/");
     } else {
       gsap.to(window, {
@@ -203,7 +206,10 @@ export function NavigationBar() {
                 <NavigationMenuLink asChild>
                   <Button
                     className="hover:bg-white hover:cursor-pointer text-white font-mono text-sm sm:text-base md:text-lg hover:text-black bg-[#151477] rounded-none"
-                    onClick={() => router.push("/schedule")}
+                    onClick={() => {
+                    gsapCleanup?.killBeforeNavigate();
+                    router.push("/schedule");
+                  }}
                   >
                     [SCHEDULE]
                   </Button>
