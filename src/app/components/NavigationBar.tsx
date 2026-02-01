@@ -412,6 +412,5 @@ export function NavigationBar() {
         </div>
       </div>
     </nav>
-    </>
   );
 }
