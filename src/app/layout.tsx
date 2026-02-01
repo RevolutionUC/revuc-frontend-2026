@@ -49,11 +49,11 @@ export default function RootLayout({
             "
             >
               <div
-                className="fixed inset-0 bg-cover bg-center bg-no-repeat"
+                className="fixed inset-0 bg-center bg-no-repeat bg-[length:100%_100%] md:bg-[length:100%_auto]"
                 style={{
                   backgroundImage: "url(/website-bg.webp)",
-                  backgroundSize: "100% 100%",
-                  willChange: "repeat",
+                  transform: "translateZ(0)",
+                  backfaceVisibility: "hidden",
                 }}
                 aria-hidden="true"
               />
