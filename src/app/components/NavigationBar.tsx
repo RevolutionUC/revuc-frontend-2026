@@ -99,6 +99,34 @@ export function NavigationBar() {
     <nav className="fixed top-0 left-0 right-0 z-100 bg-transparent pointer-events-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex items-center justify-between gap-4 relative">
+      {/* MLH Trust Badge */}
+      <a
+        id="mlh-trust-badge"
+        style={{
+          display: "block",
+          maxWidth: "100px",
+          minWidth: "60px",
+          position: "fixed",
+          right: "50px",
+          top: 0,
+          width: "10%",
+          zIndex: 10000,
+          marginLeft: "20%",
+        }}
+        href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=blue"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="https://s3.amazonaws.com/logged-assets/trust-badge/2026/mlh-trust-badge-2026-blue.svg"
+          alt="Major League Hacking 2026 Hackathon Season"
+          style={{ width: "100%" }}
+        />
+      </a>
+
+      <nav className="fixed top-0 left-0 right-0 z-100 bg-transparent pointer-events-auto">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pr-10 sm:pr-12 lg:pr-16 py-3">
+          <div className="flex items-center justify-between gap-4">
           {/* Left: Logo */}
           <button
             type="button"
