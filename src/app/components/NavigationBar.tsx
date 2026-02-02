@@ -99,7 +99,7 @@ export function NavigationBar() {
       {/* MLH Trust Badge */}
       <a
         id="mlh-trust-badge"
-        className="block fixed top-0 left-6 sm:left-6 lg:left-[50px] w-[10%] max-w-[100px] min-w-[60px] z-[10000]"
+        className="block fixed top-0 left-6 sm:left-6 lg:left-[50px] w-[10%] max-w-[100px] min-w-[60px] z-10000"
         href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=white"
         target="_blank"
         rel="noopener noreferrer"
@@ -257,7 +257,7 @@ export function NavigationBar() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
+              {/*<NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Button
                     className="hover:bg-white hover:cursor-pointer text-white font-mono text-sm sm:text-base md:text-lg hover:text-black bg-[#151477] rounded-none"
@@ -269,7 +269,7 @@ export function NavigationBar() {
                     [SCHEDULE]
                   </Button>
                 </NavigationMenuLink>
-              </NavigationMenuItem>
+              </NavigationMenuItem>*/}
               {isPending ? (
                 <NavigationMenuItem>
                   <div className="h-10 w-24 bg-gray-200 animate-pulse rounded" />
