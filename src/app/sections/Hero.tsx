@@ -17,7 +17,7 @@ export default function HeroSection() {
       <AnimatedPlane />
 
       {/* Clouds */}
-      <div className="absolute inset-0 overflow-y-visible pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
           className="absolute top-[0%] sm:top-[-5%] right-[70%] sm:right-[80%] w-[300px] sm:w-[400px] lg:w-[500px] h-40 sm:h-56 lg:h-64 opacity-70"
           data-speed="0.9"
