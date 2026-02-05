@@ -4,19 +4,19 @@ export default function Footer() {
   const webTeamMembers = [
     {
       name: "Aniruddhan Ramesh",
-      url: "https://linkedin.com/in/placeholder-aniruddhan-ramesh",
+      url: "https://www.linkedin.com/in/aniruddhanramesh/",
     },
     {
       name: "Tam Le",
-      url: "https://linkedin.com/in/placeholder-tam-le",
+      url: "https://www.linkedin.com/in/tamle06/",
     },
     {
       name: "Samarth Edlabadkar",
-      url: "https://linkedin.com/in/placeholder-samarth-edlabadkar",
+      url: "https://www.linkedin.com/in/samarth-edlabadkar/",
     },
     {
       name: "Winnie Duong",
-      url: "https://linkedin.com/in/placeholder-winnie-duong",
+      url: "https://www.linkedin.com/in/uyen-duong-62910028b/",
     },
   ];
 
