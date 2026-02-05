@@ -20,6 +20,15 @@ export default function ScrollSmootherWrapper({
   const ctx = useGsapRouteCleanup();
 
   useEffect(() => {
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (isTouchDevice || prefersReducedMotion) {
+      return;
+    }
+
     smootherRef.current = ScrollSmoother.create({
       smooth: 1.5,
       effects: true,
