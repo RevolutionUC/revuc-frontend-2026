@@ -8,6 +8,7 @@ import BoardingPass from "@/app/sections/BoardingPass";
 import Prizes from "@/app/sections/Tracks";
 import Stats from "@/app/sections/Stats";
 import Faq from "@/app/sections/FAQ";
+import Footer from "@/app/sections/Footer";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
       <Stats />
       <Prizes />
       <Faq />
+      <Footer />
     </>
   );
 };

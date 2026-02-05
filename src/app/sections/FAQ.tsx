@@ -211,7 +211,7 @@ export default function Faq() {
       </div>
 
       {/* Bottom bar with panda */}
-      <div className="fixed -bottom-5 left-0 right-0 h-[80px] sm:h-[100px] z-10 bg-gradient-to-r from-[#228CF6] from-1% to-[#151477] to-40%">
+      <div className="absolute -bottom-5 left-0 right-0 h-[80px] sm:h-[100px] z-10 bg-gradient-to-r from-[#228CF6] from-1% to-[#151477] to-40%">
         <div className="absolute -bottom-1 sm:bottom-[-60px] right-2 sm:right-[5%] md:right-[10%] h-[215px] sm:h-[200px] md:h-[400px] w-auto pointer-events-none select-none">
           <Image
             src="/panda-bench.webp"
