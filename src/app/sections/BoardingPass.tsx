@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, type FormEvent, type ChangeEvent } from "react";
+import { useState, useEffect, useRef, type FormEvent, type ChangeEvent } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
@@ -32,7 +32,9 @@ interface Notification {
 export default function BoardingPass() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
+  const hadUserRef = useRef(false);
   const [notification, setNotification] = useState<Notification>({
     message: "",
     type: null,
@@ -52,22 +54,18 @@ export default function BoardingPass() {
     { id: 2, label: "Logistics & Links" },
   ] as const;
 
-  // Check for openForm query parameter and auto-open form (only once after sign-in)
+  // Capture openForm query parameter and persist intent across auth hydration
   useEffect(() => {
     const openForm = searchParams.get("openForm");
     if (openForm === "true") {
-      // Only auto-open if form hasn't been shown yet
+      sessionStorage.setItem("openBoardingPass", "true");
+      sessionStorage.setItem("scrollToSection", "boarding-pass");
       if (!showForm) {
         setShowForm(true);
       }
-      // Scroll to the section smoothly after a short delay to ensure component is mounted
       const timeoutId = window.setTimeout(() => {
-        const element = document.getElementById("boarding-pass");
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        window.dispatchEvent(new Event("revuc-scroll-to-section"));
       }, 300);
-      // Remove the query parameter from URL after handling it
       const url = new URL(window.location.href);
       url.searchParams.delete("openForm");
       window.history.replaceState({}, "", url.toString());
@@ -75,9 +73,26 @@ export default function BoardingPass() {
     }
   }, [searchParams, showForm]);
 
+  // Resolve pending open requests once session is ready
+  useEffect(() => {
+    if (isPending) return;
+    const shouldOpen = sessionStorage.getItem("openBoardingPass") === "true";
+    if (!shouldOpen) return;
+
+    if (user) {
+      sessionStorage.removeItem("openBoardingPass");
+      return;
+    }
+
+    sessionStorage.removeItem("openBoardingPass");
+    setShowForm(false);
+    router.push("/sign-in?callbackUrl=/?openForm=true");
+  }, [isPending, user, router]);
+
   // Close form when user signs out
   useEffect(() => {
-    if (!session?.user && showForm) {
+    const hasUser = !!user;
+    if (!isPending && hadUserRef.current && !hasUser && showForm) {
       setShowForm(false);
       // Reset form state
       setEmail("");
@@ -88,7 +103,10 @@ export default function BoardingPass() {
       setCurrentStep(0);
       setNotification({ message: "", type: null });
     }
-  }, [session, showForm]);
+    if (hasUser) {
+      hadUserRef.current = true;
+    }
+  }, [user, showForm, isPending]);
 
   function validateEmails(primary: string, confirm: string) {
     if (primary && confirm && primary !== confirm) {
@@ -202,7 +220,8 @@ export default function BoardingPass() {
 
   async function handleBoardingPassClick() {
     // Check if user is authenticated
-    if (!session?.user) {
+    if (!user) {
+      sessionStorage.setItem("scrollToSection", "boarding-pass");
       // Redirect to sign-in page with callback to open form
       router.push("/sign-in?callbackUrl=/?openForm=true");
       return;

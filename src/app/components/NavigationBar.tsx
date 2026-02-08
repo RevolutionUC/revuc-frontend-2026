@@ -4,7 +4,7 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGsapRouteCleanup } from "@/app/components/gsap-route-cleanup";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,23 +42,42 @@ export function NavigationBar() {
     scrollToSection("boarding-pass");
   };
 
+  const triggerScrollToSection = useCallback((sectionId: string) => {
+    // Delay to ensure the page has fully rendered
+    setTimeout(() => {
+      gsap.to(window, {
+        scrollTo: `#${sectionId}`,
+        duration: 1,
+        ease: "power2.inOut",
+      });
+    }, 100);
+  }, []);
+
   // Handle hash-based scrolling after navigation from other routes
   useEffect(() => {
     if (pathname === "/") {
       const targetSection = sessionStorage.getItem("scrollToSection");
       if (targetSection) {
         sessionStorage.removeItem("scrollToSection");
-        // Delay to ensure the page has fully rendered
-        setTimeout(() => {
-          gsap.to(window, {
-            scrollTo: `#${targetSection}`,
-            duration: 1,
-            ease: "power2.inOut",
-          });
-        }, 100);
+        triggerScrollToSection(targetSection);
       }
     }
-  }, [pathname]);
+  }, [pathname, triggerScrollToSection]);
+
+  useEffect(() => {
+    const handleScrollRequest = () => {
+      if (pathname !== "/") return;
+      const targetSection = sessionStorage.getItem("scrollToSection");
+      if (!targetSection) return;
+      sessionStorage.removeItem("scrollToSection");
+      triggerScrollToSection(targetSection);
+    };
+
+    window.addEventListener("revuc-scroll-to-section", handleScrollRequest);
+    return () => {
+      window.removeEventListener("revuc-scroll-to-section", handleScrollRequest);
+    };
+  }, [pathname, triggerScrollToSection]);
 
   useEffect(() => {
     if (!isMobile && mobileOpen) {
