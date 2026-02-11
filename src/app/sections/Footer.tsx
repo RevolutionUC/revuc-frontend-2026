@@ -97,7 +97,7 @@ export default function Footer() {
                 >
                   the Web Team{"<3"}
                 </Badge>
-                <span className="invisible pointer-events-none absolute bottom-full right-0 z-10 w-[min(22rem,calc(100vw-2rem))] max-h-[calc(100vh-8rem)] translate-y-2 overflow-y-auto rounded-xl border border-white/15 bg-[#0c1b4a]/95 p-4 text-xs text-white opacity-0 shadow-lg backdrop-blur-sm transition-opacity duration-200 group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                <span className="invisible pointer-events-none absolute bottom-full right-0 z-10 w-[min(22rem,calc(100vw-2rem))] translate-y-2 overflow-hidden rounded-xl border border-white/15 bg-[#0c1b4a]/95 p-4 text-xs text-white opacity-0 shadow-lg backdrop-blur-sm transition-opacity duration-200 group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100">
                   <span className="absolute bottom-0 right-6 h-2 w-2 translate-y-1/2 rotate-45 border-b border-r border-white/20 bg-[#0c1b4a]/95" />
                   <span className="block text-[11px] uppercase tracking-[0.2em] text-white/70">
                     Web Team
