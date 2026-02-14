@@ -10,7 +10,8 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
 
     // Extract form fields
-    const data: RegistrationData = extractRegistrationData(formData);
+    let data: RegistrationData = extractRegistrationData(formData);
+    data = { ...data, email: normalizeEmail(data.email) };
 
     // Validate required fields
     const errors: string[] = validateRegistrationData(data, formData);
@@ -22,6 +23,14 @@ export async function POST(request: NextRequest) {
 
     // Create Supabase client
     const supabaseClient = await createClient();
+
+    const emailExists = await isEmailRegistered(supabaseClient, data.email);
+    if (emailExists) {
+      return NextResponse.json(
+        { message: "This email is already registered." },
+        { status: 400 },
+      );
+    }
 
     // Saving registration data to database
     const response = await saveRegistrationToDatabase(supabaseClient, data);
@@ -46,7 +55,6 @@ export async function POST(request: NextRequest) {
     );
 
     // Generate QR code
-    console.log("THIS MEANS GENERATE QR CODE IS BEING CALLED");
     if (response.uuid) {
       const qrCodeBase64 = await generateQRCode(response.uuid);
 
@@ -118,6 +126,7 @@ function extractRegistrationData(formData: FormData): RegistrationData {
     dietRestrictions: (formData.get("dietRestrictions") as string) || undefined,
     raceEthnicity: formData.getAll("raceEthnicity") as string[],
     referralSource: formData.getAll("referralSource") as string[],
+    mlhOptionalCommunication: formData.get("mlhOptionalCommunication") === "on",
   };
 }
 
@@ -155,7 +164,7 @@ function validateRegistrationData(
 
   // Validate email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (data.email && !emailRegex.test(data.email)) {
+  if (data.email && !emailRegex.test(normalizeEmail(data.email))) {
     errors.push("Invalid email format");
   }
 
@@ -178,6 +187,27 @@ function validateRegistrationData(
 
   errors.push(...checkAgreements(formData));
   return errors;
+}
+
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
+async function isEmailRegistered(
+  supabaseClient: Awaited<ReturnType<typeof createClient>>,
+  email: string,
+): Promise<boolean> {
+  const { data, error } = await supabaseClient
+    .from("participants")
+    .select("email")
+    .ilike("email", email)
+    .limit(1);
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []).length > 0;
 }
 
 function checkAgreements(formData: FormData): string[] {
@@ -284,6 +314,7 @@ async function saveRegistrationToDatabase(
       race_ethnicity: data.raceEthnicity || null,
       referral_source: data.referralSource || null,
       status: status,
+      mlh_optional_communication: data.mlhOptionalCommunication,
     });
 
     if (!error) {

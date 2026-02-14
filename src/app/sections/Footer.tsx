@@ -4,19 +4,19 @@ export default function Footer() {
   const webTeamMembers = [
     {
       name: "Aniruddhan Ramesh",
-      url: "https://linkedin.com/in/placeholder-aniruddhan-ramesh",
+      url: "https://www.linkedin.com/in/aniruddhanramesh/",
     },
     {
       name: "Tam Le",
-      url: "https://linkedin.com/in/placeholder-tam-le",
+      url: "https://www.linkedin.com/in/tamle06/",
     },
     {
       name: "Samarth Edlabadkar",
-      url: "https://linkedin.com/in/placeholder-samarth-edlabadkar",
+      url: "https://www.linkedin.com/in/samarth-edlabadkar/",
     },
     {
       name: "Winnie Duong",
-      url: "https://linkedin.com/in/placeholder-winnie-duong",
+      url: "https://www.linkedin.com/in/uyen-duong-62910028b/",
     },
   ];
 
@@ -69,7 +69,7 @@ export default function Footer() {
                     the Web Team{"<3"}
                   </Badge>
                 </summary>
-                <div className="mt-3 w-[min(22rem,90vw)] rounded-xl border border-white/15 bg-[#0c1b4a]/95 p-4 text-xs text-white shadow-lg backdrop-blur-sm">
+                <div className="mt-3 w-[min(22rem,calc(100vw-2rem))] max-h-[calc(100vh-8rem)] overflow-y-auto rounded-xl border border-white/15 bg-[#0c1b4a]/95 p-4 text-xs text-white shadow-lg backdrop-blur-sm">
                   <div className="block text-[11px] uppercase tracking-[0.2em] text-white/70">
                     Web Team
                   </div>
@@ -90,15 +90,15 @@ export default function Footer() {
               </details>
 
               {/* Desktop: hover/focus tooltip */}
-              <span className="relative hidden items-center md:inline-flex">
+              <span className="group relative hidden items-center md:inline-flex">
                 <Badge
                   variant="outline"
-                  className="peer inline-flex items-center text-white hover:cursor-pointer"
+                  className="inline-flex items-center text-white hover:cursor-pointer"
                 >
                   the Web Team{"<3"}
                 </Badge>
-                <span className="pointer-events-none absolute left-1/2 bottom-full z-10 mb-3 w-[min(22rem,90vw)] -translate-x-1/2 rounded-xl border border-white/15 bg-[#0c1b4a]/95 p-4 text-xs text-white opacity-0 shadow-lg backdrop-blur-sm transition-opacity duration-200 peer-hover:pointer-events-auto peer-hover:opacity-100 peer-focus-visible:pointer-events-auto peer-focus-visible:opacity-100">
-                  <span className="absolute left-1/2 bottom-0 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 border-b border-r border-white/20 bg-[#0c1b4a]/95" />
+                <span className="invisible pointer-events-none absolute bottom-full right-0 z-10 w-[min(22rem,calc(100vw-2rem))] max-h-[calc(100vh-8rem)] translate-y-2 overflow-y-auto rounded-xl border border-white/15 bg-[#0c1b4a]/95 p-4 text-xs text-white opacity-0 shadow-lg backdrop-blur-sm transition-opacity duration-200 group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                  <span className="absolute bottom-0 right-6 h-2 w-2 translate-y-1/2 rotate-45 border-b border-r border-white/20 bg-[#0c1b4a]/95" />
                   <span className="block text-[11px] uppercase tracking-[0.2em] text-white/70">
                     Web Team
                   </span>
@@ -107,7 +107,7 @@ export default function Footer() {
                       <a
                         key={member.name}
                         href={member.url}
-                        className="pointer-events-auto truncate text-white/90 transition hover:text-white"
+                        className="truncate text-white/90 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                         target="_blank"
                         rel="noreferrer"
                       >

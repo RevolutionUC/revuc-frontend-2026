@@ -17,6 +17,7 @@ export interface RegistrationData {
   dietRestrictions?: string;
   raceEthnicity: string[];
   referralSource: string[];
+  mlhOptionalCommunication: boolean;
 }
 
 export interface RegistrationResponse {
