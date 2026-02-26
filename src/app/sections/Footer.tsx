@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge";
-
 export default function Footer() {
   const webTeamMembers = [
     {
@@ -23,9 +22,37 @@ export default function Footer() {
   return (
     <footer className="bg-linear-to-r from-[#228CF6] from-1% to-[#151477] to-40% text-white py-8">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row md:items-center">
+        <div className="grid grid-cols-3 items-center gap-3 sm:gap-6">
           <div className="text-xs sm:text-sm text-center md:text-left">
             &copy; {new Date().getFullYear()} RevolutionUC
+          </div>
+          <div className="relative z-20 flex items-center justify-center gap-4">
+            <a
+              href="https://discord.gg/947Tg92Vq5"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Join RevolutionUC on Discord"
+              className="inline-flex items-center text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            >
+              <img
+                src="/discord_2.svg"
+                alt="Discord"
+                className="h-6 w-6 sm:h-7 sm:w-7"
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/revolution.uc/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Follow RevolutionUC on Instagram"
+              className="inline-flex items-center text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            >
+              <img
+                src="/instagram.svg"
+                alt="Instagram"
+                className="h-5 w-5 sm:h-6 sm:w-6"
+              />
+            </a>
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
             <span>Made by</span>
