@@ -85,6 +85,34 @@ export default function Footer() {
                 </a>
               </Badge>
               <span className="hidden text-white/70 md:inline">//</span>
+              <Badge
+                variant="outline"
+                className="text-white hover:cursor-pointer"
+              >
+                <a
+                  href="https://alisha-verma.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                >
+                  Alisha
+                </a>
+              </Badge>
+              <span className="hidden text-white/70 md:inline">//</span>
+              <Badge
+                variant="outline"
+                className="text-white hover:cursor-pointer"
+              >
+                <a
+                  href="https://renvo.myportfolio.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                >
+                  Ren
+                </a>
+              </Badge>
+              <span className="hidden text-white/70 md:inline">//</span>
 
               {/* Mobile-friendly: tap to expand */}
               <details className="group md:hidden">
