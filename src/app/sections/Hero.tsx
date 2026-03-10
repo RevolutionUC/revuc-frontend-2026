@@ -162,7 +162,7 @@ export default function HeroSection() {
             loading="lazy"
           />
         </div>
-      </div> */}
+      </div>
 
       {/* Content */}
       <div className="w-full max-w-6xl mx-auto relative pointer-events-none pb-8 sm:pb-14 lg:pb-16 z-40">
