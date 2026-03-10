@@ -44,22 +44,22 @@ export default function RootLayout({
         >
           <GsapRouteCleanupProvider>
             <ScrollSmootherWrapper>
-            <div
-              className="relative flex min-h-screen flex-col 
-            "
-            >
               <div
-                className="fixed inset-0 bg-top bg-[length:100%_100%] md:bg-[length:100%_auto]"
-                style={{
-                  backgroundImage: "url(/website-bg-no-grain.webp)",
-                  transform: "translateZ(0)",
-                  backfaceVisibility: "hidden",
-                }}
-                aria-hidden="true"
-              />
-              <main className="flex-1 relative z-10">{children}</main>
-            </div>
-          </ScrollSmootherWrapper>
+                className="relative flex min-h-screen flex-col 
+            "
+              >
+                <div
+                  className="fixed inset-0 bg-top bg-[length:100%_100%] md:bg-[length:100%_auto]"
+                  style={{
+                    backgroundImage: "url(/website-bg-no-grain.webp)",
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
+                  }}
+                  aria-hidden="true"
+                />
+                <main className="flex-1 relative z-10">{children}</main>
+              </div>
+            </ScrollSmootherWrapper>
           </GsapRouteCleanupProvider>
         </ThemeProvider>
       </body>

@@ -264,18 +264,14 @@ export function NavigationBar() {
                         {session.user.image ? (
                           <Image
                             src={session.user.image}
-                            alt={
-                              session.user.name || session.user.email || "User"
-                            }
+                            alt={session.user.name || session.user.email || "User"}
                             width={40}
                             height={40}
                             className="h-10 w-10 rounded-full border-2 border-white"
                           />
                         ) : (
                           <div className="h-10 w-10 rounded-full bg-[#19e363] flex items-center justify-center text-white font-mono font-semibold text-sm">
-                            {(session.user.name ||
-                              session.user.email ||
-                              "U")[0].toUpperCase()}
+                            {(session.user.name || session.user.email || "U")[0].toUpperCase()}
                           </div>
                         )}
                       </button>
@@ -363,12 +359,8 @@ export function NavigationBar() {
                 ) : session?.user ? (
                   <div className="flex flex-col gap-2">
                     <div className="text-white">
-                      <p className="text-sm font-medium">
-                        {session.user.name || "User"}
-                      </p>
-                      <p className="text-xs text-white/70 truncate">
-                        {session.user.email}
-                      </p>
+                      <p className="text-sm font-medium">{session.user.name || "User"}</p>
+                      <p className="text-xs text-white/70 truncate">{session.user.email}</p>
                     </div>
                     <button
                       type="button"

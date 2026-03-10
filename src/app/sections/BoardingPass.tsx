@@ -1,19 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  type ChangeEvent,
-  type FormEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  Checkbox,
-  CheckboxGroup,
-  InputField,
-  SelectField,
-} from "@/components/ui";
+import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "react";
+import { Checkbox, CheckboxGroup, InputField, SelectField } from "@/components/ui";
 import {
   Pagination,
   PaginationContent,
@@ -193,9 +182,7 @@ export default function BoardingPass() {
       });
 
       const data = await response.json();
-      const message = Array.isArray(data.message)
-        ? data.message.join("\n")
-        : data.message;
+      const message = Array.isArray(data.message) ? data.message.join("\n") : data.message;
 
       if (response.ok) {
         setNotification({ message, type: "success" });
@@ -244,16 +231,14 @@ export default function BoardingPass() {
   }
 
   return (
-    <div
-      id="boarding-pass"
-      className="section w-full sm:min-h-screen relative overflow-hidden"
-    >
+    <div id="boarding-pass" className="section w-full sm:min-h-screen relative overflow-hidden">
       <div className="relative z-20 w-full h-full flex items-start justify-center pt-[10%] px-4 sm:px-6 lg:px-8">
         <div
-          className={`w-full max-w-4xl rounded-3xl ${showForm
+          className={`w-full max-w-4xl rounded-3xl ${
+            showForm
               ? "bg-white/90 backdrop-blur-sm shadow-xl p-6 sm:p-8 lg:p-10"
               : "p-0 shadow-none bg-transparent"
-            }`}
+          }`}
         >
           {!showForm ? (
             <>
@@ -282,12 +267,8 @@ export default function BoardingPass() {
                 </summary>
                 <div className="mt-3 rounded-2xl bg-white/80 backdrop-blur-sm p-4 text-xs sm:text-sm text-gray-700 shadow-sm">
                   <p className="text-center">
-                    If for some reason you are unable to register, please use
-                    this{" "}
-                    <a
-                      className="underline"
-                      href="https://forms.gle/RqDamb1tQnbE3FsZ7"
-                    >
+                    If for some reason you are unable to register, please use this{" "}
+                    <a className="underline" href="https://forms.gle/RqDamb1tQnbE3FsZ7">
                       link
                     </a>{" "}
                     instead.
@@ -301,29 +282,24 @@ export default function BoardingPass() {
                 Register
               </h2>
               <p className="mt-3 text-sm sm:text-base text-gray-700 max-w-2xl">
-                Secure your spot at RevolutionUC 2026. Fill out the form and
-                we&apos;ll send you a confirmation email and QR code.
+                Secure your spot at RevolutionUC 2026. Fill out the form and we&apos;ll send you a
+                confirmation email and QR code.
               </p>
             </div>
           )}
 
           {notification.type && (
             <div
-              className={`mb-6 rounded-lg p-4 text-white ${notification.type === "success" ? "bg-green-500" : "bg-red-500"
-                }`}
+              className={`mb-6 rounded-lg p-4 text-white ${
+                notification.type === "success" ? "bg-green-500" : "bg-red-500"
+              }`}
             >
-              <pre className="whitespace-pre-wrap font-sans">
-                {notification.message}
-              </pre>
+              <pre className="whitespace-pre-wrap font-sans">{notification.message}</pre>
             </div>
           )}
 
           {showForm && (
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-8"
-              encType="multipart/form-data"
-            >
+            <form onSubmit={handleSubmit} className="space-y-8" encType="multipart/form-data">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-xs font-medium uppercase tracking-[0.2em] text-gray-500">
@@ -337,8 +313,9 @@ export default function BoardingPass() {
                   {steps.map((step) => (
                     <span
                       key={step.id}
-                      className={`h-1.5 w-8 rounded-full transition ${step.id <= currentStep ? "bg-gray-900" : "bg-gray-200"
-                        }`}
+                      className={`h-1.5 w-8 rounded-full transition ${
+                        step.id <= currentStep ? "bg-gray-900" : "bg-gray-200"
+                      }`}
                     />
                   ))}
                 </div>
@@ -347,18 +324,8 @@ export default function BoardingPass() {
               <div className={currentStep === 0 ? "space-y-6" : "hidden"}>
                 {/* Name */}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <InputField
-                    name="firstName"
-                    label="First Name"
-                    placeholder="Mark"
-                    required
-                  />
-                  <InputField
-                    name="lastName"
-                    label="Last Name"
-                    placeholder="Zuckerberg"
-                    required
-                  />
+                  <InputField name="firstName" label="First Name" placeholder="Mark" required />
+                  <InputField name="lastName" label="Last Name" placeholder="Zuckerberg" required />
                 </div>
 
                 {/* Email */}
@@ -386,12 +353,7 @@ export default function BoardingPass() {
 
                 {/* Country & Phone */}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <SelectField
-                    name="country"
-                    label="Country"
-                    options={COUNTRIES}
-                    required
-                  />
+                  <SelectField name="country" label="Country" options={COUNTRIES} required />
                   <InputField
                     name="phoneNumber"
                     label="Phone Number"
@@ -419,12 +381,7 @@ export default function BoardingPass() {
                     options={EDUCATION_LEVELS}
                     required
                   />
-                  <SelectField
-                    name="major"
-                    label="Major"
-                    options={MAJORS}
-                    required
-                  />
+                  <SelectField name="major" label="Major" options={MAJORS} required />
                 </div>
 
                 {/* Age & Gender */}
@@ -440,12 +397,7 @@ export default function BoardingPass() {
                     error={ageError}
                     required
                   />
-                  <SelectField
-                    name="gender"
-                    label="Gender"
-                    options={GENDERS}
-                    required
-                  />
+                  <SelectField name="gender" label="Gender" options={GENDERS} required />
                 </div>
 
                 {/* Race/Ethnicity */}
@@ -460,12 +412,7 @@ export default function BoardingPass() {
               <div className={currentStep === 2 ? "space-y-6" : "hidden"}>
                 {/* Shirt Size & Hackathons */}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <SelectField
-                    name="shirtSize"
-                    label="Shirt Size"
-                    options={SHIRT_SIZES}
-                    required
-                  />
+                  <SelectField name="shirtSize" label="Shirt Size" options={SHIRT_SIZES} required />
                   <SelectField
                     name="hackathons"
                     label="Hackathons Attended"
@@ -481,11 +428,7 @@ export default function BoardingPass() {
                     label="Dietary Restrictions"
                     placeholder="None"
                   />
-                  <InputField
-                    name="githubUsername"
-                    label="GitHub Username"
-                    placeholder="octocat"
-                  />
+                  <InputField name="githubUsername" label="GitHub Username" placeholder="octocat" />
                 </div>
 
                 {/* Optional: LinkedIn */}
@@ -498,10 +441,7 @@ export default function BoardingPass() {
 
                 {/* Resume */}
                 <div>
-                  <label
-                    htmlFor="resume"
-                    className="mb-1 block font-semibold text-gray-900"
-                  >
+                  <label htmlFor="resume" className="mb-1 block font-semibold text-gray-900">
                     Resume
                   </label>
                   <input
@@ -522,15 +462,10 @@ export default function BoardingPass() {
 
                 {/* Agreements */}
                 <fieldset className="space-y-3">
-                  <legend className="font-semibold text-gray-900">
-                    Agreements
-                  </legend>
+                  <legend className="font-semibold text-gray-900">Agreements</legend>
                   <Checkbox name="waiver" required>
                     I agree to the{" "}
-                    <a
-                      href="/waiver"
-                      className="text-red-700 underline hover:text-red-800"
-                    >
+                    <a href="/waiver" className="text-red-700 underline hover:text-red-800">
                       RevolutionUC Waiver
                     </a>
                   </Checkbox>
@@ -549,8 +484,8 @@ export default function BoardingPass() {
                     </a>
                   </Checkbox>
                   <Checkbox name="mlhOptionalCommunication">
-                    I authorize MLH to send me occasional emails about relevant
-                    events, career opportunities, and community announcements.
+                    I authorize MLH to send me occasional emails about relevant events, career
+                    opportunities, and community announcements.
                   </Checkbox>
                 </fieldset>
               </div>
@@ -564,10 +499,9 @@ export default function BoardingPass() {
                         e.preventDefault();
                         goToPreviousStep();
                       }}
-                      className={`bg-gray-900 text-white hover:bg-gray-800 ${currentStep === 0
-                          ? "pointer-events-none opacity-40"
-                          : ""
-                        }`}
+                      className={`bg-gray-900 text-white hover:bg-gray-800 ${
+                        currentStep === 0 ? "pointer-events-none opacity-40" : ""
+                      }`}
                     />
                   </PaginationItem>
 
@@ -579,10 +513,9 @@ export default function BoardingPass() {
                           e.preventDefault();
                           goToNextStep();
                         }}
-                        className={`bg-gray-900 text-white hover:bg-gray-800 ${emailError || ageError
-                            ? "pointer-events-none opacity-40"
-                            : ""
-                          }`}
+                        className={`bg-gray-900 text-white hover:bg-gray-800 ${
+                          emailError || ageError ? "pointer-events-none opacity-40" : ""
+                        }`}
                       />
                     ) : (
                       <button

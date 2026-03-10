@@ -97,7 +97,10 @@ const GsapScrollTrigger = () => {
         />
       </div>
 
-      <div className="h-[20vh] sm:h-[70vh] w-full relative flex justify-center overflow-hidden" ref={scrollRef}>
+      <div
+        className="h-[20vh] sm:h-[70vh] w-full relative flex justify-center overflow-hidden"
+        ref={scrollRef}
+      >
         <Image
           src="/cloud_final1.webp"
           alt="Cloud"

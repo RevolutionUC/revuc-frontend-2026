@@ -4,67 +4,63 @@ import Mailgun from "mailgun.js";
 const mailgun = new Mailgun(FormData);
 
 const mg = mailgun.client({
-    username: "api",
-    key: process.env.MAILGUN_API_KEY || "",
+  username: "api",
+  key: process.env.MAILGUN_API_KEY || "",
 });
 
 const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || "revolutionuc.com";
-const FROM_EMAIL =
-    process.env.MAILGUN_FROM_EMAIL || "RevolutionUC <info@revolutionuc.com>";
+const FROM_EMAIL = process.env.MAILGUN_FROM_EMAIL || "RevolutionUC <info@revolutionuc.com>";
 
 interface EmailOptions {
-    to: string;
-    subject: string;
-    text: string;
-    html?: string;
+  to: string;
+  subject: string;
+  text: string;
+  html?: string;
 }
 
 /**
  * Send an email using Mailgun
  */
 export async function sendEmail(
-    options: EmailOptions,
+  options: EmailOptions,
 ): Promise<{ success: boolean; error?: string }> {
-    if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
-        console.error(
-            "Mailgun configuration missing. Set MAILGUN_API_KEY and MAILGUN_DOMAIN environment variables.",
-        );
-        return { success: false, error: "Email service not configured" };
-    }
+  if (!process.env.MAILGUN_API_KEY || !process.env.MAILGUN_DOMAIN) {
+    console.error(
+      "Mailgun configuration missing. Set MAILGUN_API_KEY and MAILGUN_DOMAIN environment variables.",
+    );
+    return { success: false, error: "Email service not configured" };
+  }
 
-    try {
-        await mg.messages.create(MAILGUN_DOMAIN, {
-            from: FROM_EMAIL,
-            to: [options.to],
-            subject: options.subject,
-            text: options.text,
-            html: options.html,
-        });
+  try {
+    await mg.messages.create(MAILGUN_DOMAIN, {
+      from: FROM_EMAIL,
+      to: [options.to],
+      subject: options.subject,
+      text: options.text,
+      html: options.html,
+    });
 
-        console.log(`Email sent successfully to ${options.to}`);
-        return { success: true };
-    } catch (error) {
-        console.error("Failed to send email:", error);
-        return {
-            success: false,
-            error:
-                error instanceof Error
-                    ? error.message
-                    : "Unknown error occurred",
-        };
-    }
+    console.log(`Email sent successfully to ${options.to}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to send email:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
 }
 
 /**
  * Send a registration confirmation email
  */
 export async function sendConfirmationEmail(
-    email: string,
-    firstName: string,
+  email: string,
+  firstName: string,
 ): Promise<{ success: boolean; error?: string }> {
-    const subject = "Welcome to RevolutionUC 2026! 🎉";
+  const subject = "Welcome to RevolutionUC 2026! 🎉";
 
-    const textContent = `
+  const textContent = `
 Hi ${firstName},
 
 Thank you for registering for RevolutionUC 2026! We're thrilled to have you join us.
@@ -84,7 +80,7 @@ Best,
 The RevolutionUC Team
 `;
 
-    const htmlContent = `
+  const htmlContent = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -159,10 +155,10 @@ The RevolutionUC Team
 </html>
 `;
 
-    return sendEmail({
-        to: email,
-        subject,
-        text: textContent,
-        html: htmlContent,
-    });
+  return sendEmail({
+    to: email,
+    subject,
+    text: textContent,
+    html: htmlContent,
+  });
 }

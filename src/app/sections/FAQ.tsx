@@ -33,8 +33,7 @@ const FAQS: {
         >
           1819 Innovation Hub
         </a>{" "}
-        of the University of Cincinnati, located at 2900 Reading Rd, Cincinnati,
-        OH 45206.
+        of the University of Cincinnati, located at 2900 Reading Rd, Cincinnati, OH 45206.
       </>
     ),
   },
@@ -77,8 +76,7 @@ const FAQS: {
   {
     id: "no-team",
     question: "What if I don't have a team?",
-    answer:
-      "That's okay! We will host a team formation event after the opening ceremony.",
+    answer: "That's okay! We will host a team formation event after the opening ceremony.",
   },
   {
     id: "what-to-bring",
@@ -89,8 +87,7 @@ const FAQS: {
   {
     id: "travel",
     question: "Will there be travel reimbursements?",
-    answer:
-      "Unfortunately, we are unable to offer travel reimbursements at this time.",
+    answer: "Unfortunately, we are unable to offer travel reimbursements at this time.",
   },
   {
     id: "code-of-conduct",
@@ -113,8 +110,7 @@ const FAQS: {
   {
     id: "schedule-when",
     question: "When will the schedule and sponsors be released?",
-    answer:
-      "They will released when we're nearing the event itself. You know. To build suspense?",
+    answer: "They will released when we're nearing the event itself. You know. To build suspense?",
   },
   {
     id: "more-questions",
@@ -122,10 +118,7 @@ const FAQS: {
     answer: (
       <>
         Send us an email at{" "}
-        <a
-          href="mailto:info@revolutionuc.com"
-          className="text-[#19E363] underline"
-        >
+        <a href="mailto:info@revolutionuc.com" className="text-[#19E363] underline">
           info@revolutionuc.com
         </a>
         . We're always happy to help!
@@ -137,8 +130,7 @@ const FAQS: {
 const itemClass = "border-white/10";
 const triggerClass =
   "px-4 py-4 text-base font-medium text-white sm:px-6 sm:text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#19E363]";
-const contentClass =
-  "px-4 py-4 text-left text-sm text-blue-50 sm:px-6 sm:text-base";
+const contentClass = "px-4 py-4 text-left text-sm text-blue-50 sm:px-6 sm:text-base";
 
 // Pixelated dot texture style
 const pixelTextureStyle = {
@@ -169,13 +161,8 @@ function FaqItem({
       </div>
       <div className="relative overflow-hidden bg-[#228CF6]">
         {/* Pixelated texture for answer */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={pixelTextureStyle}
-        />
-        <AccordionContent className={`relative z-10 ${contentClass}`}>
-          {answer}
-        </AccordionContent>
+        <div className="absolute inset-0 pointer-events-none" style={pixelTextureStyle} />
+        <AccordionContent className={`relative z-10 ${contentClass}`}>{answer}</AccordionContent>
       </div>
     </AccordionItem>
   );
@@ -183,10 +170,7 @@ function FaqItem({
 
 export default function Faq() {
   return (
-    <div
-      id="faq"
-      className="section w-full h-auto relative overflow-visible pb-40 sm:pb-[250px]"
-    >
+    <div id="faq" className="section w-full h-auto relative overflow-visible pb-40 sm:pb-[250px]">
       <div className="relative z-20 flex h-full w-full items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="relative w-full max-w-5xl overflow-hidden px-4 py-8 shadow-[0_24px_80px_rgba(0,0,0,0.4)] sm:px-8 sm:py-10 lg:px-12 lg:py-12">
           {/* Base gradient background */}

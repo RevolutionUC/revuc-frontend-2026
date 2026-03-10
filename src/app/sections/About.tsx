@@ -3,11 +3,10 @@
 import SplitText from "@/app/effects/SplitText";
 import Image from "next/image";
 
-
 export default function About() {
   return (
-    <div 
-      id="about" 
+    <div
+      id="about"
       className="section w-full min-h-screen lg:h-screen relative overflow-hidden flex flex-col lg:block "
     >
       {/* Background clouds */}
@@ -79,7 +78,7 @@ export default function About() {
             height={512}
             className="w-full h-auto object-contain relative z-20"
           />
-          
+
           {/* cloud */}
           <div className="absolute bottom-[-55%] sm:bottom-[-15%] lg:bottom-[-50%] left-[50%] -translate-x-[50%] w-[120%] sm:w-[140%] lg:w-[160%] h-auto z-10">
             <Image
@@ -93,9 +92,7 @@ export default function About() {
         </div>
       </div>
 
-      <div
-        className="hidden lg:block absolute top-[50%] sm:bottom-[-15%] left-[-20%] w-[350px] sm:w-[625px] lg:w-[900px] h-40 sm:h-65 lg:h-100 opacity-100"
-      >
+      <div className="hidden lg:block absolute top-[50%] sm:bottom-[-15%] left-[-20%] w-[350px] sm:w-[625px] lg:w-[900px] h-40 sm:h-65 lg:h-100 opacity-100">
         <Image
           src="/cloud_final4.webp"
           alt=""
@@ -103,8 +100,6 @@ export default function About() {
           className="object-contain h-auto scale-x-[-1] rotate-10"
         />
       </div>
-      
-      
     </div>
   );
 }

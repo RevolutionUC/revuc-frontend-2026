@@ -34,11 +34,7 @@ export default function Footer() {
               aria-label="Join RevolutionUC on Discord"
               className="inline-flex items-center text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             >
-              <img
-                src="/discord_2.svg"
-                alt="Discord"
-                className="h-6 w-6 sm:h-7 sm:w-7"
-              />
+              <img src="/discord_2.svg" alt="Discord" className="h-6 w-6 sm:h-7 sm:w-7" />
             </a>
             <a
               href="https://www.instagram.com/revolution.uc/"
@@ -47,20 +43,13 @@ export default function Footer() {
               aria-label="Follow RevolutionUC on Instagram"
               className="inline-flex items-center text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             >
-              <img
-                src="/instagram.svg"
-                alt="Instagram"
-                className="h-5 w-5 sm:h-6 sm:w-6"
-              />
+              <img src="/instagram.svg" alt="Instagram" className="h-5 w-5 sm:h-6 sm:w-6" />
             </a>
           </div>
           <div className="flex flex-col items-center gap-2 text-center">
             <span>Made by</span>
             <div className="flex flex-wrap items-center justify-center gap-2">
-              <Badge
-                variant="outline"
-                className="text-white hover:cursor-pointer"
-              >
+              <Badge variant="outline" className="text-white hover:cursor-pointer">
                 <a
                   href="https://amaandoes.tech"
                   target="_blank"
@@ -71,10 +60,7 @@ export default function Footer() {
                 </a>
               </Badge>
               <span className="hidden text-white/70 md:inline">//</span>
-              <Badge
-                variant="outline"
-                className="text-white hover:cursor-pointer"
-              >
+              <Badge variant="outline" className="text-white hover:cursor-pointer">
                 <a
                   href="https://karthik-rachamolla.vercel.app"
                   target="_blank"
