@@ -302,12 +302,13 @@ export function NavigationBar() {
               ) : (
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Button
-                      className="hover:bg-white font-mono hover:cursor-pointer text-sm sm:text-base md:text-lg hover:text-black bg-[#19e363] rounded-none"
+                    <a
+                      href="#faq"
                       onClick={handleRegisterClick}
+                      className="cursor-pointer font-mono text-sm sm:text-base md:text-lg text-white bg-transparent hover:bg-transparent focus:bg-transparent relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#19E363] after:transition-all after:duration-300 hover:after:w-full"
                     >
                       [REGISTER]
-                    </Button>
+                    </a>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               )}
