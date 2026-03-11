@@ -162,7 +162,12 @@ export default function Sponsors() {
               quality={100}
               priority
               unoptimized
-              style={{ width: "1500px", height: "auto" }}
+              style={{
+                width: "1500px",
+                height: "auto",
+                maxHeight: "350vh",
+                objectFit: "contain",
+              }}
               onLoad={() => ScrollTrigger.refresh()}
             />
           </div>
