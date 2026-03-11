@@ -8,7 +8,7 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Sponsor data 
+// Sponsor data
 const sponsors = [
   { tier: "Platinum", names: ["Sponsor 1", "Sponsor 2"] },
   { tier: "Gold", names: ["Sponsor 3", "Sponsor 4", "Sponsor 5"] },
@@ -35,7 +35,7 @@ export default function Sponsors() {
       if (!section || !pin || !scaleLayer || !panLayer || !textOverlay) return;
 
       const ZOOM = 2.5; // Zoom level to fill ~80% of screen
-      const SCROLL_LENGTH = 3.5; // Multiplier for scroll distance 
+      const SCROLL_LENGTH = 3.5; // Multiplier for scroll distance
 
       gsap.set([scaleLayer, panLayer], {
         force3D: true,
@@ -67,11 +67,11 @@ export default function Sponsors() {
           start: "top top",
           end: () => {
             const { vh } = getMetrics();
-            
+
             return "+=" + vh * SCROLL_LENGTH;
           },
           pin,
-          scrub: 0.8, 
+          scrub: 0.8,
           anticipatePin: 1,
           fastScrollEnd: true,
           invalidateOnRefresh: true,
@@ -116,7 +116,7 @@ export default function Sponsors() {
         "panStart",
       );
 
-      // Phase 4: 12% - Fade out text overlay 
+      // Phase 4: 12% - Fade out text overlay
       tl.to(
         textOverlay,
         { opacity: 0, y: -30, duration: 0.12, ease: "power2.in" },
@@ -152,12 +152,14 @@ export default function Sponsors() {
         >
           <div ref={panLayerRef} className="flex items-center justify-center">
             <Image
-              className="opacity-90 select-none"
-              src="/sponsors-suitcase.webp"
-              width={600}
-              height={600}
+              className="opacity-90 select-none w-[600px] h-auto"
+              src="/suitcase_sponsors.webp"
+              width={1920}
+              height={3666}
               alt="Suitcase"
+              quality={100}
               priority
+              unoptimized
               onLoad={() => ScrollTrigger.refresh()}
             />
           </div>
@@ -168,7 +170,7 @@ export default function Sponsors() {
           ref={textOverlayRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
         >
-          <div className="max-w-4xl mx-auto px-10 py-12 bg-transparent pointer-events-auto">
+          {/*<div className="max-w-4xl mx-auto px-10 py-12 bg-transparent pointer-events-auto">
             <h2 className="text-5xl font-bold text-center mb-10 text-white drop-shadow-lg">
               Our Sponsors
             </h2>
@@ -194,7 +196,7 @@ export default function Sponsors() {
             <p className="text-center text-white/80 mt-8 text-base drop-shadow-md">
               Interested in sponsoring? Contact us!
             </p>
-          </div>
+          </div>*/}
         </div>
       </div>
     </section>
