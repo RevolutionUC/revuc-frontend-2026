@@ -36,7 +36,7 @@ export default function Sponsors() {
 
       const ZOOM = 2.5; // Zoom level to fill ~80% of screen
       const SCROLL_LENGTH = 3.5; // Multiplier for scroll distance
-      const INITIAL_SCALE = 1 / ZOOM; // Start scaled down so the raster stays high-res
+      const INITIAL_SCALE = 1 / ZOOM; 
 
       gsap.set(scaleLayer, {
         scale: INITIAL_SCALE,
@@ -55,14 +55,11 @@ export default function Sponsors() {
         const img = panLayer.querySelector("img") as HTMLImageElement | null;
         const baseH = img?.offsetHeight ?? 0;
         const vh = window.innerHeight;
+        
+        const startY = vh * 0.35; 
+        const endY = -vh * 0.35; 
 
-        // baseH is now the full rendered height (large), so scale pan relative to that
-        const panDistance = Math.min(baseH * 0.4, vh * 0.5);
-
-        const startY = 0;
-        const endY = -panDistance;
-
-        return { vh, panDistance, startY, endY };
+        return { vh, startY, endY };
       };
 
       const tl = gsap.timeline({
@@ -83,16 +80,14 @@ export default function Sponsors() {
         },
       });
 
-      // Spread out the animation phases across the longer scroll distance
       tl.addLabel("zoom", 0);
       tl.addLabel("overlayIn", 0.12);
       tl.addLabel("panStart", 0.2);
-      tl.addLabel("overlayOut", 0.68); // Later fade out for longer visibility
+      tl.addLabel("overlayOut", 0.68); 
       tl.addLabel("panEnd", 0.75);
       tl.addLabel("zoomOut", 0.85);
 
-      // Phase 1: 20% - Zoom in on suitcase (scale from INITIAL_SCALE to 1.0)
-      // We scale UP to 1.0 (native raster size) instead of past it — always crisp
+      // Phase 1: 20% - Zoom in on suitcase
       tl.to(scaleLayer, { scale: 1, duration: 0.2, ease: "power1.inOut" }, 0);
       tl.to(
         panLayer,
@@ -100,7 +95,7 @@ export default function Sponsors() {
         "zoom",
       );
 
-      // Phase 2: 12% - Fade in text overlay (longer fade in)
+      // Phase 2: 12% - Fade in text overlay
       tl.to(
         textOverlay,
         { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" },
@@ -125,7 +120,7 @@ export default function Sponsors() {
         "overlayOut",
       );
 
-      // Phase 5: 20% - Zoom out back to original (scale back to INITIAL_SCALE)
+      // Phase 5: 20% - Zoom out back to original
       tl.to(
         scaleLayer,
         { scale: INITIAL_SCALE, duration: 0.2, ease: "power1.inOut" },
@@ -178,33 +173,6 @@ export default function Sponsors() {
           ref={textOverlayRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
         >
-          {/*<div className="max-w-4xl mx-auto px-10 py-12 bg-transparent pointer-events-auto">
-            <h2 className="text-5xl font-bold text-center mb-10 text-white drop-shadow-lg">
-              Our Sponsors
-            </h2>
-
-            {sponsors.map((tierGroup) => (
-              <div key={tierGroup.tier} className="mb-8 last:mb-0">
-                <h3 className="text-2xl font-semibold text-center mb-4 text-white/90 drop-shadow-md">
-                  {tierGroup.tier}
-                </h3>
-                <div className="flex flex-wrap justify-center gap-6">
-                  {tierGroup.names.map((name) => (
-                    <div
-                      key={name}
-                      className="px-8 py-4 bg-white/20 backdrop-blur-sm rounded-xl text-white text-lg font-medium hover:bg-white/30 transition-colors drop-shadow-md"
-                    >
-                      {name}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            <p className="text-center text-white/80 mt-8 text-base drop-shadow-md">
-              Interested in sponsoring? Contact us!
-            </p>
-          </div>*/}
         </div>
       </div>
     </section>
