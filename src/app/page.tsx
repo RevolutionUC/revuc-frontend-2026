@@ -9,6 +9,7 @@ import Prizes from "@/app/sections/Tracks";
 import Stats from "@/app/sections/Stats";
 import Faq from "@/app/sections/FAQ";
 import Footer from "@/app/sections/Footer";
+import Sponsors from "./sections/Sponsors";
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
         <BoardingPass />
       </Suspense>
       <Stats />
+      <Sponsors />
       <Prizes />
       <Faq />
       <Footer />
