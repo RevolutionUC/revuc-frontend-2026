@@ -36,8 +36,14 @@ export default function Sponsors() {
 
       const ZOOM = 2.5; // Zoom level to fill ~80% of screen
       const SCROLL_LENGTH = 3.5; // Multiplier for scroll distance
+      const INITIAL_SCALE = 1 / ZOOM; // Start scaled down so the raster stays high-res
 
-      gsap.set([scaleLayer, panLayer], {
+      gsap.set(scaleLayer, {
+        scale: INITIAL_SCALE,
+        force3D: true,
+        willChange: "transform",
+      });
+      gsap.set(panLayer, {
         force3D: true,
         willChange: "transform",
       });
@@ -50,9 +56,8 @@ export default function Sponsors() {
         const baseH = img?.offsetHeight ?? 0;
         const vh = window.innerHeight;
 
-        const scaledH = baseH * ZOOM;
-        // Limit pan distance to fit within the animation
-        const panDistance = Math.min(scaledH * 0.4, vh * 0.5);
+        // baseH is now the full rendered height (large), so scale pan relative to that
+        const panDistance = Math.min(baseH * 0.4, vh * 0.5);
 
         const startY = 0;
         const endY = -panDistance;
@@ -86,12 +91,9 @@ export default function Sponsors() {
       tl.addLabel("panEnd", 0.75);
       tl.addLabel("zoomOut", 0.85);
 
-      // Phase 1: 20% - Zoom in on suitcase (slower, smoother zoom)
-      tl.to(
-        scaleLayer,
-        { scale: ZOOM, duration: 0.2, ease: "power1.inOut" },
-        0,
-      );
+      // Phase 1: 20% - Zoom in on suitcase (scale from INITIAL_SCALE to 1.0)
+      // We scale UP to 1.0 (native raster size) instead of past it — always crisp
+      tl.to(scaleLayer, { scale: 1, duration: 0.2, ease: "power1.inOut" }, 0);
       tl.to(
         panLayer,
         { y: () => getMetrics().startY, duration: 0.2, ease: "power1.inOut" },
@@ -123,10 +125,10 @@ export default function Sponsors() {
         "overlayOut",
       );
 
-      // Phase 5: 20% - Zoom out back to original (slower, smoother)
+      // Phase 5: 20% - Zoom out back to original (scale back to INITIAL_SCALE)
       tl.to(
         scaleLayer,
-        { scale: 1, duration: 0.2, ease: "power1.inOut" },
+        { scale: INITIAL_SCALE, duration: 0.2, ease: "power1.inOut" },
         "zoomOut",
       );
       tl.to(panLayer, { y: 0, duration: 0.2, ease: "power1.inOut" }, "zoomOut");
@@ -148,11 +150,11 @@ export default function Sponsors() {
         <div
           ref={scaleLayerRef}
           className="absolute inset-0 flex items-center justify-center"
-          style={{ transformOrigin: "50% 0%" }}
+          style={{ transformOrigin: "50% 50%" }}
         >
           <div ref={panLayerRef} className="flex items-center justify-center">
             <Image
-              className="opacity-90 select-none w-[600px] h-auto"
+              className="opacity-90 select-none"
               src="/suitcase_sponsors.webp"
               width={1920}
               height={3666}
@@ -160,6 +162,7 @@ export default function Sponsors() {
               quality={100}
               priority
               unoptimized
+              style={{ width: "1500px", height: "auto" }}
               onLoad={() => ScrollTrigger.refresh()}
             />
           </div>
