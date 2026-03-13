@@ -30,10 +30,10 @@ export default function Sponsors() {
 
   useGSAP(
     () => {
-      // Wrap animation in matchMedia for screens 768px and up
+      // Wrap animation in matchMedia for screens 1024px and up (laptop)
       let mm = gsap.matchMedia();
 
-      mm.add("(min-width: 768px)", () => {
+      mm.add("(min-width: 1024px)", () => {
         const section = sectionRef.current;
         const pin = pinWrapperRef.current;
         const scaleLayer = scaleLayerRef.current;
@@ -116,10 +116,10 @@ export default function Sponsors() {
 
   return (
     <section ref={sectionRef} id="sponsors" className="relative w-full">
-      {/* Hidden on mobile, shown on md and up (md:block) */}
+      {/* Animated: hidden on mobile/tablet, shown on lg and up (lg:block) */}
       <div
         ref={pinWrapperRef}
-        className="hidden md:block relative w-full h-screen overflow-hidden"
+        className="hidden lg:block relative w-full h-screen overflow-hidden"
       >
         <div
           ref={scaleLayerRef}
@@ -146,6 +146,27 @@ export default function Sponsors() {
             />
           </div>
         </div>
+      </div>
+
+      {/* Static Suitcase: shown on tablet, hidden on mobile and laptop */}
+      <div className="hidden md:flex lg:hidden relative w-full min-h-screen items-center justify-center overflow-hidden py-12 pointer-events-none">
+        <Image
+          className="opacity-90 select-none"
+          src="/suitcase_high_rez.webp"
+          width={1920}
+          height={3666}
+          alt="Suitcase"
+          quality={75}
+          priority
+          unoptimized
+          style={{
+            width: "100%",
+            maxWidth: "600px",
+            height: "auto",
+            maxHeight: "90vh",
+            objectFit: "contain",
+          }}
+        />
       </div>
 
       {/* Shown on mobile, hidden on md and up (md:hidden) */}
