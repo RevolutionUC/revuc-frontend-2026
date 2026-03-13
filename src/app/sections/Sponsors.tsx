@@ -10,11 +10,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Sponsor data
 const sponsors = [
-  "Sponsor 1",
-  "Sponsor 3",
-  "Sponsor 4",
-  "Sponsor 6",
-  "Sponsor 7",
+  { name: "1819", src: "/sponsor logo/1819.png" },
+  { name: "Fifth Third", src: "/sponsor logo/Fifth_Third.png" },
+  {
+    name: "Cincinnati Financial",
+    src: "/sponsor logo/Cincinnati_Financial.png",
+  },
+  { name: "Medpace", src: "/sponsor logo/Medpace.png" },
+  { name: "Kinetic Vision", src: "/sponsor logo/Kinetic_Vision.png" },
+  { name: "ACM", src: "/sponsor logo/ACM.png" },
+  { name: "MLH", src: "/sponsor logo/MLH.png" },
 ];
 
 export default function Sponsors() {
@@ -124,11 +129,11 @@ export default function Sponsors() {
           <div ref={panLayerRef} className="flex items-center justify-center">
             <Image
               className="opacity-90 select-none"
-              src="/suitcase_sponsors.webp"
+              src="/suitcase_high_rez.webp"
               width={1920}
               height={3666}
               alt="Suitcase"
-              quality={100}
+              quality={75}
               priority
               unoptimized
               style={{
@@ -150,12 +155,24 @@ export default function Sponsors() {
             Sponsors
           </h2>
 
-          {sponsors.map((name) => (
+          {sponsors.map((sponsor) => (
             <div
-              key={name}
-              className="w-full py-6 bg-white rounded-xl shadow-lg flex items-center justify-center text-blue-900 font-bold text-xl"
+              key={sponsor.name}
+              className="w-full h-28 px-8 bg-white rounded-2xl shadow-lg flex items-center justify-center"
             >
-              {name}
+              <Image
+                src={sponsor.src}
+                alt={sponsor.name}
+                width={300}
+                height={120}
+                style={{
+                  width: "auto",
+                  height: "100%",
+                  maxHeight: "80px",
+                  objectFit: "contain",
+                }}
+                unoptimized
+              />
             </div>
           ))}
         </div>
