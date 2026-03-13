@@ -163,7 +163,7 @@ export default function Sponsors() {
             width: "100%",
             maxWidth: "600px",
             height: "auto",
-            maxHeight: "90vh",
+            maxHeight: "250vh",
             objectFit: "contain",
           }}
         />
