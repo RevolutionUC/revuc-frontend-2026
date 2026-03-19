@@ -523,7 +523,7 @@ export default function BoardingPass() {
                 {/* Agreements */}
                 <fieldset className="space-y-3">
                   <legend className="font-semibold text-gray-900">
-                    Agreements
+                    Agreements <span className="text-red-600">*</span>
                   </legend>
                   <Checkbox name="waiver" required>
                     I agree to the{" "}
@@ -532,10 +532,12 @@ export default function BoardingPass() {
                       className="text-red-700 underline hover:text-red-800"
                     >
                       RevolutionUC Waiver
-                    </a>
+                    </a>{" "}
+                    <span className="text-red-600">*</span>
                   </Checkbox>
                   <Checkbox name="dataSharing" required>
-                    I agree to MLH Data Sharing
+                    I agree to MLH Data Sharing{" "}
+                    <span className="text-red-600">*</span>
                   </Checkbox>
                   <Checkbox name="codeOfConduct" required>
                     I agree to the{" "}
@@ -546,7 +548,8 @@ export default function BoardingPass() {
                       className="text-red-700 underline hover:text-red-800"
                     >
                       MLH Code of Conduct
-                    </a>
+                    </a>{" "}
+                    <span className="text-red-600">*</span>
                   </Checkbox>
                   <Checkbox name="mlhOptionalCommunication">
                     I authorize MLH to send me occasional emails about relevant
