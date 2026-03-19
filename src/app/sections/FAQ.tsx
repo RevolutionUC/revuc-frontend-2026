@@ -72,13 +72,13 @@ const FAQS: {
     id: "teams-register",
     question: "How do teams register?",
     answer:
-      "Teams are typically 2–4 people. You can come with a team or form one during the event.",
+      "Teams are typically 2–4 people. You can come with a team or form one during the event. You can also use our Discord to find team members.",
   },
   {
     id: "no-team",
     question: "What if I don't have a team?",
     answer:
-      "That's okay! We will host a team formation event after the opening ceremony.",
+      "That's okay! We will host a team formation mixer after the opening ceremony.",
   },
   {
     id: "what-to-bring",
