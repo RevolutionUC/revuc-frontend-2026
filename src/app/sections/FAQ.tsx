@@ -87,6 +87,12 @@ const FAQS: {
       "Bring your laptop, charger, and anything else you need to be comfortable (snacks, water bottle, etc.).",
   },
   {
+    id: "registration",
+    question: "I am having trouble registering for the hackathon? What do I do?",
+    answer:
+      "Join our Discord and tag @amaan or @kee. They'll help you out with any web related issue.",
+  },
+  {
     id: "travel",
     question: "Will there be travel reimbursements?",
     answer:
