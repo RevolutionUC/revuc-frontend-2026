@@ -396,7 +396,7 @@ export default function BoardingPass() {
                     name="phoneNumber"
                     label="Phone Number"
                     type="tel"
-                    placeholder="(555) 123-4567"
+                    placeholder="5551234567"
                     required
                   />
                 </div>
