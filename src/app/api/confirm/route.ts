@@ -5,9 +5,33 @@ import { sendAttendanceConfirmedEmail } from "@/lib/email";
 
 type ParticipantStatus = "REGISTERED" | "WAITLISTED" | "CONFIRMED";
 
+function maskToken(token: string | null): string {
+  if (!token) return "<missing>";
+  if (token.length <= 8) return token;
+  return `${token.slice(0, 4)}...${token.slice(-4)}`;
+}
+
 async function requireAuthenticatedUser(request: NextRequest) {
   const session = await auth.api.getSession({ headers: request.headers });
   return session?.user ?? null;
+}
+
+function normalizeEmail(email: string | null | undefined): string {
+  return (email ?? "").trim().toLowerCase();
+}
+
+function isParticipantOwnedByUser(
+  participantEmail: string | null | undefined,
+  userEmail: string | null | undefined,
+): boolean {
+  const participantEmailNormalized = normalizeEmail(participantEmail);
+  const userEmailNormalized = normalizeEmail(userEmail);
+
+  return (
+    participantEmailNormalized.length > 0 &&
+    userEmailNormalized.length > 0 &&
+    participantEmailNormalized === userEmailNormalized
+  );
 }
 
 function normalizeToken(token: string | null): string | null {
@@ -37,11 +61,16 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await supabase
       .from("participants")
-      .select("user_id, first_name, last_name, status")
+      .select("user_id, first_name, last_name, email, status")
       .eq("user_id", token)
       .single();
 
     if (error || !data) {
+      console.error("Confirm GET participant lookup failed", {
+        token: maskToken(token),
+        hasData: !!data,
+        error,
+      });
       return NextResponse.json(
         { message: "Invalid or expired confirmation link." },
         { status: 404 },
@@ -49,6 +78,18 @@ export async function GET(request: NextRequest) {
     }
 
     const status = data.status as ParticipantStatus;
+
+    if (!isParticipantOwnedByUser(data.email, user.email)) {
+      console.warn("Confirm GET ownership mismatch", {
+        token: maskToken(token),
+        participantEmail: normalizeEmail(data.email),
+        userEmail: normalizeEmail(user.email),
+      });
+      return NextResponse.json(
+        { message: "This confirmation link is not valid for your account." },
+        { status: 403 },
+      );
+    }
 
     if (status === "WAITLISTED") {
       return NextResponse.json(
@@ -126,6 +167,11 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (participantError || !participant) {
+      console.error("Confirm POST participant lookup failed", {
+        token: maskToken(token),
+        hasParticipant: !!participant,
+        error: participantError,
+      });
       return NextResponse.json(
         { message: "Invalid or expired confirmation link." },
         { status: 404 },
@@ -133,6 +179,18 @@ export async function POST(request: NextRequest) {
     }
 
     const status = participant.status as ParticipantStatus;
+
+    if (!isParticipantOwnedByUser(participant.email, user.email)) {
+      console.warn("Confirm POST ownership mismatch", {
+        token: maskToken(token),
+        participantEmail: normalizeEmail(participant.email),
+        userEmail: normalizeEmail(user.email),
+      });
+      return NextResponse.json(
+        { message: "This confirmation link is not valid for your account." },
+        { status: 403 },
+      );
+    }
 
     if (status === "WAITLISTED") {
       return NextResponse.json(
@@ -164,6 +222,10 @@ export async function POST(request: NextRequest) {
       .eq("user_id", token);
 
     if (updateError) {
+      console.error("Confirm POST participant update failed", {
+        token: maskToken(token),
+        error: updateError,
+      });
       throw updateError;
     }
 
