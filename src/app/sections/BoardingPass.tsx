@@ -394,10 +394,23 @@ export default function BoardingPass() {
                   />
                   <InputField
                     name="phoneNumber"
-                    label="Phone Number"
+                    // info icon that shows formatting hint on hover
+                    label={
+                      <span>
+                        Phone Number{" "}
+                        <span title="Digits only (no dashes or spaces)" style={{ cursor: "pointer" }}>
+                          ⓘ
+                        </span>
+                      </span>
+                    } 
                     type="tel"
                     placeholder="5551234567"
                     required
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      // keep only digits (0–9)
+                      const digitsOnly = e.target.value.replace(/[^0-9]/g, "");
+                      e.target.value = digitsOnly;
+                    }}
                   />
                 </div>
               </div>
