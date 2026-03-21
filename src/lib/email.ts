@@ -166,3 +166,85 @@ The RevolutionUC Team
         html: htmlContent,
     });
 }
+
+export async function sendAttendanceConfirmedEmail(
+    email: string,
+    firstName: string,
+): Promise<{ success: boolean; error?: string }> {
+    const subject = "Your RevolutionUC 2026 attendance is confirmed!";
+
+    const textContent = `
+Hi ${firstName},
+
+Great news - your attendance for RevolutionUC 2026 is officially confirmed.
+
+We'll send you more details soon, including event logistics, check-in guidance, and other important updates.
+
+To make sure we cater to every participant, we will be sending a second confirmation email a few days before the event. Please make sure to confirm that as well.
+
+If you have any questions, feel free to reach out to us at info@revolutionuc.com.
+
+See you at RevolutionUC!
+
+Best,
+The RevolutionUC Team
+`;
+
+    const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Confirmed</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #050b24;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 0;">
+        <table role="presentation" style="width: 600px; max-width: 100%; border-collapse: collapse; background-color: #0d1538; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.3); border: 1px solid #1a2555;">
+          <tr>
+            <td style="padding: 40px 40px 20px; text-align: center; background: linear-gradient(135deg, #151477 0%, #4a67b9 100%); border-radius: 16px 16px 0 0;">
+              <p style="margin: 0 0 8px; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #9fb3ff;">✈️ RevolutionUC 2026</p>
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">Attendance Confirmed</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 40px;">
+              <p style="margin: 0 0 20px; color: #e8f1ff; font-size: 16px; line-height: 1.6;">
+                Hi <strong style="color: #ffffff;">${firstName}</strong>,
+              </p>
+              <p style="margin: 0 0 20px; color: #e8f1ff; font-size: 16px; line-height: 1.6;">
+                Great news - your attendance for RevolutionUC 2026 is officially confirmed.
+              </p>
+              <p style="margin: 0 0 20px; color: #e8f1ff; font-size: 16px; line-height: 1.6;">
+                We'll send you more details soon, including event logistics, check-in guidance, and other important updates.
+              </p>
+              <p style="margin: 20px 0 0; color: #e8f1ff; font-size: 16px; line-height: 1.6;">
+                If you have any questions, feel free to reach out to us at
+                <a href="mailto:info@revolutionuc.com" style="color: #4a67b9; text-decoration: none; font-weight: 600;"> info@revolutionuc.com</a>.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 40px; background-color: #0a0f2e; border-radius: 0 0 16px 16px; text-align: center; border-top: 1px solid #1a2555;">
+              <p style="margin: 0; color: #9fb3ff; font-size: 12px;">
+                The RevolutionUC Team
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+    return sendEmail({
+        to: email,
+        subject,
+        text: textContent,
+        html: htmlContent,
+    });
+}
