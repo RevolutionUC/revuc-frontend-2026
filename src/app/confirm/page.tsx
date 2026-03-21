@@ -208,18 +208,16 @@ function ConfirmContent() {
   if (!data) return null;
 
   return (
-    <div className="w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl border border-white/20">
+    <div className="w-full max-w-xl rounded-sm overflow-hidden shadow-2xl border border-[#228CF6]/30">
       {/* Header */}
-      <div
-        className="px-8 py-8 text-center bg-[#151477]"
-      >
-        <p className="text-xs tracking-[0.3em] uppercase text-[#9fb3ff] font-mono mb-2">
+      <div className="px-8 py-8 text-center bg-[#151477]">
+        <p className="text-xs tracking-[0.3em] uppercase text-[#EDF6FF] font-mono mb-2">
           RevolutionUC 2026
         </p>
         <h1 className="text-3xl font-bold text-white">
           {data.alreadyConfirmed ? "Attendance Confirmed" : "Confirm Attendance"}
         </h1>
-        <p className="mt-2 text-[#c5d5ff] text-sm">
+        <p className="mt-2 text-[#EDF6FF] text-sm">
           {data.alreadyConfirmed
             ? "Your attendance has already been confirmed."
             : "Confirm your attendance to reserve your spot at RevolutionUC 2026."}
@@ -227,58 +225,58 @@ function ConfirmContent() {
       </div>
 
       {/* Body */}
-      <div className="bg-white/95 backdrop-blur-sm px-8 py-8 space-y-6">
+      <div className="bg-[#EDF6FF] px-8 py-8 space-y-6">
         {/* Name */}
         <div className="text-center space-y-1">
-          <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-[#151477]">
             {data.firstName} {data.lastName}
           </p>
         </div>
 
-        <hr className="border-dashed border-gray-200" />
+        <hr className="border-dashed border-[#228CF6]/30" />
 
         {!data.alreadyConfirmed && data.canConfirm && (
           <button
             type="button"
             onClick={handleConfirmAttendance}
             disabled={confirming}
-            className="w-full inline-flex items-center justify-center rounded-full bg-[#151477] px-8 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#0f105f] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full inline-flex items-center justify-center rounded-full bg-[#228CF6] px-8 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-[#151477] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {confirming ? "Confirming..." : "Confirm my attendance"}
           </button>
         )}
 
         {(data.alreadyConfirmed || confirmMessage) && (
-          <div className="rounded-2xl bg-green-50 border border-green-200 p-5 text-sm text-green-800 space-y-1">
+          <div className="rounded-2xl bg-[#19E363]/15 border border-[#19E363]/50 p-5 text-sm text-[#151477] space-y-1">
             <p className="font-semibold">You are confirmed.</p>
-            <p className="leading-relaxed text-green-700">
+            <p className="leading-relaxed text-[#151477]/85">
               {confirmMessage ??
                 "You're all set. Keep an eye on your inbox for hackathon details."}
             </p>
           </div>
         )}
 
-        <hr className="border-dashed border-gray-200" />
+        <hr className="border-dashed border-[#228CF6]/30" />
 
         {/* What's next */}
         <div className="space-y-2">
-          <p className="text-xs font-mono uppercase tracking-widest text-gray-400 text-center">
+            <p className="text-xs font-mono uppercase tracking-widest text-[#151477]/70 text-center">
             What's Next?
           </p>
-          <ul className="space-y-2 text-sm text-gray-600">
+          <ul className="space-y-2 text-sm text-[#151477]/85">
             <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-[#4a67b9]">→</span>
+              <span className="mt-0.5 text-[#228CF6]">→</span>
               Watch your inbox for logistics, check-in instructions, and final
               event updates.
             </li>
             <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-[#4a67b9]">→</span>
+              <span className="mt-0.5 text-[#228CF6]">→</span>
               Join our{" "}
               <a
                 href="https://discord.gg/bMQnBxYWwC"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#4a67b9] font-semibold hover:underline"
+                 className="text-[#228CF6] font-semibold hover:text-[#151477] hover:underline"
               >
                 Discord community
               </a>{" "}
@@ -289,15 +287,15 @@ function ConfirmContent() {
       </div>
 
       {/* Footer */}
-      <div className="bg-[#0a0f2e] px-8 py-5 text-center space-y-1">
-        <p className="text-white text-sm font-semibold">
+      <div className="bg-[#151477] px-8 py-5 text-center space-y-1">
+        <p className="text-[#EDF6FF] text-sm font-semibold">
           See you at RevolutionUC!
         </p>
-        <p className="text-[#9fb3ff] text-xs">
+        <p className="text-[#EDF6FF]/85 text-xs">
           Questions?{" "}
           <a
             href="mailto:info@revolutionuc.com"
-            className="underline hover:text-white transition-colors"
+            className="underline hover:text-[#19E363] transition-colors"
           >
             info@revolutionuc.com
           </a>
