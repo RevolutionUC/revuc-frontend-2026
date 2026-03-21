@@ -16,24 +16,6 @@ async function requireAuthenticatedUser(request: NextRequest) {
   return session?.user ?? null;
 }
 
-function normalizeEmail(email: string | null | undefined): string {
-  return (email ?? "").trim().toLowerCase();
-}
-
-function isParticipantOwnedByUser(
-  participantEmail: string | null | undefined,
-  userEmail: string | null | undefined,
-): boolean {
-  const participantEmailNormalized = normalizeEmail(participantEmail);
-  const userEmailNormalized = normalizeEmail(userEmail);
-
-  return (
-    participantEmailNormalized.length > 0 &&
-    userEmailNormalized.length > 0 &&
-    participantEmailNormalized === userEmailNormalized
-  );
-}
-
 function normalizeToken(token: string | null): string | null {
   if (!token) return null;
   const trimmedToken = token.trim();
@@ -78,18 +60,6 @@ export async function GET(request: NextRequest) {
     }
 
     const status = data.status as ParticipantStatus;
-
-    if (!isParticipantOwnedByUser(data.email, user.email)) {
-      console.warn("Confirm GET ownership mismatch", {
-        token: maskToken(token),
-        participantEmail: normalizeEmail(data.email),
-        userEmail: normalizeEmail(user.email),
-      });
-      return NextResponse.json(
-        { message: "This confirmation link is not valid for your account." },
-        { status: 403 },
-      );
-    }
 
     if (status === "WAITLISTED") {
       return NextResponse.json(
@@ -179,18 +149,6 @@ export async function POST(request: NextRequest) {
     }
 
     const status = participant.status as ParticipantStatus;
-
-    if (!isParticipantOwnedByUser(participant.email, user.email)) {
-      console.warn("Confirm POST ownership mismatch", {
-        token: maskToken(token),
-        participantEmail: normalizeEmail(participant.email),
-        userEmail: normalizeEmail(user.email),
-      });
-      return NextResponse.json(
-        { message: "This confirmation link is not valid for your account." },
-        { status: 403 },
-      );
-    }
 
     if (status === "WAITLISTED") {
       return NextResponse.json(
