@@ -143,7 +143,7 @@ function ConfirmContent() {
     return (
       <div className="flex flex-col items-center gap-4 text-center">
         <div className="h-12 w-12 rounded-full border-4 border-[#4a67b9] border-t-transparent animate-spin" />
-        <p className="text-[#9fb3ff] text-sm font-mono tracking-widest uppercase">
+        <p className="text-white text-sm font-mono tracking-widest uppercase">
           Verifying your registration…
         </p>
       </div>
@@ -208,13 +208,10 @@ function ConfirmContent() {
   if (!data) return null;
 
   return (
-    <div className="w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-white/20">
+    <div className="w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl border border-white/20">
       {/* Header */}
       <div
-        className="px-8 py-8 text-center"
-        style={{
-          background: "linear-gradient(135deg, #151477 0%, #4a67b9 100%)",
-        }}
+        className="px-8 py-8 text-center bg-[#151477]"
       >
         <p className="text-xs tracking-[0.3em] uppercase text-[#9fb3ff] font-mono mb-2">
           RevolutionUC 2026
