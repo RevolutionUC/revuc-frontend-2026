@@ -155,27 +155,49 @@ export default function BoardingPass() {
     // Check if it's a valid number
     if (Number.isNaN(numValue)) {
       setAgeError("Age must be a valid number");
-      setAge(value); // Keep the invalid input so user can see what they typed
+      setAge(value);
       return;
     }
 
     // Prevent negative values
     if (numValue < 0) {
       setAgeError("Age cannot be negative");
-      setAge("18"); // Set to minimum valid value
+      setAge(value);
       return;
     }
 
     // Enforce minimum age of 18
     if (numValue < 18) {
       setAgeError("Age must be at least 18");
-      setAge("18"); // Set to minimum valid value
+      setAge(value);
+      return;
+    }
+
+    // Enforce maximum age of 100
+    if (numValue > 100) {
+      setAgeError("Age must be 100 or under");
+      setAge(value);
       return;
     }
 
     // Valid age
     setAge(value);
     setAgeError("");
+  }
+
+  function handleAgeBlur() {
+    // Enforce min age after editing so people can type multi-digit values naturally
+    if (age === "") return;
+
+    const numValue = Number(age);
+    if (!Number.isNaN(numValue) && numValue < 18) {
+      setAge("18");
+      setAgeError("");
+    }
+    if (!Number.isNaN(numValue) && numValue > 100) {
+      setAge("100");
+      setAgeError("");
+    }
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -450,8 +472,10 @@ export default function BoardingPass() {
                     type="number"
                     placeholder="18"
                     min={18}
+                    max={100}
                     value={age}
                     onChange={handleAgeChange}
+                    onBlur={handleAgeBlur}
                     error={ageError}
                     required
                   />
