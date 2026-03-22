@@ -1,4 +1,4 @@
-import { pgTable, text, boolean, timestamp, index } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, timestamp, index, uuid } from "drizzle-orm/pg-core";
 
 // Better-auth required tables
 export const user = pgTable("user", {
@@ -65,4 +65,23 @@ export const verification = pgTable(
     updatedAt: timestamp("updatedAt", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [index("verification_identifier_idx").on(table.identifier)],
+);
+
+export const confirmTokens = pgTable(
+  "confirm_tokens",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    token: text("token").notNull().unique(),
+    participantId: uuid("participant_id").notNull(),
+    email: text("email").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    usedAt: timestamp("used_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    index("confirm_tokens_token_idx").on(table.token),
+    index("confirm_tokens_participant_idx").on(table.participantId),
+  ],
 );
