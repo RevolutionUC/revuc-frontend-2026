@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/../utils/supabase/server";
 import { auth } from "@/lib/auth";
 import { sendAttendanceConfirmedEmail } from "@/lib/email";
+import { db } from "@/lib/db";
+import { confirmTokens } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 type ParticipantStatus = "REGISTERED" | "WAITLISTED" | "CONFIRMED";
 
@@ -22,6 +25,35 @@ function normalizeToken(token: string | null): string | null {
   return trimmedToken.length > 0 ? trimmedToken : null;
 }
 
+async function resolveConfirmToken(
+  token: string,
+): Promise<{ participantId: string } | { error: string; status: number }> {
+  const [record] = await db
+    .select({
+      id: confirmTokens.id,
+      participantId: confirmTokens.participantId,
+      expiresAt: confirmTokens.expiresAt,
+      usedAt: confirmTokens.usedAt,
+    })
+    .from(confirmTokens)
+    .where(eq(confirmTokens.token, token))
+    .limit(1);
+
+  if (!record) {
+    return { error: "Invalid or expired confirmation link.", status: 404 };
+  }
+
+  if (record.usedAt) {
+    return { error: "This confirmation link has already been used.", status: 400 };
+  }
+
+  if (new Date(record.expiresAt) < new Date()) {
+    return { error: "This confirmation link has expired.", status: 400 };
+  }
+
+  return { participantId: record.participantId };
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token = normalizeToken(searchParams.get("token"));
@@ -39,12 +71,21 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    const resolved = await resolveConfirmToken(token);
+
+    if ("error" in resolved) {
+      return NextResponse.json(
+        { message: resolved.error },
+        { status: resolved.status },
+      );
+    }
+
     const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("participants")
       .select("user_id, first_name, last_name, email, status")
-      .eq("user_id", token)
+      .eq("user_id", resolved.participantId)
       .single();
 
     if (error || !data) {
@@ -128,12 +169,21 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const resolved = await resolveConfirmToken(token);
+
+    if ("error" in resolved) {
+      return NextResponse.json(
+        { message: resolved.error },
+        { status: resolved.status },
+      );
+    }
+
     const supabase = await createClient();
 
     const { data: participant, error: participantError } = await supabase
       .from("participants")
       .select("user_id, first_name, email, status")
-      .eq("user_id", token)
+      .eq("user_id", resolved.participantId)
       .single();
 
     if (participantError || !participant) {
@@ -177,7 +227,7 @@ export async function POST(request: NextRequest) {
     const { error: updateError } = await supabase
       .from("participants")
       .update({ status: "CONFIRMED" })
-      .eq("user_id", token);
+      .eq("user_id", resolved.participantId);
 
     if (updateError) {
       console.error("Confirm POST participant update failed", {
@@ -186,6 +236,12 @@ export async function POST(request: NextRequest) {
       });
       throw updateError;
     }
+
+    // Mark the token as used so it cannot be reused
+    await db
+      .update(confirmTokens)
+      .set({ usedAt: new Date() })
+      .where(eq(confirmTokens.token, token));
 
     sendAttendanceConfirmedEmail(participant.email, participant.first_name).catch(
       (emailError) => {
