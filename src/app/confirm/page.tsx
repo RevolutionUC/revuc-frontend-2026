@@ -9,11 +9,13 @@ interface ConfirmData {
   lastName: string;
   canConfirm: boolean;
   alreadyConfirmed: boolean;
+  deadlinePassed?: boolean;
 }
 
 function ConfirmContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+  const response = searchParams.get("response"); // "yes" | "no" | null
   const { data: session, isPending } = authClient.useSession();
 
   const [data, setData] = useState<ConfirmData | null>(null);
@@ -21,10 +23,11 @@ function ConfirmContent() {
   const [signInLoading, setSignInLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState<string | null>(null);
+  const [declined, setDeclined] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const callbackUrl = token
-    ? `/confirm?token=${encodeURIComponent(token)}`
+    ? `/confirm?token=${encodeURIComponent(token)}${response ? `&response=${encodeURIComponent(response)}` : ""}`
     : "/confirm";
 
   const isSignedIn = !!session?.user;
@@ -109,6 +112,39 @@ function ConfirmContent() {
       return;
     }
 
+    // Auto-decline when response=no
+    if (response === "no") {
+      setLoading(true);
+      setError(null);
+
+      fetch("/api/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, response: "no" }),
+      })
+        .then(async (res) => {
+          const json = (await res.json()) as {
+            message?: string;
+            declined?: boolean;
+          };
+          if (!res.ok) {
+            throw new Error(json.message ?? "Failed to process decline.");
+          }
+          setDeclined(true);
+          setData({
+            firstName: "",
+            lastName: "",
+            canConfirm: false,
+            alreadyConfirmed: false,
+          });
+        })
+        .catch((err: Error) => {
+          setError(err.message);
+        })
+        .finally(() => setLoading(false));
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
@@ -119,6 +155,7 @@ function ConfirmContent() {
           lastName?: string;
           canConfirm?: boolean;
           alreadyConfirmed?: boolean;
+          deadlinePassed?: boolean;
           message?: string;
         };
         if (!res.ok) {
@@ -131,6 +168,7 @@ function ConfirmContent() {
           lastName: json.lastName ?? "",
           canConfirm: !!json.canConfirm,
           alreadyConfirmed: !!json.alreadyConfirmed,
+          deadlinePassed: !!json.deadlinePassed,
         });
       })
       .catch((err: Error) => {
@@ -215,27 +253,39 @@ function ConfirmContent() {
           RevolutionUC 2026
         </p>
         <h1 className="text-3xl font-bold text-white">
-          {data.alreadyConfirmed ? "Attendance Confirmed" : "Confirm Attendance"}
+          {declined
+            ? "Attendance Declined"
+            : data.deadlinePassed
+              ? "Confirmation Closed"
+              : data.alreadyConfirmed
+                ? "Attendance Confirmed"
+                : "Confirm Attendance"}
         </h1>
         <p className="mt-2 text-[#EDF6FF] text-sm">
-          {data.alreadyConfirmed
-            ? "Your attendance has already been confirmed."
-            : "Confirm your attendance to reserve your spot at RevolutionUC 2026."}
+          {declined
+            ? "You have declined your attendance."
+            : data.deadlinePassed
+              ? "The confirmation deadline has passed."
+              : data.alreadyConfirmed
+                ? "Your attendance has already been confirmed."
+                : "Confirm your attendance to reserve your spot at RevolutionUC 2026."}
         </p>
       </div>
 
       {/* Body */}
       <div className="bg-[#EDF6FF] px-8 py-8 space-y-6">
         {/* Name */}
-        <div className="text-center space-y-1">
-            <p className="text-2xl font-bold text-[#151477]">
-            {data.firstName} {data.lastName}
-          </p>
-        </div>
+        {!declined && (
+          <div className="text-center space-y-1">
+              <p className="text-2xl font-bold text-[#151477]">
+              {data.firstName} {data.lastName}
+            </p>
+          </div>
+        )}
 
         <hr className="border-dashed border-[#228CF6]/30" />
 
-        {!data.alreadyConfirmed && data.canConfirm && (
+        {!declined && !data.deadlinePassed && !data.alreadyConfirmed && data.canConfirm && (
           <button
             type="button"
             onClick={handleConfirmAttendance}
@@ -244,6 +294,30 @@ function ConfirmContent() {
           >
             {confirming ? "Confirming..." : "Confirm my attendance"}
           </button>
+        )}
+
+        {declined && (
+          <div className="rounded-2xl bg-[#eab308]/15 border border-[#eab308]/50 p-5 text-sm text-[#151477] space-y-1">
+            <p className="font-semibold">You have declined attendance.</p>
+            <p className="leading-relaxed text-[#151477]/85">
+              Your registration is still active. If you change your mind, contact us at{" "}
+              <a href="mailto:info@revolutionuc.com" className="text-[#228CF6] font-semibold hover:underline">
+                info@revolutionuc.com
+              </a>.
+            </p>
+          </div>
+        )}
+
+        {data.deadlinePassed && !declined && (
+          <div className="rounded-2xl bg-[#ef4444]/15 border border-[#ef4444]/50 p-5 text-sm text-[#151477] space-y-1">
+            <p className="font-semibold">Confirmation deadline has passed.</p>
+            <p className="leading-relaxed text-[#151477]/85">
+              The deadline to confirm your attendance was March 25, 2026 at 11:59 PM EST. If you still wish to attend, contact us at{" "}
+              <a href="mailto:info@revolutionuc.com" className="text-[#228CF6] font-semibold hover:underline">
+                info@revolutionuc.com
+              </a>.
+            </p>
+          </div>
         )}
 
         {(data.alreadyConfirmed || confirmMessage) && (

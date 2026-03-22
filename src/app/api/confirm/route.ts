@@ -8,6 +8,13 @@ import { eq } from "drizzle-orm";
 
 type ParticipantStatus = "REGISTERED" | "WAITLISTED" | "CONFIRMED";
 
+// March 25, 2026 11:59 PM EST = March 26, 2026 4:59 AM UTC
+const CONFIRMATION_DEADLINE = new Date("2026-03-26T04:59:00Z");
+
+function isPastDeadline(): boolean {
+  return new Date() > CONFIRMATION_DEADLINE;
+}
+
 function maskToken(token: string | null): string {
   if (!token) return "<missing>";
   if (token.length <= 8) return token;
@@ -128,6 +135,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    if (isPastDeadline()) {
+      return NextResponse.json({
+        firstName: data.first_name,
+        lastName: data.last_name,
+        canConfirm: false,
+        alreadyConfirmed: false,
+        deadlinePassed: true,
+      });
+    }
+
     return NextResponse.json({
       firstName: data.first_name,
       lastName: data.last_name,
@@ -150,10 +167,14 @@ export async function POST(request: NextRequest) {
   }
 
   let token: string | null = null;
+  let response: "yes" | "no" = "yes";
 
   try {
-    const body = (await request.json()) as { token?: string };
+    const body = (await request.json()) as { token?: string; response?: "yes" | "no" };
     token = normalizeToken(body.token ?? null);
+    if (body.response === "no") {
+      response = "no";
+    }
   } catch {
     return NextResponse.json(
       { message: "Invalid request body." },
@@ -224,6 +245,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (isPastDeadline()) {
+      return NextResponse.json(
+        { message: "The confirmation deadline (March 25, 2026 11:59 PM EST) has passed." },
+        { status: 403 },
+      );
+    }
+
+    // Mark the token as used so it cannot be reused
+    await db
+      .update(confirmTokens)
+      .set({ usedAt: new Date() })
+      .where(eq(confirmTokens.token, token));
+
+    if (response === "no") {
+      return NextResponse.json({
+        message: "You have declined attendance. Your registration remains active.",
+        declined: true,
+      });
+    }
+
     const { error: updateError } = await supabase
       .from("participants")
       .update({ status: "CONFIRMED" })
@@ -236,12 +277,6 @@ export async function POST(request: NextRequest) {
       });
       throw updateError;
     }
-
-    // Mark the token as used so it cannot be reused
-    await db
-      .update(confirmTokens)
-      .set({ usedAt: new Date() })
-      .where(eq(confirmTokens.token, token));
 
     sendAttendanceConfirmedEmail(participant.email, participant.first_name).catch(
       (emailError) => {
