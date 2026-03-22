@@ -173,6 +173,13 @@ export default function BoardingPass() {
       return;
     }
 
+    // Enforce maximum age of 100
+    if (numValue > 100) {
+      setAgeError("Age must be 100 or under");
+      setAge(value);
+      return;
+    }
+
     // Valid age
     setAge(value);
     setAgeError("");
@@ -185,6 +192,10 @@ export default function BoardingPass() {
     const numValue = Number(age);
     if (!Number.isNaN(numValue) && numValue < 18) {
       setAge("18");
+      setAgeError("");
+    }
+    if (!Number.isNaN(numValue) && numValue > 100) {
+      setAge("100");
       setAgeError("");
     }
   }
@@ -446,6 +457,7 @@ export default function BoardingPass() {
                     type="number"
                     placeholder="18"
                     min={18}
+                    max={100}
                     value={age}
                     onChange={handleAgeChange}
                     onBlur={handleAgeBlur}
