@@ -8,6 +8,13 @@
       "when": 1771576748573,
       "tag": "0000_mushy_marten_broadcloak",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1774210926557,
+      "tag": "0001_add_confirm_tokens",
+      "breakpoints": true
     }
   ]
 }
