@@ -30,8 +30,8 @@ export default function ScrollSmootherWrapper({
     }
 
     smootherRef.current = ScrollSmoother.create({
-      smooth: 1.5,
-      effects: true,
+      smooth: 0.5,
+      effects: false,
       smoothTouch: 0.1,
     });
 

@@ -27,6 +27,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Create an array of 8 items to map over
+  const bgParts = Array.from({ length: 8 }, (_, i) => i + 1);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${instrumentSans.className} ${ibmPlexMono.variable} antialiased`}>
@@ -45,11 +48,11 @@ export default function RootLayout({
           <GsapRouteCleanupProvider>
             <ScrollSmootherWrapper>
             <div
-              className="relative flex min-h-screen flex-col 
+              className="relative flex min-h-screen flex-col
             "
             >
               <div
-                className="fixed inset-0 bg-top bg-[length:100%_100%] md:bg-[length:100%_auto]"
+                className="fixed inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
                   backgroundImage: "url(/website-bg-no-grain.webp)",
                   transform: "translateZ(0)",
