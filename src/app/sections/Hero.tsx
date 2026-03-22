@@ -149,6 +149,19 @@ export default function HeroSection() {
             className="object-contain"
           />
         </div>
+        <div
+          className="absolute top-[70%] right-[60%] w-[40vh] h-64 opacity-70"
+          data-speed="0.8"
+        > 
+          <Image
+            src="/cloud_final1.webp"
+            alt=""
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 500px"
+            loading="lazy"
+          />
+        </div>
       </div>
 
       {/* Content */}
