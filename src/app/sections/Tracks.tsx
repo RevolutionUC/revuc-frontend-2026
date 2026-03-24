@@ -26,7 +26,7 @@ const trackData = [
       "Decided by participant votes to highlight the most popular project among attendees.",
   },
   {
-    title: "Surprize / Super Secret track",
+    title: "Surprise / Super Secret track",
     description: "Shhhh...",
   },
 ];
