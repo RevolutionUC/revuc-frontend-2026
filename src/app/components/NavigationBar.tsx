@@ -235,7 +235,7 @@ export function NavigationBar() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
+              {/*<NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Button
                     className="hover:bg-white hover:cursor-pointer text-white font-mono text-sm sm:text-base md:text-lg hover:text-black bg-[#151477] rounded-none"
@@ -247,7 +247,7 @@ export function NavigationBar() {
                     [SCHEDULE]
                   </Button>
                 </NavigationMenuLink>
-              </NavigationMenuItem>
+              </NavigationMenuItem>*/}
               {isPending ? (
                 <NavigationMenuItem>
                   <div className="h-10 w-24 bg-gray-200 animate-pulse rounded" />
@@ -349,13 +349,13 @@ export function NavigationBar() {
                 >
                   [FAQ]
                 </button>
-                <button
+                {/*<button
                   type="button"
                   className="flex w-full items-center justify-start rounded-none border border-white/20 bg-[#151477] text-white font-mono text-sm hover:bg-white hover:text-black"
-                  onClick={() => _handleMobileNavigate("/schedule")}
+                  onClick={() => handleMobileNavigate("/schedule")}
                 >
                   [SCHEDULE]
-                </button>
+                </button>*/}
 
                 {isPending ? (
                   <div className="h-10 w-24 bg-white/20 animate-pulse rounded" />

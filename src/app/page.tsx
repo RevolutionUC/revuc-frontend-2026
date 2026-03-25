@@ -1,3 +1,4 @@
+"use client";
 // import Sponsors from "@/app/sections/Sponsors";
 import { Suspense } from "react";
 import Hero from "@/app/sections/Hero";
@@ -10,9 +11,7 @@ import Faq from "@/app/sections/FAQ";
 import Footer from "@/app/sections/Footer";
 import Sponsors from "./sections/Sponsors";
 
-export const dynamic = "force-dynamic";
-
-export default async function Home() {
+const Home = () => {
   return (
     <>
       <Hero />
@@ -25,8 +24,9 @@ export default async function Home() {
       <Sponsors />
       <Prizes />
       <Faq />
-
       <Footer />
     </>
   );
-}
+};
+
+export default Home;

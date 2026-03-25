@@ -1,14 +1,13 @@
-import { Suspense } from "react";
-import ScheduleSection from "@/app/sections/Schedule";
-
-export const dynamic = "force-dynamic";
-
-export default function SchedulePage() {
+export default function Schedule() {
   return (
-    <div className="min-h-screen pt-16">
-      <Suspense fallback={<div className="section relative w-full overflow-hidden pt-[160px] pb-[200px] flex items-center justify-center"><p className="text-[#151477]">Loading schedule...</p></div>}>
-        <ScheduleSection />
-      </Suspense>
+    <div
+      id="schedule"
+      className="section w-full h-screen relative overflow-hidden"
+    >
+      {/* Content */}
+      <div className="relative z-20 w-full h-full text-white flex items-center justify-center pt-[10%] px-4 sm:px-6 lg:px-8">
+        Coming soon :)
+      </div>
     </div>
   );
 }
