@@ -7,7 +7,6 @@ const scheduleMuted = "#228CF6";
 const schedulePanel = "#EDF6FF";
 const schedulePanelBorder = "#B7D9FF";
 const scheduleRow = "#F7FBFF";
-const scheduleHeader = "#D9ECFF";
 
 const formatTime = (value?: string | null) => {
   if (!value) {
@@ -135,7 +134,13 @@ export default async function ScheduleSection() {
           </p>
         </div>
 
-        <div className="">
+        <div
+          className="rounded-[28px] border p-3 sm:rounded-[36px] sm:p-4"
+          style={{
+            borderColor: schedulePanelBorder,
+            backgroundColor: schedulePanel,
+          }}
+        >
           {!hasSchedule ? (
             <div
               className="rounded-[28px] border px-6 py-10 text-center"
@@ -150,39 +155,39 @@ export default async function ScheduleSection() {
               </p>
             </div>
           ) : (
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {Array.from(grouped.entries()).map(([dayLabel, items]) => (
                 <div
                   key={dayLabel}
-                  className="overflow-hidden rounded-[28px] border"
+                  className="overflow-hidden rounded-[22px] border sm:rounded-[28px]"
                   style={{ borderColor: schedulePanelBorder }}
                 >
-                  <div className="px-6 py-4" style={{ backgroundColor: scheduleAccent }}>
-                    <p className="text-lg font-semibold" style={{ color: "white" }}>
+                  <div className="px-4 py-3 sm:px-6 sm:py-4" style={{ backgroundColor: scheduleAccent }}>
+                    <p className="text-base font-semibold sm:text-lg" style={{ color: "white" }}>
                       {dayLabel}
                     </p>
                   </div>
                   <div className="divide-y divide-[#B7D9FF]" style={{ backgroundColor: scheduleRow }}>
                     {items.map((item) => (
+                      <div
+                        key={`${item.id}`}
+                        className="grid grid-cols-[110px_1fr] items-stretch gap-2 px-4 py-3 sm:grid-cols-[140px_1fr] sm:px-6 md:grid-cols-[160px_1fr]"
+                      >
                         <div
-                          key={`${item.id}`}
-                          className="grid gap-2 px-6 py-3 sm:grid-cols-[160px_1fr] sm:items-stretch"
+                          className="flex items-start border-r border-[#B7D9FF] pr-3 text-sm font-semibold sm:pr-4 sm:text-base"
+                          style={{ color: scheduleAccent }}
                         >
-                          <div
-                            className="border-b border-[#B7D9FF] pb-2 text-sm font-semibold sm:flex sm:items-start sm:border-b-0 sm:border-r sm:pb-0 sm:pr-4 sm:text-base"
-                            style={{ color: scheduleAccent }}
-                          >
-                            {formatTimeRange(item)}
-                          </div>
+                          {formatTimeRange(item)}
+                        </div>
                         <div>
                           <p className="text-base font-semibold" style={{ color: scheduleAccent }}>
                             {item.name || "TBA"}
                           </p>
-                            {item.location ? (
-                              <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: scheduleMuted }}>
-                                {item.location}
-                              </p>
-                            ) : null}
+                          {item.location ? (
+                            <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: scheduleMuted }}>
+                              {item.location}
+                            </p>
+                          ) : null}
                           {typeof item.capacity === "number" ? (
                             <p className="mt-1 text-xs" style={{ color: scheduleMuted }}>
                               Capacity: {item.capacity}
