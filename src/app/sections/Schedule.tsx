@@ -164,10 +164,10 @@ export default async function ScheduleSection() {
                   </div>
                   <div className="divide-y divide-[#B7D9FF]" style={{ backgroundColor: scheduleRow }}>
                     {items.map((item) => (
-                      <div
-                        key={`${item.id}`}
-                        className="grid gap-4 px-6 py-5 sm:grid-cols-[160px_1fr] sm:items-start"
-                      >
+                        <div
+                          key={`${item.id}`}
+                          className="grid gap-2 px-6 py-3 sm:grid-cols-[160px_1fr] sm:items-start"
+                        >
                         <div className="text-sm font-semibold sm:text-base" style={{ color: scheduleAccent }}>
                           {formatTimeRange(item)}
                         </div>
@@ -175,11 +175,11 @@ export default async function ScheduleSection() {
                           <p className="text-base font-semibold" style={{ color: scheduleAccent }}>
                             {item.name || "TBA"}
                           </p>
-                          {item.location ? (
-                            <p className="mt-2 text-xs uppercase tracking-[0.2em]" style={{ color: scheduleMuted }}>
-                              {item.location}
-                            </p>
-                          ) : null}
+                            {item.location ? (
+                              <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: scheduleMuted }}>
+                                {item.location}
+                              </p>
+                            ) : null}
                           {typeof item.capacity === "number" ? (
                             <p className="mt-1 text-xs" style={{ color: scheduleMuted }}>
                               Capacity: {item.capacity}
