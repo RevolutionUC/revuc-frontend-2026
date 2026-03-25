@@ -117,7 +117,7 @@ export default async function ScheduleSection() {
   const hasSchedule = sorted.length > 0 && !error;
 
   return (
-    <section id="schedule" className="section relative w-full overflow-hidden pt-[160px] pb-[200px]">
+    <section id="schedule" className="section relative w-full overflow-hidden pb-[100px]">
       <div className="absolute inset-0" />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
