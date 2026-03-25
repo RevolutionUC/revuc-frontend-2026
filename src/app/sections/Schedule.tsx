@@ -144,10 +144,10 @@ export default async function ScheduleSection() {
           {items.map((item) => (
             <div
               key={`${keyPrefix}${item.id}`}
-              className="grid grid-cols-[110px_1fr] items-stretch gap-5 px-4 py-3 sm:grid-cols-[140px_1fr] sm:px-6 md:grid-cols-[160px_1fr]"
+              className="grid grid-cols-[152px_1fr] items-stretch gap-10 px-4 py-3 sm:grid-cols-[170px_1fr] sm:px-6 md:grid-cols-[190px_1fr]"
             >
               <div
-                className="flex items-start border-r border-[#B7D9FF] pr-4 text-sm font-semibold sm:pr-5 sm:text-base"
+                className="flex items-start  border-r border-[#B7D9FF] pr-4 text-sm font-semibold sm:pr-5 sm:text-base"
                 style={{ color: scheduleAccent }}
               >
                 {formatTimeRange(item)}
