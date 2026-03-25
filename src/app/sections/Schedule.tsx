@@ -160,7 +160,7 @@ export default async function ScheduleSection() {
     return Array.from(groups.entries()).map(([dayLabel, items]) => (
       <div
         key={`${keyPrefix}${dayLabel}`}
-        className="overflow-hidden rounded-[22px] border sm:rounded-[28px]"
+        className="overflow-hidden border"
         style={{ borderColor: schedulePanelBorder }}
       >
         <div className="px-4 py-3 sm:px-6 sm:py-4" style={{ backgroundColor: scheduleAccent }}>
