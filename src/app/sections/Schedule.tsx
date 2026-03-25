@@ -92,6 +92,11 @@ const groupByDay = (items: ScheduleItem[]) => {
   return grouped;
 };
 
+const isShuttleItem = (item: ScheduleItem) => {
+  const label = item.name?.trim().toUpperCase() ?? "";
+  return label.startsWith("SHUTTLE:");
+};
+
 const fetchSchedule = async () => {
   noStore();
   
@@ -116,8 +121,58 @@ const fetchSchedule = async () => {
 export default async function ScheduleSection() {
   const { data, error } = await fetchSchedule();
   const sorted = sortSchedule(data);
-  const grouped = groupByDay(sorted);
-  const hasSchedule = sorted.length > 0 && !error;
+  const mainScheduleItems = sorted.filter((item) => !isShuttleItem(item));
+  const shuttleScheduleItems = sorted.filter(isShuttleItem);
+  const groupedMain = groupByDay(mainScheduleItems);
+  const groupedShuttles = groupByDay(shuttleScheduleItems);
+  const hasMainSchedule = mainScheduleItems.length > 0 && !error;
+  const hasShuttleSchedule = shuttleScheduleItems.length > 0 && !error;
+
+  const renderGroupedItems = (groups: Map<string, ScheduleItem[]>, keyPrefix = "") => {
+    return Array.from(groups.entries()).map(([dayLabel, items]) => (
+      <div
+        key={`${keyPrefix}${dayLabel}`}
+        className="overflow-hidden rounded-[22px] border sm:rounded-[28px]"
+        style={{ borderColor: schedulePanelBorder }}
+      >
+        <div className="px-4 py-3 sm:px-6 sm:py-4" style={{ backgroundColor: scheduleAccent }}>
+          <p className="text-base font-semibold sm:text-lg" style={{ color: "white" }}>
+            {dayLabel}
+          </p>
+        </div>
+        <div className="divide-y divide-[#B7D9FF]" style={{ backgroundColor: scheduleRow }}>
+          {items.map((item) => (
+            <div
+              key={`${keyPrefix}${item.id}`}
+              className="grid grid-cols-[110px_1fr] items-stretch gap-5 px-4 py-3 sm:grid-cols-[140px_1fr] sm:px-6 md:grid-cols-[160px_1fr]"
+            >
+              <div
+                className="flex items-start border-r border-[#B7D9FF] pr-4 text-sm font-semibold sm:pr-5 sm:text-base"
+                style={{ color: scheduleAccent }}
+              >
+                {formatTimeRange(item)}
+              </div>
+              <div>
+                <p className="text-base font-semibold" style={{ color: scheduleAccent }}>
+                  {item.name || "TBA"}
+                </p>
+                {item.location ? (
+                  <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: scheduleMuted }}>
+                    {item.location}
+                  </p>
+                ) : null}
+                {typeof item.capacity === "number" ? (
+                  <p className="mt-1 text-xs" style={{ color: scheduleMuted }}>
+                    Capacity: {item.capacity}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ));
+  };
 
   return (
     <section id="schedule" className="section relative w-full overflow-hidden pt-[150px] pb-[100px]">
@@ -135,13 +190,9 @@ export default async function ScheduleSection() {
         </div>
 
         <div
-          className="rounded-[28px] border p-3 sm:rounded-[36px] sm:p-4"
-          style={{
-            borderColor: schedulePanelBorder,
-            backgroundColor: schedulePanel,
-          }}
+          className=""
         >
-          {!hasSchedule ? (
+          {!hasMainSchedule ? (
             <div
               className="rounded-[28px] border px-6 py-10 text-center"
               style={{
@@ -155,52 +206,17 @@ export default async function ScheduleSection() {
               </p>
             </div>
           ) : (
-            <div className="space-y-6 sm:space-y-8">
-              {Array.from(grouped.entries()).map(([dayLabel, items]) => (
-                <div
-                  key={dayLabel}
-                  className="overflow-hidden rounded-[22px] border sm:rounded-[28px]"
-                  style={{ borderColor: schedulePanelBorder }}
-                >
-                  <div className="px-4 py-3 sm:px-6 sm:py-4" style={{ backgroundColor: scheduleAccent }}>
-                    <p className="text-base font-semibold sm:text-lg" style={{ color: "white" }}>
-                      {dayLabel}
-                    </p>
-                  </div>
-                  <div className="divide-y divide-[#B7D9FF]" style={{ backgroundColor: scheduleRow }}>
-                    {items.map((item) => (
-                      <div
-                        key={`${item.id}`}
-                        className="grid grid-cols-[110px_1fr] items-stretch gap-2 px-4 py-3 sm:grid-cols-[140px_1fr] sm:px-6 md:grid-cols-[160px_1fr]"
-                      >
-                        <div
-                          className="flex items-start border-r border-[#B7D9FF] pr-3 text-sm font-semibold sm:pr-4 sm:text-base"
-                          style={{ color: scheduleAccent }}
-                        >
-                          {formatTimeRange(item)}
-                        </div>
-                        <div>
-                          <p className="text-base font-semibold" style={{ color: scheduleAccent }}>
-                            {item.name || "TBA"}
-                          </p>
-                          {item.location ? (
-                            <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: scheduleMuted }}>
-                              {item.location}
-                            </p>
-                          ) : null}
-                          {typeof item.capacity === "number" ? (
-                            <p className="mt-1 text-xs" style={{ color: scheduleMuted }}>
-                              Capacity: {item.capacity}
-                            </p>
-                          ) : null}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <div className="space-y-6 sm:space-y-8">{renderGroupedItems(groupedMain)}</div>
           )}
+
+          {hasShuttleSchedule ? (
+            <div className="mt-8 space-y-4 sm:mt-10 sm:space-y-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#228CF6] sm:text-sm">
+                Shuttle Schedule
+              </p>
+              <div className="space-y-6 sm:space-y-8">{renderGroupedItems(groupedShuttles, "shuttle-")}</div>
+            </div>
+          ) : null}
         </div>
 
         {error ? (
