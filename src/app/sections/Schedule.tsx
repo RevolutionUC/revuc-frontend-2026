@@ -4,9 +4,34 @@ import { unstable_noStore as noStore } from "next/cache";
 
 const scheduleAccent = "#151477";
 const scheduleMuted = "#228CF6";
-const schedulePanel = "#EDF6FF";
 const schedulePanelBorder = "#B7D9FF";
 const scheduleRow = "#F7FBFF";
+const SCHEDULE_TIME_ZONE = "America/New_York";
+
+const timeFormatter = new Intl.DateTimeFormat("en-US", {
+  hour: "numeric",
+  minute: "2-digit",
+  timeZone: SCHEDULE_TIME_ZONE,
+});
+
+const dayFormatter = new Intl.DateTimeFormat("en-US", {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+  timeZone: SCHEDULE_TIME_ZONE,
+});
+
+const shortDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "numeric",
+  day: "numeric",
+  timeZone: SCHEDULE_TIME_ZONE,
+});
+
+const isSameDay = (date1: Date, date2: Date) => {
+  const d1 = shortDateFormatter.format(date1);
+  const d2 = shortDateFormatter.format(date2);
+  return d1 === d2;
+};
 
 const formatTime = (value?: string | null) => {
   if (!value) {
@@ -18,21 +43,28 @@ const formatTime = (value?: string | null) => {
     return value;
   }
 
-  return new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  }).format(parsed);
+  return timeFormatter.format(parsed);
 };
 
 const formatTimeRange = (item: ScheduleItem) => {
+  const startParsed = item.start_time ? new Date(item.start_time) : null;
+  const endParsed = item.end_time ? new Date(item.end_time) : null;
   const start = formatTime(item.start_time);
   const end = formatTime(item.end_time);
+  const isMultiDay = startParsed && endParsed && !isSameDay(startParsed, endParsed);
 
   if (start && end) {
-    return `${start} - ${end}`;
+    if (isMultiDay) {
+      return {
+        time: `${start} - ${end}`,
+        startDate: shortDateFormatter.format(startParsed!),
+        endDate: shortDateFormatter.format(endParsed!),
+      };
+    }
+    return { time: `${start} - ${end}`, startDate: null, endDate: null };
   }
 
-  return start || end || "Time TBA";
+  return { time: start || end || "Time TBA", startDate: null, endDate: null };
 };
 
 const formatDayLabel = (value?: string | null) => {
@@ -45,11 +77,7 @@ const formatDayLabel = (value?: string | null) => {
     return value;
   }
 
-  return new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  }).format(parsed);
+  return dayFormatter.format(parsed);
 };
 
 const toTimestamp = (value?: string | null) => {
@@ -147,10 +175,16 @@ export default async function ScheduleSection() {
               className="grid grid-cols-[152px_1fr] items-stretch gap-10 px-4 py-3 sm:grid-cols-[170px_1fr] sm:px-6 md:grid-cols-[190px_1fr]"
             >
               <div
-                className="flex items-start  border-r border-[#B7D9FF] pr-4 text-sm font-semibold sm:pr-5 sm:text-base"
+                className="flex flex-col items-start border-r border-[#B7D9FF] pr-4 text-sm font-semibold sm:pr-5 sm:text-base"
                 style={{ color: scheduleAccent }}
               >
-                {formatTimeRange(item)}
+                <span>{formatTimeRange(item).time}</span>
+                {formatTimeRange(item).startDate && (
+                  <span style={{ color: scheduleMuted, fontSize: "0.7em", marginTop: "2px" }}>
+                    {formatTimeRange(item).startDate}
+                    {formatTimeRange(item).endDate && ` - ${formatTimeRange(item).endDate}`}
+                  </span>
+                )}
               </div>
               <div>
                 <p className="text-base font-semibold" style={{ color: scheduleAccent }}>
