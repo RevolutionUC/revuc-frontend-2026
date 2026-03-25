@@ -85,3 +85,14 @@ export const confirmTokens = pgTable(
     index("confirm_tokens_participant_idx").on(table.participantId),
   ],
 );
+
+export const scheduleEvents = pgTable("schedule_events", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: text("title").notNull(),
+  description: text("description"),
+  startTime: timestamp("start_time", { withTimezone: true }).notNull(),
+  endTime: timestamp("end_time", { withTimezone: true }),
+  location: text("location"),
+  type: text("type").notNull(), 
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
