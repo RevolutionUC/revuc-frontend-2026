@@ -166,11 +166,14 @@ export default async function ScheduleSection() {
                     {items.map((item) => (
                         <div
                           key={`${item.id}`}
-                          className="grid gap-2 px-6 py-3 sm:grid-cols-[160px_1fr] sm:items-start"
+                          className="grid gap-2 px-6 py-3 sm:grid-cols-[160px_1fr] sm:items-stretch"
                         >
-                        <div className="text-sm font-semibold sm:text-base" style={{ color: scheduleAccent }}>
-                          {formatTimeRange(item)}
-                        </div>
+                          <div
+                            className="border-b border-[#B7D9FF] pb-2 text-sm font-semibold sm:flex sm:items-start sm:border-b-0 sm:border-r sm:pb-0 sm:pr-4 sm:text-base"
+                            style={{ color: scheduleAccent }}
+                          >
+                            {formatTimeRange(item)}
+                          </div>
                         <div>
                           <p className="text-base font-semibold" style={{ color: scheduleAccent }}>
                             {item.name || "TBA"}
