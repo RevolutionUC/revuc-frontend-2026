@@ -118,7 +118,7 @@ export default async function ScheduleSection() {
 
   return (
     <section id="schedule" className="section relative w-full overflow-hidden pt-[160px] pb-[200px]">
-      <div className="absolute inset-0 bg-linear-to-b from-[#8DD0FF] via-[#6AB6FF] to-[#3A7DEB]" />
+      <div className="absolute inset-0" />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 sm:mb-14">
