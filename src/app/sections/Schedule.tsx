@@ -185,7 +185,7 @@ export default async function ScheduleSection() {
             Schedule
           </h2>
           <p className="mt-3 max-w-2xl text-base text-[#151477]/80 sm:text-lg">
-            All workshops, meals, and milestone moments in one place.
+            All workshops, meals, and shuttle schedules.
           </p>
         </div>
 
