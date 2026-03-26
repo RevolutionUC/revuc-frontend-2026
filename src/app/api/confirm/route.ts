@@ -8,13 +8,6 @@ import { eq } from "drizzle-orm";
 
 type ParticipantStatus = "REGISTERED" | "WAITLISTED" | "CONFIRMED";
 
-// March 25, 2026 11:59 PM EST = March 26, 2026 4:59 AM UTC
-const CONFIRMATION_DEADLINE = new Date("2026-03-26T04:59:00Z");
-
-function isPastDeadline(): boolean {
-  return new Date() > CONFIRMATION_DEADLINE;
-}
-
 function maskToken(token: string | null): string {
   if (!token) return "<missing>";
   if (token.length <= 8) return token;
@@ -135,16 +128,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    if (isPastDeadline()) {
-      return NextResponse.json({
-        firstName: data.first_name,
-        lastName: data.last_name,
-        canConfirm: false,
-        alreadyConfirmed: false,
-        deadlinePassed: true,
-      });
-    }
-
     return NextResponse.json({
       firstName: data.first_name,
       lastName: data.last_name,
@@ -242,13 +225,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { message: "This confirmation link is not valid anymore." },
         { status: 400 },
-      );
-    }
-
-    if (isPastDeadline()) {
-      return NextResponse.json(
-        { message: "The confirmation deadline (March 25, 2026 11:59 PM EST) has passed." },
-        { status: 403 },
       );
     }
 

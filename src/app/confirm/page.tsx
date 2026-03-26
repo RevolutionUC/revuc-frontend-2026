@@ -9,7 +9,6 @@ interface ConfirmData {
   lastName: string;
   canConfirm: boolean;
   alreadyConfirmed: boolean;
-  deadlinePassed?: boolean;
 }
 
 function ConfirmContent() {
@@ -155,7 +154,6 @@ function ConfirmContent() {
           lastName?: string;
           canConfirm?: boolean;
           alreadyConfirmed?: boolean;
-          deadlinePassed?: boolean;
           message?: string;
         };
         if (!res.ok) {
@@ -168,7 +166,6 @@ function ConfirmContent() {
           lastName: json.lastName ?? "",
           canConfirm: !!json.canConfirm,
           alreadyConfirmed: !!json.alreadyConfirmed,
-          deadlinePassed: !!json.deadlinePassed,
         });
       })
       .catch((err: Error) => {
@@ -255,20 +252,16 @@ function ConfirmContent() {
         <h1 className="text-3xl font-bold text-white">
           {declined
             ? "Attendance Declined"
-            : data.deadlinePassed
-              ? "Confirmation Closed"
-              : data.alreadyConfirmed
-                ? "Attendance Confirmed"
-                : "Confirm Attendance"}
+            : data.alreadyConfirmed
+              ? "Attendance Confirmed"
+              : "Confirm Attendance"}
         </h1>
         <p className="mt-2 text-[#EDF6FF] text-sm">
           {declined
             ? "You have declined your attendance."
-            : data.deadlinePassed
-              ? "The confirmation deadline has passed."
-              : data.alreadyConfirmed
-                ? "Your attendance has already been confirmed."
-                : "Confirm your attendance to reserve your spot at RevolutionUC 2026."}
+            : data.alreadyConfirmed
+              ? "Your attendance has already been confirmed."
+              : "Confirm your attendance to reserve your spot at RevolutionUC 2026."}
         </p>
       </div>
 
@@ -285,7 +278,7 @@ function ConfirmContent() {
 
         <hr className="border-dashed border-[#228CF6]/30" />
 
-        {!declined && !data.deadlinePassed && !data.alreadyConfirmed && data.canConfirm && (
+        {!declined && !data.alreadyConfirmed && data.canConfirm && (
           <button
             type="button"
             onClick={handleConfirmAttendance}
@@ -301,18 +294,6 @@ function ConfirmContent() {
             <p className="font-semibold">You have declined attendance.</p>
             <p className="leading-relaxed text-[#151477]/85">
               Your registration is still active. If you change your mind, contact us at{" "}
-              <a href="mailto:info@revolutionuc.com" className="text-[#228CF6] font-semibold hover:underline">
-                info@revolutionuc.com
-              </a>.
-            </p>
-          </div>
-        )}
-
-        {data.deadlinePassed && !declined && (
-          <div className="rounded-2xl bg-[#ef4444]/15 border border-[#ef4444]/50 p-5 text-sm text-[#151477] space-y-1">
-            <p className="font-semibold">Confirmation deadline has passed.</p>
-            <p className="leading-relaxed text-[#151477]/85">
-              The deadline to confirm your attendance was March 25, 2026 at 11:59 PM EST. If you still wish to attend, contact us at{" "}
               <a href="mailto:info@revolutionuc.com" className="text-[#228CF6] font-semibold hover:underline">
                 info@revolutionuc.com
               </a>.
