@@ -7,12 +7,15 @@ type TeamMember = {
 };
 
 const leads: TeamMember[] = [
-  { name: "Lead Member 01", title: "Executive Director", image: "/team-placeholder.svg" },
-  { name: "Lead Member 02", title: "Operations Lead", image: "/team-placeholder.svg" },
-  { name: "Lead Member 03", title: "Sponsorship Lead", image: "/team-placeholder.svg" },
-  { name: "Lead Member 04", title: "Marketing Lead", image: "/team-placeholder.svg" },
-  { name: "Lead Member 05", title: "Design Lead", image: "/team-placeholder.svg" },
-  { name: "Lead Member 06", title: "Engineering Lead", image: "/team-placeholder.svg" },
+  { name: "Lead Member 01", title: "Director", image: "/team-placeholder.svg" },
+  { name: "Lead Member 02", title: "Co-Lead", image: "/team-placeholder.svg" },
+  { name: "Lead Member 03", title: "Web Lead", image: "/team-placeholder.svg" },
+  { name: "Lead Member 04", title: "Web Lead", image: "/team-placeholder.svg" },
+  { name: "Lead Member 05", title: "Logistics Lead", image: "/team-placeholder.svg"},
+  { name: "Lead Member 06", title: "Sponsorship Lead", image: "/team-placeholder.svg" },
+  { name: "Lead Member 07", title: "Marketing Lead", image: "/team-placeholder.svg" },
+  { name: "Lead Member 08", title: "Branding Lead", image: "/team-placeholder.svg"},
+  
 ];
 
 const organizers: TeamMember[] = [
@@ -32,11 +35,11 @@ const organizers: TeamMember[] = [
 
 function TeamGrid({ members }: { members: TeamMember[] }) {
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {members.map((member) => (
         <article
           key={`${member.name}-${member.title}`}
-          className="group overflow-hidden border border-[#9dcfff]/70 bg-white/90 shadow-[0_10px_30px_rgba(21,20,119,0.12)] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1"
+          className="group overflow-hidden border border-[#9dcfff]/70 bg-white/90 shadow-[0_6px_15px_rgba(21,20,119,0.08)] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 text-center"
         >
           <div className="relative aspect-square w-full overflow-hidden bg-linear-to-br from-[#edf6ff] via-[#d8ebff] to-[#c1e0ff]">
             <Image
@@ -47,9 +50,9 @@ function TeamGrid({ members }: { members: TeamMember[] }) {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
-          <div className="border-t border-[#b9dbff] px-5 py-4">
-            <h3 className="text-xl font-semibold text-[#151477]">{member.name}</h3>
-            <p className="mt-1 text-sm font-medium tracking-wide text-[#228CF6] uppercase">
+          <div className="border-t border-[#b9dbff] px-4 py-3">
+            <h3 className="text-lg font-semibold text-[#151477]">{member.name}</h3>
+            <p className="mt-1 text-xs font-medium tracking-wide text-[#228CF6] uppercase">
               {member.title}
             </p>
           </div>
