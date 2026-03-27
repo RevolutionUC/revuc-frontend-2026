@@ -12,6 +12,9 @@ const sponsors = [
   },
   { name: "Medpace", src: "/sponsor logo/Medpace.png" },
   { name: "Kinetic Vision", src: "/sponsor logo/Kinetic_Vision.png" },
+  { name: "Featherless AI", src: "/sponsor logo/featherlessai.png" },
+  { name: "IEEE", src: "/sponsor logo/IEEE.png" },
+  { name: "Kloob", src: "/sponsor logo/Kloob.png" },
   { name: "ACM", src: "/sponsor logo/ACM.png" },
   { name: "MLH", src: "/sponsor logo/MLH.png" },
 ];
