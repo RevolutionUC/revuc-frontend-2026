@@ -12,6 +12,9 @@ const sponsors = [
   },
   { name: "Medpace", src: "/sponsor logo/Medpace.png" },
   { name: "Kinetic Vision", src: "/sponsor logo/Kinetic_Vision.png" },
+  { name: "Featherless AI", src: "/sponsor logo/featherlessai.png" },
+  { name: "IEEE", src: "/sponsor logo/IEEE.png" },
+  { name: "Kloob", src: "/sponsor logo/Kloob.png" },
   { name: "ACM", src: "/sponsor logo/ACM.png" },
   { name: "MLH", src: "/sponsor logo/MLH.png" },
 ];
@@ -22,7 +25,7 @@ export default function Sponsors() {
       <div className="hidden md:flex relative w-full min-h-screen items-center justify-center overflow-hidden py-12 pointer-events-none">
         <Image
           className="opacity-90 select-none w-full max-w-[620px] lg:max-w-[900px] xl:max-w-[1100px] 2xl:max-w-[1300px] h-auto"
-          src="/suitcase_high_rez.webp"
+          src="/final_sponsors.webp"
           width={1920}
           height={3666}
           alt="Suitcase"
