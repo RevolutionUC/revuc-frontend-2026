@@ -44,6 +44,38 @@ interface SplitTextProps {
   onLetterAnimationComplete?: () => void;
 }
 
+type SplitTag = NonNullable<SplitTextProps["tag"]>;
+
+function parseStartPosition(threshold: number, rootMargin: string): string {
+  const startPct = (1 - threshold) * 100;
+  const marginMatch = /^(-?\d+(?:\.\d+)?)(px|em|rem|%)?$/.exec(rootMargin);
+  const marginValue = marginMatch ? parseFloat(marginMatch[1]) : 0;
+  const marginUnit = marginMatch ? marginMatch[2] || "px" : "px";
+
+  if (marginValue === 0) {
+    return `top ${startPct}%`;
+  }
+
+  const signPrefix = marginValue < 0 ? "-=" : "+=";
+  return `top ${startPct}%${signPrefix}${Math.abs(marginValue)}${marginUnit}`;
+}
+
+function getSplitTargets(self: GSAPSplitText, splitType: string): Element[] {
+  const candidates: Array<{ enabled: boolean; values?: Element[] }> = [
+    { enabled: splitType.includes("chars"), values: self.chars },
+    { enabled: splitType.includes("words"), values: self.words },
+    { enabled: splitType.includes("lines"), values: self.lines },
+  ];
+
+  for (const candidate of candidates) {
+    if (candidate.enabled && candidate.values?.length) {
+      return candidate.values;
+    }
+  }
+
+  return self.chars || self.words || self.lines || [];
+}
+
 const SplitText: React.FC<SplitTextProps> = ({
   text,
   className = "",
@@ -59,7 +91,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   textAlign = "center",
   onLetterAnimationComplete,
 }) => {
-  const ref = useRef<HTMLParagraphElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const animationCompletedRef = useRef(false);
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
 
@@ -87,27 +119,7 @@ const SplitText: React.FC<SplitTextProps> = ({
         el._rbsplitInstance = undefined;
       }
 
-      const startPct = (1 - threshold) * 100;
-      const marginMatch = /^(-?\d+(?:\.\d+)?)(px|em|rem|%)?$/.exec(rootMargin);
-      const marginValue = marginMatch ? parseFloat(marginMatch[1]) : 0;
-      const marginUnit = marginMatch ? marginMatch[2] || "px" : "px";
-      const sign =
-        marginValue === 0
-          ? ""
-          : marginValue < 0
-            ? `-=${Math.abs(marginValue)}${marginUnit}`
-            : `+=${marginValue}${marginUnit}`;
-      const start = `top ${startPct}%${sign}`;
-      let targets: Element[] = [];
-      const assignTargets = (self: GSAPSplitText) => {
-        if (splitType.includes("chars") && (self as GSAPSplitText).chars?.length)
-          targets = (self as GSAPSplitText).chars;
-        if (!targets.length && splitType.includes("words") && self.words.length)
-          targets = self.words;
-        if (!targets.length && splitType.includes("lines") && self.lines.length)
-          targets = self.lines;
-        if (!targets.length) targets = self.chars || self.words || self.lines;
-      };
+      const start = parseStartPosition(threshold, rootMargin);
       const splitInstance = new GSAPSplitText(el, {
         type: splitType,
         smartWrap: true,
@@ -117,7 +129,7 @@ const SplitText: React.FC<SplitTextProps> = ({
         charsClass: "split-char",
         reduceWhiteSpace: false,
         onSplit: (self: GSAPSplitText) => {
-          assignTargets(self);
+          const targets = getSplitTargets(self, splitType);
           return gsap.fromTo(
             targets,
             { ...from },
@@ -172,60 +184,15 @@ const SplitText: React.FC<SplitTextProps> = ({
     },
   );
 
-  const renderTag = () => {
-    const style: React.CSSProperties = {
-      textAlign,
-      wordWrap: "break-word",
-      willChange: "transform, opacity",
-    };
-    const classes = `split-parent overflow-hidden inline-block whitespace-normal ${className}`;
-    switch (tag) {
-      case "h1":
-        return (
-          <h1 ref={ref} style={style} className={classes}>
-            {text}
-          </h1>
-        );
-      case "h2":
-        return (
-          <h2 ref={ref} style={style} className={classes}>
-            {text}
-          </h2>
-        );
-      case "h3":
-        return (
-          <h3 ref={ref} style={style} className={classes}>
-            {text}
-          </h3>
-        );
-      case "h4":
-        return (
-          <h4 ref={ref} style={style} className={classes}>
-            {text}
-          </h4>
-        );
-      case "h5":
-        return (
-          <h5 ref={ref} style={style} className={classes}>
-            {text}
-          </h5>
-        );
-      case "h6":
-        return (
-          <h6 ref={ref} style={style} className={classes}>
-            {text}
-          </h6>
-        );
-      default:
-        return (
-          <p ref={ref} style={style} className={classes}>
-            {text}
-          </p>
-        );
-    }
+  const style: React.CSSProperties = {
+    textAlign,
+    wordWrap: "break-word",
+    willChange: "transform, opacity",
   };
+  const classes = `split-parent overflow-hidden inline-block whitespace-normal ${className}`;
+  const elementTag: SplitTag = tag === "span" ? "span" : tag || "p";
 
-  return renderTag();
+  return React.createElement(elementTag, { ref, style, className: classes }, text);
 };
 
 export default SplitText;
