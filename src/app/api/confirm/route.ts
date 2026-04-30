@@ -7,6 +7,14 @@ import { confirmTokens } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 type ParticipantStatus = "REGISTERED" | "WAITLISTED" | "CONFIRMED";
+type ConfirmActionResponse = "yes" | "no";
+type ParticipantRecord = {
+  user_id: string;
+  first_name: string;
+  last_name: string | null;
+  email: string;
+  status: ParticipantStatus;
+};
 
 function maskToken(token: string | null): string {
   if (!token) return "<missing>";
@@ -91,6 +99,205 @@ async function resolveConfirmContext(
   };
 }
 
+function unexpectedErrorResponse() {
+  return NextResponse.json(
+    { message: "An unexpected error occurred. Please try again later." },
+    { status: 500 },
+  );
+}
+
+async function fetchParticipantForConfirm(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  participantId: string,
+  token: string,
+  method: "GET" | "POST",
+): Promise<{ participant: ParticipantRecord } | { response: NextResponse }> {
+  const { data, error } = await supabase
+    .from("participants")
+    .select("user_id, first_name, last_name, email, status")
+    .eq("user_id", participantId)
+    .single();
+
+  if (error || !data) {
+    console.error(`Confirm ${method} participant lookup failed`, {
+      token: maskToken(token),
+      hasParticipant: !!data,
+      error,
+    });
+    return {
+      response: NextResponse.json(
+        { message: "Invalid or expired confirmation link." },
+        { status: 404 },
+      ),
+    };
+  }
+
+  return { participant: data as ParticipantRecord };
+}
+
+function getGetStatusResponse(participant: ParticipantRecord): NextResponse | null {
+  if (participant.status === "WAITLISTED") {
+    return NextResponse.json(
+      {
+        message:
+          "This confirmation link is not available for your registration right now. Please watch your inbox for updates.",
+      },
+      { status: 403 },
+    );
+  }
+
+  if (participant.status === "CONFIRMED") {
+    return NextResponse.json({
+      firstName: participant.first_name,
+      lastName: participant.last_name,
+      canConfirm: false,
+      alreadyConfirmed: true,
+    });
+  }
+
+  if (participant.status !== "REGISTERED") {
+    return NextResponse.json(
+      { message: "This confirmation link is not valid anymore." },
+      { status: 400 },
+    );
+  }
+
+  return null;
+}
+
+function getPostStatusResponse(participant: ParticipantRecord): NextResponse | null {
+  if (participant.status === "WAITLISTED") {
+    return NextResponse.json(
+      {
+        message:
+          "This registration is currently waitlisted and cannot be confirmed from this link.",
+      },
+      { status: 403 },
+    );
+  }
+
+  if (participant.status === "CONFIRMED") {
+    return NextResponse.json({
+      message: "Attendance already confirmed.",
+      alreadyConfirmed: true,
+    });
+  }
+
+  if (participant.status !== "REGISTERED") {
+    return NextResponse.json(
+      { message: "This confirmation link is not valid anymore." },
+      { status: 400 },
+    );
+  }
+
+  return null;
+}
+
+async function markConfirmTokenUsed(token: string) {
+  await db
+    .update(confirmTokens)
+    .set({ usedAt: new Date() })
+    .where(eq(confirmTokens.token, token));
+}
+
+async function markParticipantConfirmed(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  participantId: string,
+  token: string,
+) {
+  const { error } = await supabase
+    .from("participants")
+    .update({ status: "CONFIRMED" })
+    .eq("user_id", participantId);
+
+  if (error) {
+    console.error("Confirm POST participant update failed", {
+      token: maskToken(token),
+      error,
+    });
+    throw error;
+  }
+}
+
+async function parsePostBody(
+  request: NextRequest,
+): Promise<
+  | { token: string | null; response: ConfirmActionResponse }
+  | { errorResponse: NextResponse }
+> {
+  try {
+    const body = (await request.json()) as {
+      token?: string;
+      response?: ConfirmActionResponse;
+    };
+
+    return {
+      token: normalizeToken(body.token ?? null),
+      response: body.response === "no" ? "no" : "yes",
+    };
+  } catch {
+    return {
+      errorResponse: NextResponse.json(
+        { message: "Invalid request body." },
+        { status: 400 },
+      ),
+    };
+  }
+}
+
+async function resolveParticipantContext(
+  token: string | null,
+  method: "GET" | "POST",
+): Promise<
+  | { context: ConfirmRequestContext; participant: ParticipantRecord }
+  | { response: NextResponse }
+> {
+  const contextResult = await resolveConfirmContext(token);
+  if ("response" in contextResult) {
+    return contextResult;
+  }
+
+  const { context } = contextResult;
+  const participantResult = await fetchParticipantForConfirm(
+    context.supabase,
+    context.participantId,
+    context.token,
+    method,
+  );
+  if ("response" in participantResult) {
+    return participantResult;
+  }
+
+  return { context, participant: participantResult.participant };
+}
+
+async function handlePostConfirmationAction(
+  context: ConfirmRequestContext,
+  participant: ParticipantRecord,
+  response: ConfirmActionResponse,
+) {
+  await markConfirmTokenUsed(context.token);
+
+  if (response === "no") {
+    return NextResponse.json({
+      message: "You have declined attendance. Your registration remains active.",
+      declined: true,
+    });
+  }
+
+  await markParticipantConfirmed(context.supabase, context.participantId, context.token);
+  sendAttendanceConfirmedEmail(participant.email, participant.first_name).catch(
+    (emailError) => {
+      console.error("Failed to send attendance confirmation email:", emailError);
+    },
+  );
+
+  return NextResponse.json({
+    message: "Attendance confirmed successfully.",
+    alreadyConfirmed: false,
+  });
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token = normalizeToken(searchParams.get("token"));
@@ -101,70 +308,26 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const contextResult = await resolveConfirmContext(token);
-    if ("response" in contextResult) {
-      return contextResult.response;
+    const participantContextResult = await resolveParticipantContext(token, "GET");
+    if ("response" in participantContextResult) {
+      return participantContextResult.response;
     }
-    const { participantId, supabase } = contextResult.context;
+    const { participant } = participantContextResult;
 
-    const { data, error } = await supabase
-      .from("participants")
-      .select("user_id, first_name, last_name, email, status")
-      .eq("user_id", participantId)
-      .single();
-
-    if (error || !data) {
-      console.error("Confirm GET participant lookup failed", {
-        token: maskToken(token),
-        hasData: !!data,
-        error,
-      });
-      return NextResponse.json(
-        { message: "Invalid or expired confirmation link." },
-        { status: 404 },
-      );
-    }
-
-    const status = data.status as ParticipantStatus;
-
-    if (status === "WAITLISTED") {
-      return NextResponse.json(
-        {
-          message:
-            "This confirmation link is not available for your registration right now. Please watch your inbox for updates.",
-        },
-        { status: 403 },
-      );
-    }
-
-    if (status === "CONFIRMED") {
-      return NextResponse.json({
-        firstName: data.first_name,
-        lastName: data.last_name,
-        canConfirm: false,
-        alreadyConfirmed: true,
-      });
-    }
-
-    if (status !== "REGISTERED") {
-      return NextResponse.json(
-        { message: "This confirmation link is not valid anymore." },
-        { status: 400 },
-      );
+    const statusResponse = getGetStatusResponse(participant);
+    if (statusResponse) {
+      return statusResponse;
     }
 
     return NextResponse.json({
-      firstName: data.first_name,
-      lastName: data.last_name,
+      firstName: participant.first_name,
+      lastName: participant.last_name,
       canConfirm: true,
       alreadyConfirmed: false,
     });
   } catch (err) {
     console.error("Confirm route error:", err);
-    return NextResponse.json(
-      { message: "An unexpected error occurred. Please try again later." },
-      { status: 500 },
-    );
+    return unexpectedErrorResponse();
   }
 }
 
@@ -174,114 +337,27 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Please sign in to continue." }, { status: 401 });
   }
 
-  let token: string | null = null;
-  let response: "yes" | "no" = "yes";
-
-  try {
-    const body = (await request.json()) as { token?: string; response?: "yes" | "no" };
-    token = normalizeToken(body.token ?? null);
-    if (body.response === "no") {
-      response = "no";
-    }
-  } catch {
-    return NextResponse.json(
-      { message: "Invalid request body." },
-      { status: 400 },
-    );
+  const bodyResult = await parsePostBody(request);
+  if ("errorResponse" in bodyResult) {
+    return bodyResult.errorResponse;
   }
+  const { token, response } = bodyResult;
 
   try {
-    const contextResult = await resolveConfirmContext(token);
-    if ("response" in contextResult) {
-      return contextResult.response;
+    const participantContextResult = await resolveParticipantContext(token, "POST");
+    if ("response" in participantContextResult) {
+      return participantContextResult.response;
     }
-    const { participantId, supabase } = contextResult.context;
+    const { context, participant } = participantContextResult;
 
-    const { data: participant, error: participantError } = await supabase
-      .from("participants")
-      .select("user_id, first_name, email, status")
-      .eq("user_id", participantId)
-      .single();
-
-    if (participantError || !participant) {
-      console.error("Confirm POST participant lookup failed", {
-        token: maskToken(token),
-        hasParticipant: !!participant,
-        error: participantError,
-      });
-      return NextResponse.json(
-        { message: "Invalid or expired confirmation link." },
-        { status: 404 },
-      );
+    const statusResponse = getPostStatusResponse(participant);
+    if (statusResponse) {
+      return statusResponse;
     }
 
-    const status = participant.status as ParticipantStatus;
-
-    if (status === "WAITLISTED") {
-      return NextResponse.json(
-        {
-          message:
-            "This registration is currently waitlisted and cannot be confirmed from this link.",
-        },
-        { status: 403 },
-      );
-    }
-
-    if (status === "CONFIRMED") {
-      return NextResponse.json({
-        message: "Attendance already confirmed.",
-        alreadyConfirmed: true,
-      });
-    }
-
-    if (status !== "REGISTERED") {
-      return NextResponse.json(
-        { message: "This confirmation link is not valid anymore." },
-        { status: 400 },
-      );
-    }
-
-    // Mark the token as used so it cannot be reused
-    await db
-      .update(confirmTokens)
-      .set({ usedAt: new Date() })
-      .where(eq(confirmTokens.token, token));
-
-    if (response === "no") {
-      return NextResponse.json({
-        message: "You have declined attendance. Your registration remains active.",
-        declined: true,
-      });
-    }
-
-    const { error: updateError } = await supabase
-      .from("participants")
-      .update({ status: "CONFIRMED" })
-      .eq("user_id", participantId);
-
-    if (updateError) {
-      console.error("Confirm POST participant update failed", {
-        token: maskToken(token),
-        error: updateError,
-      });
-      throw updateError;
-    }
-
-    sendAttendanceConfirmedEmail(participant.email, participant.first_name).catch(
-      (emailError) => {
-        console.error("Failed to send attendance confirmation email:", emailError);
-      },
-    );
-
-    return NextResponse.json({
-      message: "Attendance confirmed successfully.",
-      alreadyConfirmed: false,
-    });
+    return handlePostConfirmationAction(context, participant, response);
   } catch (err) {
     console.error("Confirm update route error:", err);
-    return NextResponse.json(
-      { message: "An unexpected error occurred. Please try again later." },
-      { status: 500 },
-    );
+    return unexpectedErrorResponse();
   }
 }
