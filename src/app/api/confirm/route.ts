@@ -54,6 +54,43 @@ async function resolveConfirmToken(
   return { participantId: record.participantId };
 }
 
+type ConfirmRequestContext = {
+  token: string;
+  participantId: string;
+  supabase: Awaited<ReturnType<typeof createClient>>;
+};
+
+async function resolveConfirmContext(
+  token: string | null,
+): Promise<{ context: ConfirmRequestContext } | { response: NextResponse }> {
+  if (!token) {
+    return {
+      response: NextResponse.json(
+        { message: "No confirmation token provided." },
+        { status: 400 },
+      ),
+    };
+  }
+
+  const resolved = await resolveConfirmToken(token);
+  if ("error" in resolved) {
+    return {
+      response: NextResponse.json(
+        { message: resolved.error },
+        { status: resolved.status },
+      ),
+    };
+  }
+
+  return {
+    context: {
+      token,
+      participantId: resolved.participantId,
+      supabase: await createClient(),
+    },
+  };
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token = normalizeToken(searchParams.get("token"));
@@ -63,29 +100,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: "Please sign in to continue." }, { status: 401 });
   }
 
-  if (!token) {
-    return NextResponse.json(
-      { message: "No confirmation token provided." },
-      { status: 400 },
-    );
-  }
-
   try {
-    const resolved = await resolveConfirmToken(token);
-
-    if ("error" in resolved) {
-      return NextResponse.json(
-        { message: resolved.error },
-        { status: resolved.status },
-      );
+    const contextResult = await resolveConfirmContext(token);
+    if ("response" in contextResult) {
+      return contextResult.response;
     }
-
-    const supabase = await createClient();
+    const { participantId, supabase } = contextResult.context;
 
     const { data, error } = await supabase
       .from("participants")
       .select("user_id, first_name, last_name, email, status")
-      .eq("user_id", resolved.participantId)
+      .eq("user_id", participantId)
       .single();
 
     if (error || !data) {
@@ -165,29 +190,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!token) {
-    return NextResponse.json(
-      { message: "No confirmation token provided." },
-      { status: 400 },
-    );
-  }
-
   try {
-    const resolved = await resolveConfirmToken(token);
-
-    if ("error" in resolved) {
-      return NextResponse.json(
-        { message: resolved.error },
-        { status: resolved.status },
-      );
+    const contextResult = await resolveConfirmContext(token);
+    if ("response" in contextResult) {
+      return contextResult.response;
     }
-
-    const supabase = await createClient();
+    const { participantId, supabase } = contextResult.context;
 
     const { data: participant, error: participantError } = await supabase
       .from("participants")
       .select("user_id, first_name, email, status")
-      .eq("user_id", resolved.participantId)
+      .eq("user_id", participantId)
       .single();
 
     if (participantError || !participant) {
@@ -244,7 +257,7 @@ export async function POST(request: NextRequest) {
     const { error: updateError } = await supabase
       .from("participants")
       .update({ status: "CONFIRMED" })
-      .eq("user_id", resolved.participantId);
+      .eq("user_id", participantId);
 
     if (updateError) {
       console.error("Confirm POST participant update failed", {
