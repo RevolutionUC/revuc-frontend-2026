@@ -27,6 +27,12 @@ const shortDateFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: SCHEDULE_TIME_ZONE,
 });
 
+type TimeRangeDisplay = {
+  time: string;
+  startDate: string | null;
+  endDate: string | null;
+};
+
 const isSameDay = (date1: Date, date2: Date) => {
   const d1 = shortDateFormatter.format(date1);
   const d2 = shortDateFormatter.format(date2);
@@ -46,25 +52,36 @@ const formatTime = (value?: string | null) => {
   return timeFormatter.format(parsed);
 };
 
+const parseDate = (value?: string | null) => {
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
 const formatTimeRange = (item: ScheduleItem) => {
-  const startParsed = item.start_time ? new Date(item.start_time) : null;
-  const endParsed = item.end_time ? new Date(item.end_time) : null;
+  const startParsed = parseDate(item.start_time);
+  const endParsed = parseDate(item.end_time);
   const start = formatTime(item.start_time);
   const end = formatTime(item.end_time);
-  const isMultiDay = startParsed && endParsed && !isSameDay(startParsed, endParsed);
 
-  if (start && end) {
-    if (isMultiDay) {
-      return {
-        time: `${start} - ${end}`,
-        startDate: shortDateFormatter.format(startParsed!),
-        endDate: shortDateFormatter.format(endParsed!),
-      };
-    }
-    return { time: `${start} - ${end}`, startDate: null, endDate: null };
+  if (!start && !end) {
+    return { time: "Time TBA", startDate: null, endDate: null } satisfies TimeRangeDisplay;
   }
 
-  return { time: start || end || "Time TBA", startDate: null, endDate: null };
+  if (!start || !end) {
+    return { time: start || end, startDate: null, endDate: null } satisfies TimeRangeDisplay;
+  }
+
+  const isMultiDay = !!(startParsed && endParsed && !isSameDay(startParsed, endParsed));
+  if (!isMultiDay) {
+    return { time: `${start} - ${end}`, startDate: null, endDate: null } satisfies TimeRangeDisplay;
+  }
+
+  return {
+    time: `${start} - ${end}`,
+    startDate: shortDateFormatter.format(startParsed),
+    endDate: shortDateFormatter.format(endParsed),
+  } satisfies TimeRangeDisplay;
 };
 
 const formatDayLabel = (value?: string | null) => {
@@ -169,40 +186,44 @@ export default async function ScheduleSection() {
           </p>
         </div>
         <div className="divide-y divide-[#B7D9FF]" style={{ backgroundColor: scheduleRow }}>
-          {items.map((item) => (
-            <div
-              key={`${keyPrefix}${item.id}`}
-              className="grid grid-cols-[152px_1fr] items-stretch gap-10 px-4 py-3 sm:grid-cols-[170px_1fr] sm:px-6 md:grid-cols-[190px_1fr]"
-            >
+          {items.map((item) => {
+            const timeRange = formatTimeRange(item);
+
+            return (
               <div
-                className="flex flex-col items-start border-r border-[#B7D9FF] pr-4 text-sm font-semibold sm:pr-5 sm:text-base"
-                style={{ color: scheduleAccent }}
+                key={`${keyPrefix}${item.id}`}
+                className="grid grid-cols-[152px_1fr] items-stretch gap-10 px-4 py-3 sm:grid-cols-[170px_1fr] sm:px-6 md:grid-cols-[190px_1fr]"
               >
-                <span>{formatTimeRange(item).time}</span>
-                {formatTimeRange(item).startDate && (
-                  <span style={{ color: scheduleMuted, fontSize: "0.7em", marginTop: "2px" }}>
-                    {formatTimeRange(item).startDate}
-                    {formatTimeRange(item).endDate && ` - ${formatTimeRange(item).endDate}`}
-                  </span>
-                )}
-              </div>
-              <div>
-                <p className="text-base font-semibold" style={{ color: scheduleAccent }}>
-                  {item.name || "TBA"}
-                </p>
-                {item.location ? (
-                  <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: scheduleMuted }}>
-                    {item.location}
+                <div
+                  className="flex flex-col items-start border-r border-[#B7D9FF] pr-4 text-sm font-semibold sm:pr-5 sm:text-base"
+                  style={{ color: scheduleAccent }}
+                >
+                  <span>{timeRange.time}</span>
+                  {timeRange.startDate ? (
+                    <span style={{ color: scheduleMuted, fontSize: "0.7em", marginTop: "2px" }}>
+                      {timeRange.startDate}
+                      {timeRange.endDate ? ` - ${timeRange.endDate}` : ""}
+                    </span>
+                  ) : null}
+                </div>
+                <div>
+                  <p className="text-base font-semibold" style={{ color: scheduleAccent }}>
+                    {item.name || "TBA"}
                   </p>
-                ) : null}
-                {typeof item.capacity === "number" ? (
-                  <p className="mt-1 text-xs" style={{ color: scheduleMuted }}>
-                    Capacity: {item.capacity}
-                  </p>
-                ) : null}
+                  {item.location ? (
+                    <p className="mt-1 text-xs uppercase tracking-[0.2em]" style={{ color: scheduleMuted }}>
+                      {item.location}
+                    </p>
+                  ) : null}
+                  {typeof item.capacity === "number" ? (
+                    <p className="mt-1 text-xs" style={{ color: scheduleMuted }}>
+                      Capacity: {item.capacity}
+                    </p>
+                  ) : null}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     ));
