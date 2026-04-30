@@ -20,9 +20,3 @@ export interface RegistrationData {
   mlhOptionalCommunication: boolean;
 }
 
-export interface RegistrationResponse {
-  message: string | string[];
-  data?: {
-    email: string;
-  };
-}
