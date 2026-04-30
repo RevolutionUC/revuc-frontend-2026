@@ -5,6 +5,9 @@ import type { RegistrationData } from "@/app/registration/types";
 import { randomUUID } from "crypto";
 import { sendConfirmationEmail } from "@/lib/email";
 
+const MAX_REGISTERED = 400;
+const INSERT_MAX_ATTEMPTS = 3;
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -134,7 +137,17 @@ function validateRegistrationData(
   data: RegistrationData,
   formData: FormData,
 ): string[] {
-  const errors: string[] = [];
+  const errors: string[] = [
+    ...getRequiredFieldErrors(data),
+    ...getRaceEthnicityErrors(data),
+    ...getEmailValidationErrors(data.email),
+    ...getAgeValidationErrors(data.age),
+    ...checkAgreements(formData),
+  ];
+  return errors;
+}
+
+function getRequiredFieldErrors(data: RegistrationData): string[] {
   const requiredFields: (keyof RegistrationData)[] = [
     "firstName",
     "lastName",
@@ -151,42 +164,29 @@ function validateRegistrationData(
     // "graduationYear",
   ];
 
-  for (const field of requiredFields) {
-    if (!data[field]) {
-      errors.push(`${field} is required`);
-    }
-  }
+  return requiredFields
+    .filter((field) => !data[field])
+    .map((field) => `${field} is required`);
+}
 
-  // Validate race/ethnicity (at least one selection required)
-  if (data.raceEthnicity.length === 0) {
-    errors.push("Please select at least one race/ethnicity option");
-  }
+function getRaceEthnicityErrors(data: RegistrationData): string[] {
+  return data.raceEthnicity.length === 0
+    ? ["Please select at least one race/ethnicity option"]
+    : [];
+}
 
-  // Validate email format
+function getEmailValidationErrors(email: string): string[] {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (data.email && !emailRegex.test(normalizeEmail(data.email))) {
-    errors.push("Invalid email format");
-  }
+  return email && !emailRegex.test(normalizeEmail(email))
+    ? ["Invalid email format"]
+    : [];
+}
 
-  // Validate age
-  const age = Number.parseInt(data.age, 10);
-  if (Number.isNaN(age) || age < 13 || age > 100) {
-    errors.push("Age must be between 13 and 100");
-  }
-
-  // Validate graduation year (simple sanity check)
-  // const gradYear = Number.parseInt(data.graduationYear, 10);
-  // const currentYear = new Date().getFullYear();
-  // if (
-  //   Number.isNaN(gradYear) ||
-  //   gradYear < currentYear ||
-  //   gradYear > currentYear + 10
-  // ) {
-  //   errors.push("Graduation year must be within a reasonable range");
-  // }
-
-  errors.push(...checkAgreements(formData));
-  return errors;
+function getAgeValidationErrors(ageValue: string): string[] {
+  const age = Number.parseInt(ageValue, 10);
+  return Number.isNaN(age) || age < 13 || age > 100
+    ? ["Age must be between 13 and 100"]
+    : [];
 }
 
 function normalizeEmail(email: string): string {
@@ -266,71 +266,98 @@ async function saveRegistrationToDatabase(
   supabaseClient: Awaited<ReturnType<typeof createClient>>,
   data: RegistrationData,
 ): Promise<{ uuid: string | null; error: any }> {
-  // Convert github username to full URL if provided
   const githubUrl = data.githubUsername
     ? `https://github.com/${data.githubUsername}`
     : null;
-
-  // Generate UUID ONCE, outside the retry loop
   const uuid = randomUUID();
+  const statusResult = await resolveRegistrationStatus(supabaseClient);
+  if ("error" in statusResult) {
+    return { uuid: null, error: statusResult.error };
+  }
 
-  const MAX_REGISTERED = 400;
-  const maxAttempts = 3;
-  let lastError: any = null;
+  const payload = buildParticipantInsertPayload(data, uuid, githubUrl, statusResult.status);
+  const insertError = await insertParticipantWithRetry(
+    supabaseClient,
+    payload,
+    INSERT_MAX_ATTEMPTS,
+  );
 
-  // Count participants that are NOT waitlisted 
-  const { count: nonWaitlistedCount, error: countError } = await supabaseClient
+  if (insertError) {
+    return { uuid: null, error: insertError };
+  }
+
+  return { uuid, error: null };
+}
+
+async function resolveRegistrationStatus(
+  supabaseClient: Awaited<ReturnType<typeof createClient>>,
+): Promise<{ status: "REGISTERED" | "WAITLISTED" } | { error: unknown }> {
+  const { count, error } = await supabaseClient
     .from("participants")
     .select("*", { count: "exact", head: true })
     .neq("status", "WAITLISTED");
 
-  if (countError) {
-    return { uuid: null, error: countError };
+  if (error) {
+    return { error };
   }
 
-  
-  const status =
-    (nonWaitlistedCount ?? 0) >= MAX_REGISTERED ? "WAITLISTED" : "REGISTERED";
+  return {
+    status: (count ?? 0) >= MAX_REGISTERED ? "WAITLISTED" : "REGISTERED",
+  };
+}
+
+function buildParticipantInsertPayload(
+  data: RegistrationData,
+  uuid: string,
+  githubUrl: string | null,
+  status: "REGISTERED" | "WAITLISTED",
+) {
+  return {
+    user_id: uuid,
+    first_name: data.firstName,
+    last_name: data.lastName,
+    email: data.email,
+    phone: data.phoneNumber,
+    age: Number.parseInt(data.age, 10),
+    gender: data.gender,
+    school: data.school,
+    // graduation_year: Number.parseInt(data.graduationYear, 10),
+    level_of_study: data.educationLevel,
+    country: data.country,
+    major: data.major,
+    diet_restrictions: data.dietRestrictions || null,
+    linkedin_url: data.linkedInURL || null,
+    github_url: githubUrl,
+    shirt_size: data.shirtSize,
+    hackathons: data.hackathons,
+    race_ethnicity: data.raceEthnicity || null,
+    referral_source: data.referralSource || null,
+    status,
+    mlh_optional_communication: data.mlhOptionalCommunication,
+  };
+}
+
+async function insertParticipantWithRetry(
+  supabaseClient: Awaited<ReturnType<typeof createClient>>,
+  payload: ReturnType<typeof buildParticipantInsertPayload>,
+  maxAttempts: number,
+) {
+  let lastError: unknown = null;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const { error } = await supabaseClient.from("participants").insert({
-      user_id: uuid,
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      phone: data.phoneNumber,
-      age: Number.parseInt(data.age, 10),
-      gender: data.gender,
-      school: data.school,
-      // graduation_year: Number.parseInt(data.graduationYear, 10),
-      level_of_study: data.educationLevel,
-      country: data.country,
-      major: data.major,
-      diet_restrictions: data.dietRestrictions || null,
-      linkedin_url: data.linkedInURL || null,
-      github_url: githubUrl,
-      shirt_size: data.shirtSize,
-      hackathons: data.hackathons,
-      race_ethnicity: data.raceEthnicity || null,
-      referral_source: data.referralSource || null,
-      status: status,
-      mlh_optional_communication: data.mlhOptionalCommunication,
-    });
+    const { error } = await supabaseClient.from("participants").insert(payload);
 
     if (!error) {
-      return {
-        uuid: uuid,
-        error: null,
-      };
+      return null;
     }
 
     lastError = error;
-
-    // Do not retry on unique violations (e.g., duplicate email)
-    if (error?.code === "23505") break;
+    if ((error as { code?: string })?.code === "23505") {
+      break;
+    }
   }
 
-  return { uuid: null, error: lastError };
+  return lastError;
 }
 
 async function generateQRCode(uuid: string): Promise<string> {
