@@ -210,10 +210,10 @@ export function NavigationBar() {
     router.push(path);
   }, [gsapCleanup, router]);
 
-  const handleScheduleClick = useCallback(() => {
-    gsapCleanup?.killBeforeNavigate();
-    router.push("/schedule");
-  }, [gsapCleanup, router]);
+  // const handleScheduleClick = useCallback(() => {
+  //   gsapCleanup?.killBeforeNavigate();
+  //   router.push("/schedule");
+  // }, [gsapCleanup, router]);
 
   const desktopAuthNode = isPending ? (
     <NavigationMenuItem>
@@ -238,7 +238,7 @@ export function NavigationBar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-100 bg-transparent pointer-events-auto">
       {/* MLH Trust Badge */}
-      <a
+      {/*<a
         id="mlh-trust-badge"
         className="block fixed top-0 left-6 sm:left-6 lg:left-[50px] w-[10%] max-w-[100px] min-w-[60px] z-10000"
         href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=white"
@@ -250,7 +250,7 @@ export function NavigationBar() {
           alt="Major League Hacking 2026 Hackathon Season"
           className="w-full"
         />
-      </a>
+      </a>*/}
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5 pr-6">
         <div className="flex items-center justify-between gap-4">
@@ -286,6 +286,7 @@ export function NavigationBar() {
             <NavigationMenuList className="flex-wrap gap-2 sm:gap-3">
               <DesktopSectionLinks onSectionClick={scrollToSection} />
 
+              {/*
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Button
@@ -296,6 +297,7 @@ export function NavigationBar() {
                   </Button>
                 </NavigationMenuLink>
               </NavigationMenuItem>
+              */}
               {desktopAuthNode}
             </NavigationMenuList>
           </NavigationMenu>
@@ -335,6 +337,7 @@ export function NavigationBar() {
                 >
                   [FAQ]
                 </button>
+                {/*
                 <button
                   type="button"
                   className="flex w-full items-center justify-start rounded-none border border-white/20 bg-[#151477] text-white font-mono text-sm hover:bg-white hover:text-black"
@@ -342,6 +345,7 @@ export function NavigationBar() {
                 >
                   [SCHEDULE]
                 </button>
+                */}
 
                 {isPending ? (
                   <div className="h-10 w-24 bg-white/20 animate-pulse rounded" />

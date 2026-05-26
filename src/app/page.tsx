@@ -25,7 +25,6 @@ export default async function Home() {
       <Sponsors />
       <Prizes />
       <Faq />
-
       <Footer />
     </>
   );

@@ -171,16 +171,16 @@ export default function HeroSection() {
             RevolutionUC
           </h1>
           <p className="py-2 sm:py-3 text-2xl sm:text-2xl lg:text-3xl text-[#151477] font-medium italic text-center sm:text-left">
-            March 28 - 29, 2026
+            Coming Soon...
           </p>
-          <p className="py-1 sm:py-2 text-2xl sm:text-2xl lg:text-3xl text-[#228CF6] text-center sm:text-left">
+          {/*<p className="py-1 sm:py-2 text-2xl sm:text-2xl lg:text-3xl text-[#228CF6] text-center sm:text-left">
             Build. Learn. Grow.
-          </p>
+          </p>*/}
           {/* Forms */}
-          <div className="flex flex-col md:flex-row justify-center sm:justify-start items-center gap-4 md:gap-6 pt-4 md:w-full max-w-4xl pointer-events-auto mx-auto sm:mx-0">
+          <div className="flex flex-col md:flex-row justify-center sm:justify-start items-center gap-3 md:gap-4 pt-4 md:w-full max-w-4xl pointer-events-auto mx-auto sm:mx-0">
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSenXi3j73_xkx3T-teDlvgLcqEfTFD2hTI2k-pqb6LeFHh8WQ/viewform?usp=dialog"
-              className="w-auto px-6 py-3 text-center text-base md:text-lg font-semibold uppercase rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+              className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -188,11 +188,19 @@ export default function HeroSection() {
             </a>
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSe73deyjRimChLuJ_rDeke1gFa0fhzGvbqVPtMn3mZq96xIrw/viewform?usp=preview"
-              className="w-auto px-6 py-3 text-center text-base md:text-lg font-semibold uppercase rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+              className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
               target="_blank"
               rel="noopener noreferrer"
             >
               JUDGE/MENTOR INTEREST FORM
+            </a>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSenXi3j73_xkx3T-teDlvgLcqEfTFD2hTI2k-pqb6LeFHh8WQ/viewform?usp=dialog"
+              className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              HACKER INTEREST FORM
             </a>
           </div>
         </div>

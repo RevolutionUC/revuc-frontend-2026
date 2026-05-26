@@ -23,6 +23,9 @@ export default function Sponsors() {
   return (
     <section id="sponsors" className="relative w-full">
       <div className="hidden md:flex relative w-full min-h-screen items-center justify-center overflow-hidden py-12 pointer-events-none">
+        <div className="absolute top-[10vh] md:top-[20vh] lg:top-[40vh] left-1/2 -translate-x-1/2 text-center text-3xl lg:text-4xl font-semibold text-[#151477] drop-shadow-md">
+          Previous Sponsors :)
+        </div>
         <Image
           className="opacity-90 select-none w-full max-w-[620px] lg:max-w-[900px] xl:max-w-[1100px] 2xl:max-w-[1300px] h-auto"
           src="/final_sponsors.webp"
@@ -45,7 +48,7 @@ export default function Sponsors() {
       <div className="block md:hidden relative w-full min-h-screen py-24 px-6 overflow-hidden flex flex-col items-center">
         <div className="relative z-10 w-full max-w-sm mx-auto flex flex-col gap-8 text-center">
           <h2 className="text-4xl font-bold text-white drop-shadow-md">
-            Sponsors
+            Previous Sponsors
           </h2>
 
           {sponsors.map((sponsor) => (
