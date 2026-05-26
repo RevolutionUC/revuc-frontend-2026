@@ -13,12 +13,12 @@ const FAQS: {
   question: string;
   answer: React.ReactNode;
 }[] = [
-  {
-    id: "in-person",
-    question: "Is RevolutionUC 2026 in-person or virtual?",
-    answer:
-      "RevolutionUC 2026 is an in-person only event. Unfortunately, we won't be providing a virtual option this year.",
-  },
+  // {
+  //   id: "in-person",
+  //   question: "Is RevolutionUC 2027 in-person or virtual?",
+  //   answer:
+  //     "RevolutionUC 2026 is an in-person only event. Unfortunately, we won't be providing a virtual option this year.",
+  // },
   {
     id: "location",
     question: "Where is the hackathon?",
