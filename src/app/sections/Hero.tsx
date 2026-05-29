@@ -179,7 +179,7 @@ export default function HeroSection() {
           {/* Forms */}
           <div className="flex flex-col md:flex-row justify-center sm:justify-start items-center gap-3 md:gap-4 pt-4 md:w-full max-w-4xl pointer-events-auto mx-auto sm:mx-0">
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSenXi3j73_xkx3T-teDlvgLcqEfTFD2hTI2k-pqb6LeFHh8WQ/viewform?usp=dialog"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfW6B9DKnXzSE0bghp_ba7Qv6gElDBoQc68j-neBnn8KaRbmA/viewform?usp=publish-editor"
               className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
               target="_blank"
               rel="noopener noreferrer"
@@ -187,7 +187,7 @@ export default function HeroSection() {
               SPONSOR INTEREST FORM
             </a>
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSe73deyjRimChLuJ_rDeke1gFa0fhzGvbqVPtMn3mZq96xIrw/viewform?usp=preview"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeTumaXKOjk-kuYT562uMO4GHt1gARTGkf16LEoAymCw6GT9A/viewform?usp=publish-editor"
               className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
               target="_blank"
               rel="noopener noreferrer"
@@ -195,7 +195,7 @@ export default function HeroSection() {
               JUDGE/MENTOR INTEREST FORM
             </a>
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSenXi3j73_xkx3T-teDlvgLcqEfTFD2hTI2k-pqb6LeFHh8WQ/viewform?usp=dialog"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfexMSgyo-g6rgpgFomECTKaJrOH0_G_I5ksfK5oIakMIHo6A/viewform?usp=dialog"
               className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
               target="_blank"
               rel="noopener noreferrer"
