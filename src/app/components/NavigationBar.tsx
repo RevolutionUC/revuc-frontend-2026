@@ -2,18 +2,10 @@
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { Menu, X } from "lucide-react";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useGsapRouteCleanup } from "@/app/components/gsap-route-cleanup";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -21,7 +13,6 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { authClient } from "@/lib/auth-client";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -59,57 +50,6 @@ function DesktopSectionLinks({
       </NavigationMenuLink>
     </NavigationMenuItem>
   ));
-}
-
-function UserMenu({
-  session,
-  onSignOut,
-}: {
-  session: NonNullable<ReturnType<typeof authClient.useSession>["data"]>;
-  onSignOut: () => Promise<void>;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          type="button"
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity focus:outline-none"
-          aria-label="User menu"
-        >
-          {session.user.image ? (
-            <Image
-              src={session.user.image}
-              alt={session.user.name || session.user.email || "User"}
-              width={40}
-              height={40}
-              className="h-10 w-10 rounded-full border-2 border-white"
-            />
-          ) : (
-            <div className="h-10 w-10 rounded-full bg-[#19e363] flex items-center justify-center text-white font-mono font-semibold text-sm">
-              {(session.user.name || session.user.email || "U")[0].toUpperCase()}
-            </div>
-          )}
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <div className="px-2 py-1.5">
-          <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
-            {session.user.name || "User"}
-          </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-            {session.user.email}
-          </p>
-        </div>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={onSignOut}
-          className="cursor-pointer text-red-600 focus:text-red-600 dark:text-red-400"
-        >
-          Sign Out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
 }
 
 function usePendingSectionScroll(
@@ -158,13 +98,7 @@ export function NavigationBar() {
   const router = useRouter();
   const pathname = usePathname();
   const gsapCleanup = useGsapRouteCleanup();
-  const { data: session, isPending } = authClient.useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleSignOut = async () => {
-    await authClient.signOut();
-    router.refresh();
-  };
 
   const triggerScrollToSection = useCallback((sectionId: string) => {
     // Delay to ensure the page has fully rendered
@@ -200,10 +134,6 @@ export function NavigationBar() {
     scrollToSection(sectionId);
   }, [scrollToSection]);
 
-  const handleRegisterClick = useCallback(() => {
-    scrollToSection("boarding-pass");
-  }, [scrollToSection]);
-
   const _handleMobileNavigate = useCallback((path: string) => {
     setMobileOpen(false);
     gsapCleanup?.killBeforeNavigate();
@@ -215,26 +145,6 @@ export function NavigationBar() {
   //   router.push("/schedule");
   // }, [gsapCleanup, router]);
 
-  const desktopAuthNode = isPending ? (
-    <NavigationMenuItem>
-      <div className="h-10 w-24 bg-gray-200 animate-pulse rounded" />
-    </NavigationMenuItem>
-  ) : session?.user ? (
-    <NavigationMenuItem>
-      <UserMenu session={session} onSignOut={handleSignOut} />
-    </NavigationMenuItem>
-  ) : (
-    <NavigationMenuItem>
-      <NavigationMenuLink asChild>
-        <Button
-          className="hover:bg-white font-mono hover:cursor-pointer text-sm sm:text-base md:text-lg hover:text-black bg-[#19e363] rounded-none"
-          onClick={handleRegisterClick}
-        >
-          [REGISTER]
-        </Button>
-      </NavigationMenuLink>
-    </NavigationMenuItem>
-  );
   return (
     <nav className="fixed top-0 left-0 right-0 z-100 bg-transparent pointer-events-auto">
       {/* MLH Trust Badge */}
@@ -298,7 +208,6 @@ export function NavigationBar() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
               */}
-              {desktopAuthNode}
             </NavigationMenuList>
           </NavigationMenu>
 
@@ -346,41 +255,6 @@ export function NavigationBar() {
                   [SCHEDULE]
                 </button>
                 */}
-
-                {isPending ? (
-                  <div className="h-10 w-24 bg-white/20 animate-pulse rounded" />
-                ) : session?.user ? (
-                  <div className="flex flex-col gap-2">
-                    <div className="text-white">
-                      <p className="text-sm font-medium">
-                        {session.user.name || "User"}
-                      </p>
-                      <p className="text-xs text-white/70 truncate">
-                        {session.user.email}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        setMobileOpen(false);
-                        await handleSignOut();
-                      }}
-                      className="w-full text-left font-mono text-sm text-red-200 hover:text-red-100"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  <Button
-                    className="w-full justify-start rounded-none bg-[#19e363] text-black font-mono text-sm hover:bg-white"
-                    onClick={() => {
-                      setMobileOpen(false);
-                      handleRegisterClick();
-                    }}
-                  >
-                    [REGISTER]
-                  </Button>
-                )}
               </div>
             </div>
           ) : null}
