@@ -195,10 +195,8 @@ export default function HeroSection() {
               JUDGE/MENTOR INTEREST FORM
             </a>
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSfexMSgyo-g6rgpgFomECTKaJrOH0_G_I5ksfK5oIakMIHo6A/viewform?usp=dialog"
+              href="/interest"
               className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               HACKER INTEREST FORM
             </a>
