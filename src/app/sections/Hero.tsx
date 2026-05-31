@@ -179,18 +179,14 @@ export default function HeroSection() {
           {/* Forms */}
           <div className="flex flex-col md:flex-row justify-center sm:justify-start items-center gap-3 md:gap-4 pt-4 md:w-full max-w-4xl pointer-events-auto mx-auto sm:mx-0">
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSfW6B9DKnXzSE0bghp_ba7Qv6gElDBoQc68j-neBnn8KaRbmA/viewform?usp=publish-editor"
+              href="/sponsor-interest"
               className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               SPONSOR INTEREST FORM
             </a>
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSeTumaXKOjk-kuYT562uMO4GHt1gARTGkf16LEoAymCw6GT9A/viewform?usp=publish-editor"
+              href="/judge-mentor-interest"
               className="w-auto px-4 py-2.5 text-center text-sm md:text-base font-semibold uppercase whitespace-nowrap rounded-full text-[#EDF6FF] bg-[#151477] border-[#19E363] border-2 transition-all duration-300 hover:bg-[#19E363] hover:text-white hover:scale-[1.02] active:scale-[0.98] shadow-lg"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               JUDGE/MENTOR INTEREST FORM
             </a>
