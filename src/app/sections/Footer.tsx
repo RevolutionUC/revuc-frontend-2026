@@ -24,7 +24,7 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-3 items-center gap-3 sm:gap-6">
           <div className="text-xs sm:text-sm text-center md:text-left">
-            &copy; {new Date().getFullYear()} RevolutionUC
+            &copy; RevolutionUC
           </div>
           <div className="relative z-20 flex items-center justify-center gap-4">
             <a

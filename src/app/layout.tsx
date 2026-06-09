@@ -19,7 +19,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RevolutionUC 2026",
+  title: "RevolutionUC 2027",
 };
 
 export default function RootLayout({
