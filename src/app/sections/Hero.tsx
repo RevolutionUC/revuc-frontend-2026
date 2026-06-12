@@ -171,7 +171,7 @@ export default function HeroSection() {
             RevolutionUC
           </h1>
           <p className="py-2 sm:py-3 text-2xl sm:text-2xl lg:text-3xl text-[#151477] font-medium italic text-center sm:text-left">
-            Coming Soon...
+            Spring 2027...
           </p>
           {/*<p className="py-1 sm:py-2 text-2xl sm:text-2xl lg:text-3xl text-[#228CF6] text-center sm:text-left">
             Build. Learn. Grow.
