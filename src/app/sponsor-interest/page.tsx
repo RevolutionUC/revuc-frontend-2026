@@ -326,7 +326,7 @@ export default function SponsorInterestPage() {
               <div>
                 <label htmlFor="expectations" className="mb-1 block font-semibold text-gray-900">
                   Do you have any specific expectations and goals as a sponsor at RevolutionUC
-                  Hackathon 2025 that you want us to know?
+                  Hackathon 2027 that you want us to know?
                 </label>
                 <textarea
                   id="expectations"

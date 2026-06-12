@@ -454,7 +454,16 @@ export default function InterestPage() {
                         className="mt-0.5 h-4 w-4 shrink-0 accent-[#151477]"
                       />
                       <span className="text-sm text-gray-900">
-                        I authorize you to share my application/registration information with Major League Hacking for event administration, ranking, and administration (including the creation of linked accounts on MLH and DEV (dev.to)) in line with the{" "}
+                        I authorize you to share my application/registration information with Major League Hacking for event administration, ranking, and administration (including the creation of linked accounts on MLH and {" "}
+                        <a
+                          href="dev.to"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#228CF6] underline hover:text-[#151477]"
+                        >
+                          DEV
+                        </a>
+                           ) in line with the{" "}
                         <a
                           href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
                           target="_blank"
