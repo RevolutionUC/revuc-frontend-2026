@@ -133,6 +133,25 @@ export default function SponsorInterestPage() {
     }
 
     setSubmitted(true);
+
+    /*Send sponsor interest notification email*/
+    fetch("/api/sponsor-interest/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contactName: contactName.trim(),
+        email: email.trim(),
+        organisation: organisation.trim(),
+        sponsorshipLevel,
+        primaryGoal: goalsValue,
+        sideEvents: sideEventsValue,
+        expectations: expectations.trim() || null,
+        additionalInfo: additionalInfo.trim() || null,
+        referral: referral.trim() || null,
+      }),
+    }).catch((err) => {
+      console.error("Failed to send sponsor interest notification email", err);
+    });
   }
 
   return (
