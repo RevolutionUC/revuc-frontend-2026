@@ -157,6 +157,28 @@ export default function JudgeMentorInterestPage() {
     }
 
     setSubmitted(true);
+
+    fetch("/api/judge-mentor-interest/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullName: fullName.trim(),
+        email: email.trim(),
+        linkedIn: linkedIn.trim(),
+        phone: phone.trim(),
+        organization: organization.trim(),
+        jobTitle: jobTitle.trim(),
+        expertiseAreas: expertiseValue,
+        roles: rolesValue,
+        selectedRoles: roles,
+        availability: availabilityValue,
+        specialRequirements: specialRequirements.trim() || null,
+        expectations: expectations.trim() || null,
+        additionalInfo: additionalInfo.trim() || null,
+      }),
+    }).catch((err) => {
+      console.error("Failed to send judge/mentor interest notification email", err);
+    });
   }
 
   return (
