@@ -40,6 +40,8 @@ interface Errors {
   phone?: string;
   organization?: string;
   jobTitle?: string;
+  expertiseAreas?: string;
+  roles?: string;
   availability?: string;
 }
 
@@ -85,12 +87,14 @@ export default function JudgeMentorInterestPage() {
     setExpertiseAreas((prev) =>
       prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area],
     );
+    if (errors.expertiseAreas) setErrors((prev) => ({ ...prev, expertiseAreas: undefined }));
   }
 
   function toggleRole(role: string) {
     setRoles((prev) =>
       prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role],
     );
+    if (errors.roles) setErrors((prev) => ({ ...prev, roles: undefined }));
   }
 
   async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
@@ -112,6 +116,8 @@ export default function JudgeMentorInterestPage() {
     }
     if (!organization.trim()) next.organization = "Organisation is required";
     if (!jobTitle.trim()) next.jobTitle = "Job title is required";
+    if (expertiseAreas.length === 0) next.expertiseAreas = "Please select at least one area of expertise";
+    if (roles.length === 0) next.roles = "Please select at least one role";
     if (!availability) next.availability = "Please select an availability option";
 
     if (Object.keys(next).length > 0) {
@@ -327,10 +333,11 @@ export default function JudgeMentorInterestPage() {
                 required
               />
 
-              {/* Expertise areas — optional */}
+              {/* Expertise areas — required */}
               <div>
                 <p className="mb-2 block font-semibold text-gray-900">
                   Which area(s) of expertise would you like to judge/mentor in?
+                  <span className="text-red-600">*</span>
                 </p>
                 <div className="flex flex-col gap-2">
                   {EXPERTISE_AREAS.map((area) => (
@@ -356,12 +363,16 @@ export default function JudgeMentorInterestPage() {
                     className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
                   />
                 )}
+                {errors.expertiseAreas && (
+                  <p className="mt-1 text-sm text-red-600">{errors.expertiseAreas}</p>
+                )}
               </div>
 
-              {/* Roles — optional */}
+              {/* Roles — required */}
               <div>
                 <p className="mb-2 block font-semibold text-gray-900">
                   Which role(s) are you interested in filling?
+                  <span className="text-red-600">*</span>
                 </p>
                 <div className="flex flex-col gap-2">
                   {ROLES.map((role) => (
@@ -386,6 +397,9 @@ export default function JudgeMentorInterestPage() {
                     onChange={(e) => setOtherRole(e.target.value)}
                     className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
                   />
+                )}
+                {errors.roles && (
+                  <p className="mt-1 text-sm text-red-600">{errors.roles}</p>
                 )}
               </div>
 
