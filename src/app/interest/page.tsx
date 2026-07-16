@@ -219,6 +219,24 @@ export default function InterestPage() {
     }
 
     setSubmitted(true);
+
+    fetch("/api/hacker-interest/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        age,
+        phone,
+        email: email.trim(),
+        school,
+        levelOfStudy,
+        otherLevelOfStudy: otherLevelOfStudy.trim() || null,
+        country,
+      }),
+    }).catch((err) => {
+      console.error("Failed to send hacker interest confirmation email", err);
+    });
   }
 
   return (

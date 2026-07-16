@@ -72,12 +72,8 @@ export async function POST(request: Request) {
 
   const payload: NotifyPayload = await request.json();
   const summaryTable = renderSummaryTable(payload);
-  const [firstName, ...lastNameParts] = payload.contactName.trim().split(/\s+/);
-  const lastName = lastNameParts.join(" ") || undefined;
 
-  const segmentId = process.env.RESEND_SPONSOR_SEGMENT_ID;
-
-  const [internalResult, sponsorResult, contactResult] = await Promise.allSettled([
+  const [internalResult, sponsorResult] = await Promise.allSettled([
     resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL!,
       to: recipients,
@@ -91,26 +87,12 @@ export async function POST(request: Request) {
       subject: "Thanks for your interest in sponsoring RevolutionUC!",
       html: `${SPONSOR_MESSAGE_TEMPLATE_HTML}<h3>Your submission</h3>${summaryTable}`,
     }),
-    segmentId
-      ? resend.contacts.create({
-          email: payload.email,
-          firstName,
-          lastName,
-          segments: [{ id: segmentId }],
-        })
-      : Promise.resolve(null),
   ]);
 
   const internalError =
     internalResult.status === "fulfilled" ? internalResult.value.error : internalResult.reason;
   const sponsorError =
     sponsorResult.status === "fulfilled" ? sponsorResult.value.error : sponsorResult.reason;
-
-  if (contactResult.status === "rejected") {
-    console.error("Failed to add sponsor to Resend segment", contactResult.reason);
-  } else if (contactResult.value?.error) {
-    console.error("Failed to add sponsor to Resend segment", contactResult.value.error);
-  }
 
   if (internalError || sponsorError) {
     return NextResponse.json(
