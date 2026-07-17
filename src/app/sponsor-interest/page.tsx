@@ -4,13 +4,11 @@ import { useState } from "react";
 import { InputField } from "@/components/ui/InputField";
 import { supabase } from "@/lib/supabase";
 
-const SPONSORSHIP_LEVELS = [
-  "< $1000",
-  "$1000 - $3000",
-  "$3000 - $5000",
-  "$5000 - $8000",
-  "$8000 - $10000",
-  "$10,000+",
+const SPONSORSHIP_TIERS = [
+  { name: "Bronze", amount: "~$1k", gradient: "linear-gradient(to bottom, #CD7F32, #B8750A)" },
+  { name: "Silver", amount: "~$1k-3k", gradient: "linear-gradient(to bottom, #C0C0C0, #A8A8A8)" },
+  { name: "Gold", amount: "~$3k-5k", gradient: "linear-gradient(to bottom, #FFD700, #D4A500)" },
+  { name: "Platinum", amount: "~$5k+", gradient: "linear-gradient(to bottom, #E5E9F2, #C5D4E3)" },
 ];
 
 const PRIMARY_GOALS = [
@@ -45,7 +43,7 @@ interface Errors {
   contactName?: string;
   email?: string;
   organisation?: string;
-  sponsorshipLevel?: string;
+  sponsorshipTier?: string;
   primaryGoal?: string;
 }
 
@@ -54,7 +52,7 @@ export default function SponsorInterestPage() {
   const [contactName, setContactName] = useState("");
   const [email, setEmail] = useState("");
   const [organisation, setOrganisation] = useState("");
-  const [sponsorshipLevel, setSponsorshipLevel] = useState("");
+  const [sponsorshipTier, setSponsorshipTier] = useState("");
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [otherGoal, setOtherGoal] = useState("");
   const [selectedSideEvents, setSelectedSideEvents] = useState<string[]>([]);
@@ -97,13 +95,16 @@ export default function SponsorInterestPage() {
       next.email = "Please enter a valid email (e.g. name@domain.com)";
     }
     if (!organisation.trim()) next.organisation = "Organisation name is required";
-    if (!sponsorshipLevel) next.sponsorshipLevel = "Please select a sponsorship level";
+    if (!sponsorshipTier) next.sponsorshipTier = "Please select a sponsorship tier";
     if (selectedGoals.length === 0) next.primaryGoal = "Please select at least one goal";
 
     if (Object.keys(next).length > 0) {
       setErrors(next);
       return;
     }
+
+    const tierData = SPONSORSHIP_TIERS.find((t) => t.name === sponsorshipTier);
+    const tierValue = tierData ? `${tierData.name} - ${tierData.amount}` : sponsorshipTier;
 
     const goalsValue = selectedGoals
       .map((g) => (g === "Other" && otherGoal.trim() ? `Other: ${otherGoal.trim()}` : g))
@@ -119,7 +120,7 @@ export default function SponsorInterestPage() {
       contact_name: contactName.trim(),
       email: email.trim(),
       organisation: organisation.trim(),
-      sponsorship_level: sponsorshipLevel,
+      sponsorship_level: tierValue,
       primary_goal: goalsValue,
       side_events: sideEventsValue,
       expectations: expectations.trim() || null,
@@ -142,7 +143,7 @@ export default function SponsorInterestPage() {
         contactName: contactName.trim(),
         email: email.trim(),
         organisation: organisation.trim(),
-        sponsorshipLevel,
+        sponsorshipLevel: tierValue,
         primaryGoal: goalsValue,
         sideEvents: sideEventsValue,
         expectations: expectations.trim() || null,
@@ -250,26 +251,41 @@ export default function SponsorInterestPage() {
               />
 
               <div>
-                <label htmlFor="sponsorshipLevel" className="mb-1 block font-semibold text-gray-900">
-                  Level of Sponsorship<span className="text-red-600">*</span>
-                </label>
-                <select
-                  id="sponsorshipLevel"
-                  name="sponsorshipLevel"
-                  value={sponsorshipLevel}
-                  onChange={(e) => {
-                    setSponsorshipLevel(e.target.value);
-                    if (errors.sponsorshipLevel) setErrors((prev) => ({ ...prev, sponsorshipLevel: undefined }));
-                  }}
-                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
-                >
-                  <option value="" disabled>Select...</option>
-                  {SPONSORSHIP_LEVELS.map((level) => (
-                    <option key={level} value={level}>{level}</option>
+                <p className="mb-3 block font-semibold text-gray-900">
+                  Sponsorship Tier<span className="text-red-600">*</span>
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  {SPONSORSHIP_TIERS.map((tier) => (
+                    <label
+                      key={tier.name}
+                      style={{
+                        background: sponsorshipTier === tier.name ? tier.gradient : tier.gradient,
+                        opacity: sponsorshipTier === tier.name ? 1 : 0.35,
+                      }}
+                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all border-gray-900`}
+                    >
+                      <input
+                        type="radio"
+                        name="sponsorshipTier"
+                        value={tier.name}
+                        checked={sponsorshipTier === tier.name}
+                        onChange={() => {
+                          setSponsorshipTier(tier.name);
+                          if (errors.sponsorshipTier) setErrors((prev) => ({ ...prev, sponsorshipTier: undefined }));
+                        }}
+                        className="h-4 w-4 accent-[#151477]"
+                      />
+                      <span className="text-sm font-bold text-gray-950">
+                        {tier.name}
+                      </span>
+                      <span className="text-xs font-semibold text-gray-900">
+                        {tier.amount}
+                      </span>
+                    </label>
                   ))}
-                </select>
-                {errors.sponsorshipLevel && (
-                  <p className="mt-1 text-sm text-red-600">{errors.sponsorshipLevel}</p>
+                </div>
+                {errors.sponsorshipTier && (
+                  <p className="mt-2 text-sm text-red-600">{errors.sponsorshipTier}</p>
                 )}
               </div>
 
