@@ -258,11 +258,12 @@ export default function SponsorInterestPage() {
                   {SPONSORSHIP_TIERS.map((tier) => (
                     <label
                       key={tier.name}
-                      style={{
-                        background: sponsorshipTier === tier.name ? tier.gradient : tier.gradient,
-                        opacity: sponsorshipTier === tier.name ? 1 : 0.35,
-                      }}
-                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all border-gray-900`}
+                      style={{ background: tier.gradient }}
+                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                        sponsorshipTier === tier.name
+                          ? "border-gray-900 ring-2 ring-offset-1 ring-gray-900"
+                          : "border-gray-400/60"
+                      }`}
                     >
                       <input
                         type="radio"
@@ -275,11 +276,13 @@ export default function SponsorInterestPage() {
                         }}
                         className="h-4 w-4 accent-[#151477]"
                       />
-                      <span className="text-sm font-bold text-gray-950">
-                        {tier.name}
-                      </span>
-                      <span className="text-xs font-semibold text-gray-900">
-                        {tier.amount}
+                      <span className="flex items-baseline gap-1.5">
+                        <span className="text-base font-bold text-gray-950">
+                          {tier.name}
+                        </span>
+                        <span className="text-sm font-semibold text-gray-900">
+                          {tier.amount}
+                        </span>
                       </span>
                     </label>
                   ))}
