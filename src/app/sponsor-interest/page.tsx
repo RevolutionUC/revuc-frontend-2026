@@ -140,8 +140,8 @@ export default function SponsorInterestPage() {
 
     const sideEventsValue = selectedSideEvents.length > 0
       ? selectedSideEvents
-          .map((e) => (e === "Other" && otherSideEvent.trim() ? `Other: ${otherSideEvent.trim()}` : e))
-          .join(", ")
+        .map((e) => (e === "Other" && otherSideEvent.trim() ? `Other: ${otherSideEvent.trim()}` : e))
+        .join(", ")
       : null;
 
     const { error: dbError } = await supabase.from("sponsor_interest").insert({
@@ -292,16 +292,18 @@ export default function SponsorInterestPage() {
                     </p>
                   ))}
                 </div>
+                <p className="mb-4 text-sm text-gray-600 italic">
+                  *Have different needs? We're happy to explore what works best for you.
+                </p>
                 <div className="grid grid-cols-2 gap-3">
                   {SPONSORSHIP_TIERS.map((tier) => (
                     <label
                       key={tier.name}
                       style={{ background: tier.gradient }}
-                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all ${
-                        sponsorshipTier === tier.name
+                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all ${sponsorshipTier === tier.name
                           ? "border-gray-900 ring-2 ring-offset-1 ring-gray-900"
                           : "border-gray-400/60"
-                      }`}
+                        }`}
                     >
                       <input
                         type="radio"
