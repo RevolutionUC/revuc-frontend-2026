@@ -4,11 +4,39 @@ import { useState } from "react";
 import { InputField } from "@/components/ui/InputField";
 import { supabase } from "@/lib/supabase";
 
+/* textColor: darkened tier hue so the label stays readable on white */
 const SPONSORSHIP_TIERS = [
-  { name: "Bronze", amount: "~$1k", gradient: "linear-gradient(to bottom, #CD7F32, #B8750A)" },
-  { name: "Silver", amount: "~$1k-3k", gradient: "linear-gradient(to bottom, #C0C0C0, #A8A8A8)" },
-  { name: "Gold", amount: "~$3k-5k", gradient: "linear-gradient(to bottom, #FFD700, #D4A500)" },
-  { name: "Platinum", amount: "~$5k+", gradient: "linear-gradient(to bottom, #E5E9F2, #C5D4E3)" },
+  {
+    name: "Bronze",
+    amount: "~$1k",
+    gradient: "linear-gradient(to bottom, #CD7F32, #B8750A)",
+    textColor: "#A0620A",
+    blurb: "Entry level recruitment with light in-person presence and digital branding",
+  },
+  {
+    name: "Silver",
+    amount: "~$1k-3k",
+    gradient: "linear-gradient(to bottom, #C0C0C0, #A8A8A8)",
+    textColor: "#78788C",
+    blurb:
+      "Everything in Bronze + refined access to our talent pipeline through resumes along with significant in-person presence and physical merchandise branding",
+  },
+  {
+    name: "Gold",
+    amount: "~$3k-5k",
+    gradient: "linear-gradient(to bottom, #FFD700, #D4A500)",
+    textColor: "#B8860B",
+    blurb:
+      "Everything in Silver + premium, early access to our talent pipeline along with dedicated communication blasts, and a custom hackathon track",
+  },
+  {
+    name: "Platinum",
+    amount: "~$5k+",
+    gradient: "linear-gradient(to bottom, #E5E9F2, #C5D4E3)",
+    textColor: "#5B7A99",
+    blurb:
+      "The ultimate way to show your commitment to building the community at Cincinnati. Get exclusive interaction opportunities with the best talent in the region.",
+  },
 ];
 
 const PRIMARY_GOALS = [
@@ -254,6 +282,16 @@ export default function SponsorInterestPage() {
                 <p className="mb-3 block font-semibold text-gray-900">
                   Sponsorship Tier<span className="text-red-600">*</span>
                 </p>
+                <div className="mb-4 flex flex-col gap-2 text-sm leading-relaxed text-gray-900">
+                  {SPONSORSHIP_TIERS.map((tier) => (
+                    <p key={tier.name}>
+                      <span className="font-bold" style={{ color: tier.textColor }}>
+                        {tier.name}
+                      </span>
+                      : {tier.blurb}
+                    </p>
+                  ))}
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   {SPONSORSHIP_TIERS.map((tier) => (
                     <label
@@ -274,7 +312,7 @@ export default function SponsorInterestPage() {
                           setSponsorshipTier(tier.name);
                           if (errors.sponsorshipTier) setErrors((prev) => ({ ...prev, sponsorshipTier: undefined }));
                         }}
-                        className="h-4 w-4 accent-[#151477]"
+                        className="h-4 w-4 appearance-none rounded-full border border-gray-500 bg-white checked:border-[5px] checked:border-[#151477]"
                       />
                       <span className="flex items-baseline gap-1.5">
                         <span className="text-base font-bold text-gray-950">
