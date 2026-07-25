@@ -85,9 +85,7 @@ export default function SponsorInterestPage() {
   const [otherGoal, setOtherGoal] = useState("");
   const [selectedSideEvents, setSelectedSideEvents] = useState<string[]>([]);
   const [otherSideEvent, setOtherSideEvent] = useState("");
-  const [expectations, setExpectations] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
-  const [referral, setReferral] = useState("");
   const [errors, setErrors] = useState<Errors>({});
 
   function toggleGoal(goal: string) {
@@ -151,9 +149,7 @@ export default function SponsorInterestPage() {
       sponsorship_level: tierValue,
       primary_goal: goalsValue,
       side_events: sideEventsValue,
-      expectations: expectations.trim() || null,
       additional_info: additionalInfo.trim() || null,
-      referral: referral.trim() || null,
     });
 
     if (dbError) {
@@ -174,9 +170,7 @@ export default function SponsorInterestPage() {
         sponsorshipLevel: tierValue,
         primaryGoal: goalsValue,
         sideEvents: sideEventsValue,
-        expectations: expectations.trim() || null,
         additionalInfo: additionalInfo.trim() || null,
-        referral: referral.trim() || null,
       }),
     }).catch((err) => {
       console.error("Failed to send sponsor interest notification email", err);
@@ -400,52 +394,19 @@ export default function SponsorInterestPage() {
                 )}
               </div>
 
-              {/* Expectations — optional */}
-              <div>
-                <label htmlFor="expectations" className="mb-1 block font-semibold text-gray-900">
-                  Do you have any specific expectations and goals as a sponsor at RevolutionUC
-                  Hackathon 2027 that you want us to know?
-                </label>
-                <textarea
-                  id="expectations"
-                  name="expectations"
-                  value={expectations}
-                  onChange={(e) => setExpectations(e.target.value)}
-                  placeholder="Share your expectations..."
-                  rows={3}
-                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 resize-none"
-                />
-              </div>
-
               {/* Additional info — optional */}
               <div>
                 <label htmlFor="additionalInfo" className="mb-1 block font-semibold text-gray-900">
-                  Please provide any additional information or comments you would like us to consider
+                  Please provide any additional information or comments you would like to share with us...
                 </label>
                 <textarea
                   id="additionalInfo"
                   name="additionalInfo"
                   value={additionalInfo}
                   onChange={(e) => setAdditionalInfo(e.target.value)}
-                  placeholder="Any additional comments..."
+                  placeholder="Share any expectations, comments or concerns..."
                   rows={3}
                   className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 resize-none"
-                />
-              </div>
-
-              {/* Referral — optional */}
-              <div>
-                <label htmlFor="referral" className="mb-1 block font-semibold text-gray-900">
-                  Did anyone refer you to fill out this form? If so, put their name here!
-                </label>
-                <input
-                  id="referral"
-                  type="text"
-                  name="referral"
-                  value={referral}
-                  onChange={(e) => setReferral(e.target.value)}
-                  placeholder="Referral name (optional)"
-                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
                 />
               </div>
 
