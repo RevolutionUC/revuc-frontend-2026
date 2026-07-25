@@ -33,7 +33,7 @@ function renderSummaryTable(payload: NotifyPayload): string {
       ${renderRow("Contact Name", payload.contactName)}
       ${renderRow("Email", payload.email)}
       ${renderRow("Organisation", payload.organisation)}
-      ${renderRow("Sponsorship Level", payload.sponsorshipLevel)}
+      ${renderRow("Sponsorship Tier", payload.sponsorshipLevel)}
       ${renderRow("Primary Goal", payload.primaryGoal)}
       ${renderRow("Side Events", payload.sideEvents)}
       ${renderRow("Expectations", payload.expectations)}

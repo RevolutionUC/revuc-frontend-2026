@@ -4,13 +4,39 @@ import { useState } from "react";
 import { InputField } from "@/components/ui/InputField";
 import { supabase } from "@/lib/supabase";
 
-const SPONSORSHIP_LEVELS = [
-  "< $1000",
-  "$1000 - $3000",
-  "$3000 - $5000",
-  "$5000 - $8000",
-  "$8000 - $10000",
-  "$10,000+",
+/* textColor: darkened tier hue so the label stays readable on white */
+const SPONSORSHIP_TIERS = [
+  {
+    name: "Bronze",
+    amount: "~$1k",
+    gradient: "linear-gradient(to bottom, #CD7F32, #B8750A)",
+    textColor: "#A0620A",
+    blurb: "Entry level recruitment with light in-person presence and digital branding",
+  },
+  {
+    name: "Silver",
+    amount: "~$1k-3k",
+    gradient: "linear-gradient(to bottom, #C0C0C0, #A8A8A8)",
+    textColor: "#78788C",
+    blurb:
+      "Everything in Bronze + refined access to our talent pipeline through resumes along with significant in-person presence and physical merchandise branding",
+  },
+  {
+    name: "Gold",
+    amount: "~$3k-5k",
+    gradient: "linear-gradient(to bottom, #FFD700, #D4A500)",
+    textColor: "#B8860B",
+    blurb:
+      "Everything in Silver + premium, early access to our talent pipeline along with dedicated communication blasts, and a custom hackathon track",
+  },
+  {
+    name: "Platinum",
+    amount: "~$5k+",
+    gradient: "linear-gradient(to bottom, #E5E9F2, #C5D4E3)",
+    textColor: "#5B7A99",
+    blurb:
+      "The ultimate way to show your commitment to building the community at Cincinnati. Get exclusive interaction opportunities with the best talent in the region.",
+  },
 ];
 
 const PRIMARY_GOALS = [
@@ -45,7 +71,7 @@ interface Errors {
   contactName?: string;
   email?: string;
   organisation?: string;
-  sponsorshipLevel?: string;
+  sponsorshipTier?: string;
   primaryGoal?: string;
 }
 
@@ -54,14 +80,12 @@ export default function SponsorInterestPage() {
   const [contactName, setContactName] = useState("");
   const [email, setEmail] = useState("");
   const [organisation, setOrganisation] = useState("");
-  const [sponsorshipLevel, setSponsorshipLevel] = useState("");
+  const [sponsorshipTier, setSponsorshipTier] = useState("");
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [otherGoal, setOtherGoal] = useState("");
   const [selectedSideEvents, setSelectedSideEvents] = useState<string[]>([]);
   const [otherSideEvent, setOtherSideEvent] = useState("");
-  const [expectations, setExpectations] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
-  const [referral, setReferral] = useState("");
   const [errors, setErrors] = useState<Errors>({});
 
   function toggleGoal(goal: string) {
@@ -97,7 +121,7 @@ export default function SponsorInterestPage() {
       next.email = "Please enter a valid email (e.g. name@domain.com)";
     }
     if (!organisation.trim()) next.organisation = "Organisation name is required";
-    if (!sponsorshipLevel) next.sponsorshipLevel = "Please select a sponsorship level";
+    if (!sponsorshipTier) next.sponsorshipTier = "Please select a sponsorship tier";
     if (selectedGoals.length === 0) next.primaryGoal = "Please select at least one goal";
 
     if (Object.keys(next).length > 0) {
@@ -105,26 +129,27 @@ export default function SponsorInterestPage() {
       return;
     }
 
+    const tierData = SPONSORSHIP_TIERS.find((t) => t.name === sponsorshipTier);
+    const tierValue = tierData ? `${tierData.name} - ${tierData.amount}` : sponsorshipTier;
+
     const goalsValue = selectedGoals
       .map((g) => (g === "Other" && otherGoal.trim() ? `Other: ${otherGoal.trim()}` : g))
       .join(", ");
 
     const sideEventsValue = selectedSideEvents.length > 0
       ? selectedSideEvents
-          .map((e) => (e === "Other" && otherSideEvent.trim() ? `Other: ${otherSideEvent.trim()}` : e))
-          .join(", ")
+        .map((e) => (e === "Other" && otherSideEvent.trim() ? `Other: ${otherSideEvent.trim()}` : e))
+        .join(", ")
       : null;
 
     const { error: dbError } = await supabase.from("sponsor_interest").insert({
       contact_name: contactName.trim(),
       email: email.trim(),
       organisation: organisation.trim(),
-      sponsorship_level: sponsorshipLevel,
+      sponsorship_level: tierValue,
       primary_goal: goalsValue,
       side_events: sideEventsValue,
-      expectations: expectations.trim() || null,
       additional_info: additionalInfo.trim() || null,
-      referral: referral.trim() || null,
     });
 
     if (dbError) {
@@ -142,12 +167,10 @@ export default function SponsorInterestPage() {
         contactName: contactName.trim(),
         email: email.trim(),
         organisation: organisation.trim(),
-        sponsorshipLevel,
+        sponsorshipLevel: tierValue,
         primaryGoal: goalsValue,
         sideEvents: sideEventsValue,
-        expectations: expectations.trim() || null,
         additionalInfo: additionalInfo.trim() || null,
-        referral: referral.trim() || null,
       }),
     }).catch((err) => {
       console.error("Failed to send sponsor interest notification email", err);
@@ -250,26 +273,56 @@ export default function SponsorInterestPage() {
               />
 
               <div>
-                <label htmlFor="sponsorshipLevel" className="mb-1 block font-semibold text-gray-900">
-                  Level of Sponsorship<span className="text-red-600">*</span>
-                </label>
-                <select
-                  id="sponsorshipLevel"
-                  name="sponsorshipLevel"
-                  value={sponsorshipLevel}
-                  onChange={(e) => {
-                    setSponsorshipLevel(e.target.value);
-                    if (errors.sponsorshipLevel) setErrors((prev) => ({ ...prev, sponsorshipLevel: undefined }));
-                  }}
-                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
-                >
-                  <option value="" disabled>Select...</option>
-                  {SPONSORSHIP_LEVELS.map((level) => (
-                    <option key={level} value={level}>{level}</option>
+                <p className="mb-3 block font-semibold text-gray-900">
+                  Sponsorship Tier<span className="text-red-600">*</span>
+                </p>
+                <div className="mb-4 flex flex-col gap-2 text-sm leading-relaxed text-gray-900">
+                  {SPONSORSHIP_TIERS.map((tier) => (
+                    <p key={tier.name}>
+                      <span className="font-bold" style={{ color: tier.textColor }}>
+                        {tier.name}
+                      </span>
+                      : {tier.blurb}
+                    </p>
                   ))}
-                </select>
-                {errors.sponsorshipLevel && (
-                  <p className="mt-1 text-sm text-red-600">{errors.sponsorshipLevel}</p>
+                </div>
+                <p className="mb-4 text-sm text-gray-600 italic">
+                  *Have different needs? We're happy to explore what works best for you.
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  {SPONSORSHIP_TIERS.map((tier) => (
+                    <label
+                      key={tier.name}
+                      style={{ background: tier.gradient }}
+                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all ${sponsorshipTier === tier.name
+                          ? "border-gray-900 ring-2 ring-offset-1 ring-gray-900"
+                          : "border-gray-400/60"
+                        }`}
+                    >
+                      <input
+                        type="radio"
+                        name="sponsorshipTier"
+                        value={tier.name}
+                        checked={sponsorshipTier === tier.name}
+                        onChange={() => {
+                          setSponsorshipTier(tier.name);
+                          if (errors.sponsorshipTier) setErrors((prev) => ({ ...prev, sponsorshipTier: undefined }));
+                        }}
+                        className="h-4 w-4 appearance-none rounded-full border border-gray-500 bg-white checked:border-[5px] checked:border-[#151477]"
+                      />
+                      <span className="flex items-baseline gap-1.5">
+                        <span className="text-base font-bold text-gray-950">
+                          {tier.name}
+                        </span>
+                        <span className="text-sm font-semibold text-gray-900">
+                          {tier.amount}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                {errors.sponsorshipTier && (
+                  <p className="mt-2 text-sm text-red-600">{errors.sponsorshipTier}</p>
                 )}
               </div>
 
@@ -341,52 +394,19 @@ export default function SponsorInterestPage() {
                 )}
               </div>
 
-              {/* Expectations — optional */}
-              <div>
-                <label htmlFor="expectations" className="mb-1 block font-semibold text-gray-900">
-                  Do you have any specific expectations and goals as a sponsor at RevolutionUC
-                  Hackathon 2027 that you want us to know?
-                </label>
-                <textarea
-                  id="expectations"
-                  name="expectations"
-                  value={expectations}
-                  onChange={(e) => setExpectations(e.target.value)}
-                  placeholder="Share your expectations..."
-                  rows={3}
-                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 resize-none"
-                />
-              </div>
-
               {/* Additional info — optional */}
               <div>
                 <label htmlFor="additionalInfo" className="mb-1 block font-semibold text-gray-900">
-                  Please provide any additional information or comments you would like us to consider
+                  Please provide any additional information or comments you would like to share with us...
                 </label>
                 <textarea
                   id="additionalInfo"
                   name="additionalInfo"
                   value={additionalInfo}
                   onChange={(e) => setAdditionalInfo(e.target.value)}
-                  placeholder="Any additional comments..."
+                  placeholder="Share any expectations, comments or concerns..."
                   rows={3}
                   className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 resize-none"
-                />
-              </div>
-
-              {/* Referral — optional */}
-              <div>
-                <label htmlFor="referral" className="mb-1 block font-semibold text-gray-900">
-                  Did anyone refer you to fill out this form? If so, put their name here!
-                </label>
-                <input
-                  id="referral"
-                  type="text"
-                  name="referral"
-                  value={referral}
-                  onChange={(e) => setReferral(e.target.value)}
-                  placeholder="Referral name (optional)"
-                  className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
                 />
               </div>
 
