@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { InputField } from "@/components/ui/InputField";
 import { supabase } from "@/lib/supabase";
+import { COUNTRY_CODES } from "./countryCodes";
 
 const EXPERTISE_AREAS = [
   "Software Development",
@@ -33,6 +34,12 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
 }
 
+function isoToFlagEmoji(iso2: string): string {
+  return iso2
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
+}
+
 interface Errors {
   fullName?: string;
   email?: string;
@@ -50,6 +57,7 @@ export default function JudgeMentorInterestPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [linkedIn, setLinkedIn] = useState("");
+  const [countryIso2, setCountryIso2] = useState(COUNTRY_CODES[0].iso2);
   const [phone, setPhone] = useState("");
   const [organization, setOrganization] = useState("");
   const [jobTitle, setJobTitle] = useState("");
@@ -100,6 +108,8 @@ export default function JudgeMentorInterestPage() {
   async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     const next: Errors = {};
+    const countryCode =
+      COUNTRY_CODES.find((c) => c.iso2 === countryIso2)?.dialCode ?? COUNTRY_CODES[0].dialCode;
 
     if (!fullName.trim()) next.fullName = "Full name is required";
     if (!email.trim()) {
@@ -146,7 +156,7 @@ export default function JudgeMentorInterestPage() {
       full_name: fullName.trim(),
       email: email.trim(),
       linkedin_url: linkedIn.trim(),
-      phone: phone.trim(),
+      phone: `${countryCode} ${phone.trim()}`,
       organization: organization.trim(),
       job_title: jobTitle.trim(),
       expertise_areas: expertiseValue,
@@ -171,7 +181,7 @@ export default function JudgeMentorInterestPage() {
         fullName: fullName.trim(),
         email: email.trim(),
         linkedIn: linkedIn.trim(),
-        phone: phone.trim(),
+        phone: `${countryCode} ${phone.trim()}`,
         organization: organization.trim(),
         jobTitle: jobTitle.trim(),
         expertiseAreas: expertiseValue,
@@ -287,19 +297,34 @@ export default function JudgeMentorInterestPage() {
                 <label htmlFor="phone" className="mb-1 block font-semibold text-gray-900">
                   Phone Number<span className="text-red-600">*</span>
                 </label>
-                <input
-                  id="phone"
-                  type="tel"
-                  name="phone"
-                  value={phone}
-                  onChange={(e) => handlePhoneChange(e.target.value)}
-                  placeholder="e.g. 555-867-5309"
-                  className={`w-full rounded-md border px-3 py-2 text-gray-900 focus:outline-none focus:ring-1 ${
-                    errors.phone
-                      ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                      : "border-gray-300 focus:border-gray-500 focus:ring-gray-500"
-                  } bg-white`}
-                />
+                <div className="flex gap-2">
+                  <select
+                    id="countryCode"
+                    name="countryCode"
+                    value={countryIso2}
+                    onChange={(e) => setCountryIso2(e.target.value)}
+                    className="w-28 shrink-0 rounded-md border border-gray-300 bg-white px-2 py-2 text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                  >
+                    {COUNTRY_CODES.map((country) => (
+                      <option key={country.iso2} value={country.iso2}>
+                        {isoToFlagEmoji(country.iso2)} {country.dialCode}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    id="phone"
+                    type="tel"
+                    name="phone"
+                    value={phone}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    placeholder="e.g. 5558675309"
+                    className={`w-full rounded-md border px-3 py-2 text-gray-900 focus:outline-none focus:ring-1 ${
+                      errors.phone
+                        ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                        : "border-gray-300 focus:border-gray-500 focus:ring-gray-500"
+                    } bg-white`}
+                  />
+                </div>
                 {errors.phone && (
                   <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
                 )}
